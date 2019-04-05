@@ -1,0 +1,28 @@
+{
+  "name": "mlb-teams",
+  "version": "1.0.0",
+  "description": "> Project description",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start-dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Megaloden106/personal-finance-manager.git"
+  },
+  "keywords": [],
+  "author": "Eddie Lo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Megaloden106/personal-finance-manager/issues"
+  },
+  "homepage": "https://github.com/Megaloden106/personal-finance-manager#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.4",
+    "express": "^4.16.4",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {}
+}

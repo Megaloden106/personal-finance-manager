@@ -1,10 +1,13 @@
 {
   "name": "mlb-teams",
   "version": "1.0.0",
-  "description": "",
+  "description": "> Project description",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "cd server && npm run start",
+    "start-dev": "cd server && npm run start-dev",
+    "react-dev": "webpack -d --watch",
+    "dev": "npm run start-dev & npm run start-dev"
   },
   "repository": {
     "type": "git",
