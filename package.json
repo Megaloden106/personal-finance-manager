@@ -4,6 +4,8 @@
   "description": "> Project description",
   "main": "index.js",
   "scripts": {
+    "install-server": "cd server && npm install",
+    "install-all": "npm install && npm run install-server",
     "start": "cd server && npm run start",
     "start-dev": "cd server && npm run start-dev",
     "react-dev": "webpack -d --watch",
@@ -31,6 +33,7 @@
     "dotenv-webpack": "^1.7.0",
     "eslint": "^5.14.1",
     "eslint-config-airbnb": "^17.1.0",
+    "eslint-import-resolver-webpack": "^0.11.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
