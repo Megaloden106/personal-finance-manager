@@ -1,0 +1,20 @@
+{
+  "name": "personal-finance-manager-client",
+  "version": "1.0.0",
+  "description": "> Project description",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Megaloden106/personal-finance-manager.git"
+  },
+  "keywords": [],
+  "author": "Eddie Lo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Megaloden106/personal-finance-manager/issues"
+  },
+  "homepage": "https://github.com/Megaloden106/personal-finance-manager#readme",
+  "dependencies": {},
+  "devDependencies": {}
+}

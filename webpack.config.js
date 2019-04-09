@@ -15,6 +15,7 @@ module.exports = {
   resolve: {
     mainFiles: ['index'],
     extensions: ['.js', '.jsx', /\.s?css/],
+    '@': path.resolve(__dirname, 'client'),
   },
   module: {
     rules: [
