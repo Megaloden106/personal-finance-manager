@@ -10,11 +10,12 @@ app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 
-app.use('/', express.static('punpmblic'));
+app.use('/', express.static('../public'));
+app.use('/static', express.static('assets'));
 
 app.use('/api', router);
 
-app.set('port', process.env.PORT || 7071);
+app.set('port', process.env.PORT || 8080);
 
 app.listen(app.get('port'), () => {
   console.warn(`app is listening to port ${app.get('port')}`);
