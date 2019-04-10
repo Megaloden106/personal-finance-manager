@@ -1,9 +1,6 @@
-/**
- * These rules enforce the Hack Reactor Style Guide
- *
- * Visit this repo for more information:
- *   https://github.com/reactorcore/eslint-config-hackreactor
- */
+const path = require('path');
+
+const config = path.resolve(__dirname, 'webpack.config.js');
 
 module.exports = {
   extends: "airbnb",
@@ -13,14 +10,16 @@ module.exports = {
     "jsx-a11y/label-has-for": [ 2, {
       "components": [ "Label" ],
       "required": {
-        "some": [ "nesting", "id" ]
+        "some": [ "nesting", "id" ],
       },
       "allowChildren": false,
     }],
     "react-hooks/rules-of-hooks": "error",
   },
   settings: {
-    "import/resolver": "webpack",
+    "import/resolver": {
+      webpack: { config },
+    },
   },
   env: {
     browser: true,

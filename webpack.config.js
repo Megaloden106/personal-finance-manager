@@ -3,18 +3,25 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
-const clientDIR = path.join(__dirname, 'client', 'App.jsx');
-const publicDIR = path.join(__dirname, 'public');
+const rootDIR = path.resolve(__dirname);
+const clientDIR = path.resolve(__dirname, 'client');
+
+const appDIR = path.resolve(__dirname, 'client', 'App.jsx');
+const publicDIR = path.resolve(__dirname, 'public');
 
 module.exports = {
-  entry: `${clientDIR}`,
+  entry: appDIR,
   output: {
     filename: 'bundle.js',
     path: publicDIR,
   },
   resolve: {
+    alias: {
+      '~': rootDIR,
+      '@': clientDIR,
+    },
     mainFiles: ['index'],
-    extensions: ['.js', '.jsx', /\.s?css/],
+    extensions: ['.js', '.jsx', '.scss', '.css'],
   },
   module: {
     rules: [

@@ -1,15 +1,19 @@
 {
   "name": "mlb-teams",
   "version": "1.0.0",
-  "description": "> Project description",
+  "description": "MLB Teams",
   "main": "index.js",
   "scripts": {
+    "install-client": "cd client && npm install",
     "install-server": "cd server && npm install",
-    "install-all": "npm install && npm run install-server",
+    "install-all": "npm install && npm run install-client && npm run install-server",
+    "lint-client": "eslint --ext .js,.jsx client/",
+    "lint-server": "eslint --ext .js,.jsx server/",
+    "lint": "npm run lint-client && npm run lint-server",
     "start": "cd server && npm run start",
     "start-dev": "cd server && npm run start-dev",
     "react-dev": "webpack -d --watch",
-    "dev": "npm run start-dev & npm run start-dev"
+    "dev": "npm run react-dev & npm run start-dev"
   },
   "repository": {
     "type": "git",
