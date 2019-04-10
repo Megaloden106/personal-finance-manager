@@ -13,7 +13,7 @@
     "start": "cd server && npm run start",
     "start-dev": "cd server && npm run start-dev",
     "react-dev": "webpack -d --watch",
-    "dev": "npm run react-dev & npm run start-dev"
+    "dev": "npm run react-dev & npm run start-dev",
   },
   "repository": {
     "type": "git",

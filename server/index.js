@@ -10,9 +10,11 @@ app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 
+// static routing
 app.use('/', express.static('../public'));
 app.use('/static', express.static('assets'));
 
+// api routing
 app.use('/api', router);
 
 app.set('port', process.env.PORT || 8080);

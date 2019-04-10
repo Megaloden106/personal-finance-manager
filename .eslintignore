@@ -3,4 +3,6 @@
 /config/
 /public/
 /node_modules/
-*/node_modules/
+/*/node_modules/
+
+/*/*.sql
