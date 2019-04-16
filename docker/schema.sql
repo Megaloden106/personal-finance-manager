@@ -34,12 +34,27 @@ CREATE INDEX request_ids ON requests USING HASH (id);
 
 CREATE TABLE players (
   id SERIAL,
-  -- name, stats, and pos
+  first_name VARCHAR(25) NOT NULL,
+  last_name VARCHAR(35) NOT NULL,
+  team VARCHAR(3) NOT NULL,
   acquired BOOLEAN NOT NULL,
+  status VARCHAR(10) NOT NULL,
   PRIMARY KEY (id)
 );
 
 CREATE INDEX player_ids ON players USING HASH (id);
+
+
+CREATE TABLE stats (
+  player_id INTEGER NOT NULL,
+  year INTEGER NOT NULL,
+  position VARCHAR(2) NOT NULL,
+  games INTEGER NOT NULL,
+  at_bats INTEGER NOT NULL,
+  inns_pitched INTEGER NOT NULL,
+  games_started INTEGER NOT NULL,
+  FOREIGN KEY (player_id) REFERENCES players (id),
+);
 
 
 CREATE TABLE leagues (
@@ -58,6 +73,7 @@ CREATE TABLE leagues (
   -- [C, 1B, 2B, SS, 3B, CI, MI, OF, UTIL, SP, RP] count
   position_count JSONB NOT NULL,
   required_pos JSONB,
+
   PRIMARY KEY (id)
   FOREIGN KEY (owner) REFERENCES users (id),
   FOREIGN KEY (sub_owner1) REFERENCES users (id),
@@ -102,9 +118,8 @@ CREATE TABLE f_players (
   ml_options INTEGER,
   options_used BOOLEAN,
   arbitration BOOLEAN,
-  -- 1 = active, 2 = major, 3 = minor, 4 = il-10, 5 = il-60,
-  -- 6 = paid minors, 7 = financial obligations
-  roster_status INTEGER,
+  -- active, major, minor, il-10, il-60, p_minors, fin_ob
+  roster_status VARCHAR(8),
   acquired VARCHAR(30) NOT NULL,
   FOREIGN KEY (team_id) REFERENCES teams (id),
   FOREIGN KEY (player_id) REFERENCES players (id)
@@ -169,7 +184,7 @@ CREATE TABLE waivers (
   id SERIAL,
   team_id INTEGER NOT NULL,
   f_player_id INTEGER NOT NULL,
-  PRIMARY KEY (id),
+  PRIMARY KEY (id)
 );
 
 CREATE INDEX waiver_id ON waivers USING HASH (id);
@@ -179,7 +194,13 @@ CREATE TABLE dfas (
   id SERIAL,
   team_id INTEGER NOT NULL,
   f_player_id INTEGER NOT NULL,
-  PRIMARY KEY (id),
+  PRIMARY KEY (id)
 );
 
 CREATE INDEX dfa_ids ON dfas USING HASH (id);
+
+
+CREATE TABLE drafts (
+  id SERIAL,
+  PRIMARY KEY (id)
+);

@@ -15,6 +15,7 @@ module.exports = {
       "allowChildren": false,
     }],
     "react-hooks/rules-of-hooks": "error",
+    "no-underscore-dangle": ["error", { "allowAfterThis": true }],
   },
   settings: {
     "import/resolver": {
