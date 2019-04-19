@@ -1,0 +1,92 @@
+/* * * * * * * * * *
+ *
+ * Responsiveness
+ *
+ * * * * * * * * * */
+
+
+/* * * * * * * * * *
+ *
+ * Fonts
+ *
+ * * * * * * * * * */
+
+$font-primary: 'HelveticaNeue-Light';
+$font-secondary: Arial, Helvetica, sans-serif;
+$nav-item-size: 24px;
+$nav-item-size-hover: 20px;
+
+/* * * * * * * * * *
+ *
+ * Colors
+ *
+ * * * * * * * * * */
+
+$black: #333;
+$dark-gray: #666;
+$gray: #999;
+$light-gray: #d9d9d9;
+$white: #fff;
+$dark-blue: #445671;
+// $blue: ;
+$light-blue: #bdd8e3;
+$teal: #c4d7d7;
+$teal-op55: #c4d7d755;
+
+
+$text-color-default: $black;
+$text-color-primary: $light-blue;
+$bg-color-primary: $teal-op55;
+$bg-color-secondary: $dark-blue;
+$border-color: $light-gray;
+
+
+/* * * * * * * * * *
+ *
+ * Layouts
+ *
+ * * * * * * * * * */
+
+$app_width: 1600px;
+
+
+/* * * * * * * * * *
+ *
+ * Z-indexes
+ *
+ * * * * * * * * * */
+
+
+/* * * * * * * * * *
+ *
+ * Mixins (varialbe)
+ *
+ * * * * * * * * * */
+
+
+/* * * * * * * * * *
+ *
+ * Placeholders
+ *
+ * * * * * * * * * */
+
+%flex {
+  display: flex;
+}
+
+%flex-center {
+  @extend %flex;
+  justify-content: center;
+  align-items: center;
+}
+
+%flex-column {
+  @extend %flex;
+  flex-direction: column;
+}
+
+/* * * * * * * * * *
+ *
+ * Z-indexes
+ *
+ * * * * * * * * * */
