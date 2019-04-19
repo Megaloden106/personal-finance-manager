@@ -1,0 +1,13 @@
+@import 'globals.scss';
+
+body {
+  background-color: $bg-color-primary;
+  font-family: $font-primary;
+  color: $text-color-default;
+  margin: 0;
+}
+
+button {
+  border: none;
+  outline: none;
+}
