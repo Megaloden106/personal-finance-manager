@@ -1,6 +1,6 @@
 const path = require('path');
 
-const config = path.resolve(__dirname, 'webpack.config.js');
+const config = path.resolve(__dirname, 'client' ,'webpack.config.js');
 
 module.exports = {
   extends: "airbnb",

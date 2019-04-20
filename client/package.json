@@ -16,6 +16,11 @@
   },
   "homepage": "https://github.com/Megaloden106/personal-finance-manager#readme",
   "dependencies": {
+    "@types/react": "^16.8.14",
+    "@types/react-dom": "^16.8.4",
+    "@types/react-redux": "^7.0.8",
+    "@types/react-router-dom": "^4.3.2",
+    "@types/redux": "^3.6.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^6.0.1",
@@ -23,5 +28,23 @@
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.0.5",
+    "compression-webpack-plugin": "^2.0.0",
+    "css-loader": "^2.1.0",
+    "dotenv-webpack": "^1.7.0",
+    "identity-obj-proxy": "^3.0.0",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "source-map-loader": "^0.2.4",
+    "style-loader": "^0.23.1",
+    "typescript": "^3.4.4",
+    "uglifyjs-webpack-plugin": "^2.1.2",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
+  }
 }
