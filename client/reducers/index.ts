@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux';
+import { combineReducers, Reducer } from 'redux';
 
-const rootReducer = combineReducers({});
+export interface AppState {}
 
-export default rootReducer;
+export const rootReducer: Reducer<AppState> = combineReducers<AppState>({});
