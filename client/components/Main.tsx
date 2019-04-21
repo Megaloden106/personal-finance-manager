@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React, { SFC } from 'react';
 import '@/styles/main';
 
-const Main: React.SFC = () => (
+const Main: SFC = () => (
   <div>
     Hello World
   </div>

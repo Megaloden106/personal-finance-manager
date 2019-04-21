@@ -1,10 +1,10 @@
-const express = require('express');
-const logger = require('morgan');
-const bodyParser = require('body-parser');
-const compression = require('compression');
+import express from 'express';
+import logger from 'morgan';
+import bodyParser from 'body-parser';
+import compression from 'compression';
+import router from './config/routes';
 
-const app = express();
-const router = require('./config/routes.js');
+const app: express.Application = express();
 
 app.use(compression());
 app.use(logger('dev'));
@@ -17,6 +17,6 @@ app.use('/api', router);
 
 app.set('port', process.env.PORT || 8080);
 
-app.listen(app.get('port'), () => {
+app.listen(app.get('port'), (): void => {
   console.warn(`app is listening to port ${app.get('port')}`);
 });
