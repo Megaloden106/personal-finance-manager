@@ -1,11 +1,20 @@
 import { createStore, applyMiddleware, Store } from 'redux';
-import thunk from 'redux-thunk';
-import { AppState, rootReducer } from '@/reducers';
+import { createEpicMiddleware, EpicMiddleware } from 'redux-observable';
+import { AppState, rootEpic, rootReducer } from '@/reducers';
 
-// createStore: State, Action, StoreExt: any, StateExt: any
-const store: Store<AppState> = createStore(
-  rootReducer,
-  applyMiddleware(thunk),
-);
+const epicMiddleware: EpicMiddleware<any> = createEpicMiddleware();
 
-export default store;
+const initialState: AppState = {};
+
+export default function configureStore() {
+  // createStore: Reducer<State>, Action, StoreExt: any, StateExt: any
+  const store: Store<AppState> = createStore(
+    rootReducer,
+    initialState,
+    applyMiddleware(epicMiddleware),
+  );
+
+  epicMiddleware.run(rootEpic);
+
+  return store;
+}
