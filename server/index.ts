@@ -10,9 +10,19 @@ app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 
-app.use('/', express.static('../public'));
+// static file
 app.use('/static', express.static('assets'));
 
+// no auth
+app.get(
+  ['/', '/login', '/join', '/password-reset'],
+  express.static('views/pages/noauth'),
+);
+
+// auth required
+app.use('/', express.static('../public'));
+
+// api routes
 app.use('/api', router);
 
 app.set('port', process.env.PORT || 8080);

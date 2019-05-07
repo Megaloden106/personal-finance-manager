@@ -1,0 +1,85 @@
+body {
+  margin: 0;
+  font-family: 'HelveticaNeue-Light';
+  color: #333;
+  background-color: #c4d7d755;
+}
+
+a {
+  display: block;
+  color: unset;
+  text-decoration: none;
+}
+
+.header, .content, .banner {
+  width: 1600px;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: white;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.header {
+  display: flex;
+  height: 85px;
+  align-items: center;
+}
+
+.header__logo {
+  margin: 0;
+  padding-left: 20px;
+  color: #1591b6;
+}
+
+.header__login,
+.header__signin {
+  width: 100px;
+  height: 40px;
+  padding: 0;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+}
+
+.header__login {
+  margin-left: auto;
+  margin-right: 10px;
+  line-height: 40px;
+  color: #666;
+  border: none;
+}
+.header__login:hover {
+  color: #333;
+  background-color: #999;
+}
+.header__login:active {
+  color: #222;
+}
+
+.header__signin {
+  margin-right: 20px;
+  line-height: 38px;
+  color: #1591b6;
+  background-color: white;
+  border: 1px solid #445671;
+}
+.header__signin:hover {
+  line-height: 36px;
+  background-color: #1591b633;
+  border: 2px solid #1e7ba4;
+}
+.header__signin:active {
+  background-color: #1591b644;
+}
+
+.banner {
+  height: 600px;
+  border: 1px solid black;
+}
+
+.content {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
