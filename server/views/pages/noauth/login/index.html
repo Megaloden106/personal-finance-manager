@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="locale" content="US">
+    <meta name="language" content="en">
+    <meta name="country" content="US">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Personal Finance MS</title>
+    <link href="/static/styles/noauth/index.css" rel="stylesheet">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <form class="form" novalidate>
+      <h2 class="form__logo">Personal Finance MS</h2>
+      <h1 class="form__header">Welcome Back</h1>
+      <input
+        id="username"
+        class="form__input"
+        type="text"
+        required
+        validation="email|username"
+      >
+      <label class="form__label" for="username">Email or Username</label>
+      <div id="error-for-username" class="form__error-msg" error-for="username">
+        Hello?
+      </div>
+      <input
+        id="password"
+        class="form__input"
+        type="password"
+        required
+        validation="password"
+      >
+      <label class="form__label" for="password">Password</label>
+      <div id="error-for-password" class="form__error-msg" error-for="password">
+        Hello?
+      </div>
+      <button
+        id="password-visibility-toggle"
+        class="form__password-visibility"
+      >
+        Show
+      </button>
+      <button class="form__submit">Sign in</button>
+      <a href="/password-reset/" class="form__forgot-pass">
+        <em>Forgot password?</em>
+      </a>
+      <div class="form__join">
+        Don't have an account?
+        <a href="/join/"><em>Join now</em></a>
+      </div>
+      <footer class="form__footer">
+        <a class="form__footer__github-link" href="https://github.com/Megaloden106">
+          <img class="form__footer__github-icon" src="/static/images/icon-github.svg">
+          &nbsp;Github.
+        </a>
+        &nbsp;Developed by Eddie Lo @ 2019.
+      </footer>
+    </form>
+  </body>
+  <script src="/static/js/noauth/login.js"></script>
+</html>

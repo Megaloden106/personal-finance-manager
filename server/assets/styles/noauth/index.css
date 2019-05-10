@@ -33,8 +33,8 @@ a {
 
 .header__login,
 .header__signin {
-  width: 100px;
   height: 40px;
+  width: 100px;
   padding: 0;
   border-radius: 3px;
   font-size: 16px;
@@ -46,8 +46,8 @@ a {
 .header__login {
   margin-left: auto;
   margin-right: 10px;
-  line-height: 40px;
   color: #666;
+  line-height: 40px;
   border: none;
 }
 .header__login:hover {
@@ -60,15 +60,15 @@ a {
 
 .header__signin {
   margin-right: 20px;
-  line-height: 38px;
   color: #1591b6;
   background-color: white;
   border: 1px solid #445671;
+  line-height: 38px;
 }
 .header__signin:hover {
-  line-height: 36px;
   background-color: #1591b633;
   border: 2px solid #1e7ba4;
+  line-height: 36px;
 }
 .header__signin:active {
   background-color: #1591b644;
@@ -82,4 +82,164 @@ a {
 .content {
   padding-top: 20px;
   padding-bottom: 20px;
+}
+
+.form {
+  position: relative;
+  width: 720px;
+  padding-top: 80px;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: white;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
+  text-align: center;
+}
+
+.form__logo {
+  color: #1591b6;
+}
+
+.form__header {
+  margin-bottom: 40px;
+  font-size: 28px;
+}
+
+.form__input {
+  position: relative;
+  height: 52px;
+  width: 360px;
+  padding: 28px 12px 6px 12px;
+  margin-bottom: 12px;
+  border: 1px solid #333;
+  border-radius: 2px;
+  font-size: 18px;
+  outline: none;
+}
+.form__input:focus {
+  border: 2px solid #1591b6;
+}
+
+.form__label {
+  position: absolute;
+  left: 180px;
+  padding-top: 12.5px;
+  padding-left: 12px;
+  font-size: 22px;
+  -webkit-transition: 0.2 all;
+  transition: 0.2s all;
+}
+.form__input:valid + .form__label,
+.form__input:focus + .form__label {
+  padding-top: 4px;
+  font-size: 16px;
+}
+
+.form__error-msg {
+  display: none;
+  margin-bottom: 12px;
+  margin-left: 100px;
+  color: #ff2c33;
+  font-weight: bold;
+  text-align: left;
+}
+
+.form__password-visibility {
+  position: absolute;
+  top: 298px;
+  right: 195px;
+  z-index: 0;
+  color: #1591b6;
+  background-color: transparent;
+  border: none;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 24px;
+  outline: none;
+  cursor: pointer;
+}
+
+.form__submit {
+  height: 52px;
+  width: 360px;
+  margin-top: 8px;
+  color: white;
+  background-color: #1e7ba4;
+  border-radius: 2px;
+  font-size: 18px;
+  outline: none;
+  cursor: pointer;
+}
+.form__submit:hover {
+  background-color:#1e6994;
+}
+.form__submit:active {
+  background-color:#1e5374;
+}
+
+.form__forgot-pass {
+  height: 32px;
+  width: 154px;
+  margin-top: 24px;
+  margin-right: auto;
+  margin-left: auto;
+  color: #1591b6;
+  border-radius: 2px;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 32px;
+}
+
+.form__password-visibility:hover,
+.form__forgot-pass:hover {
+  color: #1579a6;
+  background-color: #1591b633;
+}
+.form__password-visibility:active,
+.form__forgot-pass:active {
+  color: #156196;
+  background-color: #1591b644;
+}
+
+.form__join {
+  padding-top: 20px;
+  padding-bottom: 40px;
+}
+
+.form__join a {
+  display: inline-block;
+  color: #1591b6;
+  font-weight: bold;
+}
+.form__join a:hover {
+  color: #1579a6;
+}
+.form__join a:active {
+  color: #156196;
+}
+
+.form__footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.form__footer__github-link {
+  display: flex;
+  color: #1591b6;
+  font-weight: bold;
+  align-items: center;
+}
+.form__footer__github-link:hover {
+  color: #1579a6;
+}
+.form__footer__github-link:active {
+  color: #156196;
+}
+
+
+.form__footer__github-icon {
+  height: 15px;
+  width: 15px;
 }
