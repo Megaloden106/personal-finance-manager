@@ -11,6 +11,10 @@ a {
   text-decoration: none;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .header, .content, .banner {
   width: 1600px;
   margin-right: auto;
@@ -31,8 +35,8 @@ a {
   color: #1591b6;
 }
 
-.header__login,
-.header__signin {
+.header__join,
+.header__login {
   height: 40px;
   width: 100px;
   padding: 0;
@@ -43,34 +47,34 @@ a {
   outline: none;
 }
 
-.header__login {
+.header__join {
   margin-left: auto;
   margin-right: 10px;
   color: #666;
   line-height: 40px;
   border: none;
 }
-.header__login:hover {
+.header__join:hover {
   color: #333;
   background-color: #999;
 }
-.header__login:active {
+.header__join:active {
   color: #222;
 }
 
-.header__signin {
+.header__login {
   margin-right: 20px;
   color: #1591b6;
   background-color: white;
   border: 1px solid #445671;
   line-height: 38px;
 }
-.header__signin:hover {
+.header__login:hover {
   background-color: #1591b633;
   border: 2px solid #1e7ba4;
   line-height: 36px;
 }
-.header__signin:active {
+.header__login:active {
   background-color: #1591b644;
 }
 
@@ -143,9 +147,9 @@ a {
   text-align: left;
 }
 
-.form__password-visibility {
+.form__password-visibility--login,
+.form__password-visibility--join {
   position: absolute;
-  top: 298px;
   right: 195px;
   z-index: 0;
   color: #1591b6;
@@ -156,6 +160,31 @@ a {
   line-height: 24px;
   outline: none;
   cursor: pointer;
+}
+.form__password-visibility--login {
+  top: 298px;
+}
+.form__password-visibility--join {
+  top: 362px;
+}
+
+.form__agreement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form__agreement__link {
+  margin-top: 12px;
+  margin-bottom: 12px;
+  color: #1591b6;
+  font-weight: bold;
+}
+.form__agreement__link:hover {
+  color: #1579a6;
+}
+.form__agreement__link:active {
+  color: #156196;
 }
 
 .form__submit {
@@ -189,12 +218,14 @@ a {
   line-height: 32px;
 }
 
-.form__password-visibility:hover,
+.form__password-visibility--login:hover,
+.form__password-visibility--join:hover,
 .form__forgot-pass:hover {
   color: #1579a6;
   background-color: #1591b633;
 }
-.form__password-visibility:active,
+.form__password-visibility--login:active,
+.form__password-visibility--join:active,
 .form__forgot-pass:active {
   color: #156196;
   background-color: #1591b644;

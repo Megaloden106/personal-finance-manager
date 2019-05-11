@@ -11,10 +11,58 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
   <body>
-    <header>
-    </header>
+    <form class="form" novalidate>
+      <h2 class="form__logo">Personal Finance MS</h2>
+      <h1 class="form__header">Combine and organize your portfolio data!</h1>
+      <input
+        id="username"
+        class="form__input"
+        type="text"
+        required
+        validation="username"
+      >
+      <label class="form__label" for="username">Username</label>
+      <div id="error-for-username" class="form__error-msg" error-for="username"></div>
+      <input
+        id="email"
+        class="form__input"
+        type="email"
+        required
+        validation="email"
+      >
+      <label class="form__label" for="email">Email</label>
+      <div id="error-for-email" class="form__error-msg" error-for="email"></div>
+      <input
+        id="password"
+        class="form__input"
+        type="password"
+        required
+        validation="password"
+      >
+      <label class="form__label" for="password">Password</label>
+      <div id="error-for-password" class="form__error-msg" error-for="password"></div>
+      <button id="password-visibility-toggle" class="form__password-visibility--join">
+        Show
+      </button>
+      <div class="form__agreement hidden">
+        You agree to my&nbsp;
+        <a class="form__agreement__link" href="#">User Agreement&nbsp;</a>
+        and&nbsp;
+        <a class="form__agreement__link" href="#">Privacy Policy&nbsp;</a>
+      </div>
+      <button class="form__submit">Join Now</button>
+      <div class="form__join">
+        Already have an account?
+        <a href="/login/"><em>Log in now!</em></a>
+      </div>
 
-    <section class="form">
-    </section>
+      <footer class="form__footer">
+        <a class="form__footer__github-link" href="https://github.com/Megaloden106">
+          <img class="form__footer__github-icon" src="/static/images/icon-github.svg">
+          &nbsp;Github.
+        </a>
+        &nbsp;Developed by Eddie Lo @ 2019.
+      </footer>
+    </form>
   </body>
 </html>

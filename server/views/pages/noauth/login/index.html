@@ -22,9 +22,7 @@
         validation="email|username"
       >
       <label class="form__label" for="username">Email or Username</label>
-      <div id="error-for-username" class="form__error-msg" error-for="username">
-        Hello?
-      </div>
+      <div id="error-for-username" class="form__error-msg" error-for="username"></div>
       <input
         id="password"
         class="form__input"
@@ -33,22 +31,17 @@
         validation="password"
       >
       <label class="form__label" for="password">Password</label>
-      <div id="error-for-password" class="form__error-msg" error-for="password">
-        Hello?
-      </div>
-      <button
-        id="password-visibility-toggle"
-        class="form__password-visibility"
-      >
+      <div id="error-for-password" class="form__error-msg" error-for="password"></div>
+      <button id="password-visibility-toggle" class="form__password-visibility--login">
         Show
       </button>
-      <button class="form__submit">Sign in</button>
+      <button class="form__submit">Log in</button>
       <a href="/password-reset/" class="form__forgot-pass">
         <em>Forgot password?</em>
       </a>
       <div class="form__join">
         Don't have an account?
-        <a href="/join/"><em>Join now</em></a>
+        <a href="/join/"><em>Register now!</em></a>
       </div>
       <footer class="form__footer">
         <a class="form__footer__github-link" href="https://github.com/Megaloden106">
@@ -59,5 +52,25 @@
       </footer>
     </form>
   </body>
-  <script src="/static/js/noauth/login.js"></script>
+  <script>
+  const emailError = {
+    empty: 'Please enter a valid email address.',
+    invalid: 'Hmm, we don\'t recognize that email address. Please try again.',
+  };
+
+  const usernameError = {
+    empty: 'Please enter a valid username.',
+    invalid: 'Hmm, we don\'t recognize that username. Please try again.',
+    lowerLimit: 'The username you provided must have at least 6 characters.',
+    upperLimit: 'The username you provided must have at most 25 characters.',
+  };
+
+  const passwordError = {
+    empty: 'Please enter a password.',
+    invalid: 'Hmm, that\'s not the right password. Please try again.',
+    lowerLimit: 'The password you provided must have at least 6 characters.',
+    upperLimit: 'The password you provided must have at most 25 characters.',
+  };
+
+  </script>
 </html>
