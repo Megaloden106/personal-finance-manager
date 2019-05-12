@@ -6,15 +6,13 @@ const epicMiddleware: EpicMiddleware<any> = createEpicMiddleware();
 
 const initialState: AppState = {};
 
-export default function configureStore() {
-  // createStore: Reducer<State>, Action, StoreExt: any, StateExt: any
-  const store: Store<AppState> = createStore(
-    rootReducer,
-    initialState,
-    applyMiddleware(epicMiddleware),
-  );
+// createStore: Reducer<State>, Action, StoreExt: any, StateExt: any
+const store: Store<AppState> = createStore(
+  rootReducer,
+  initialState,
+  applyMiddleware(epicMiddleware),
+);
 
-  epicMiddleware.run(rootEpic);
+epicMiddleware.run(rootEpic);
 
-  return store;
-}
+export default store;

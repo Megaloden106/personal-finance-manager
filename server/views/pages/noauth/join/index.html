@@ -1,0 +1,89 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="locale" content="US">
+    <meta name="language" content="en">
+    <meta name="country" content="US">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Now | PFMS</title>
+    <link href="/static/styles/noauth/index.css" rel="stylesheet">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body class="join">
+    <form class="form" novalidate>
+      <h2 class="form__logo">Personal Finance MS</h2>
+      <h1 class="form__header">Combine and organize your portfolio data!</h1>
+      <input
+        id="username"
+        class="form__input"
+        type="text"
+        required
+        validation="username"
+      >
+      <label class="form__label" for="username">Username</label>
+      <div id="error-for-username" class="form__error-msg" error-for="username"></div>
+      <input
+        id="email"
+        class="form__input"
+        type="text"
+        required
+        validation="email"
+      >
+      <label class="form__label" for="email">Email</label>
+      <div id="error-for-email" class="form__error-msg" error-for="email"></div>
+      <input
+        id="password"
+        class="form__input"
+        type="password"
+        required
+        validation="password"
+      >
+      <label class="form__label" for="password">Password</label>
+      <div id="error-for-password" class="form__error-msg" error-for="password"></div>
+      <button id="password-visibility-toggle" class="form__password-visibility--join">
+        Show
+      </button>
+      <div class="form__agreement hidden">
+        You agree to my&nbsp;
+        <a class="form__agreement__link" href="#">User Agreement&nbsp;</a>
+        and&nbsp;
+        <a class="form__agreement__link" href="#">Privacy Policy&nbsp;</a>
+      </div>
+      <button class="form__submit">Join Now</button>
+      <div class="form__join">
+        Already have an account?
+        <a href="/login/"><em>Log in now!</em></a>
+      </div>
+
+      <footer class="form__footer">
+        <a class="form__footer__github-link" href="https://github.com/Megaloden106">
+          <img class="form__footer__github-icon" src="/static/images/icon-github.svg">
+          &nbsp;Github
+        </a>
+        &nbsp;&middot; Developed by Eddie Lo @ 2019.
+      </footer>
+    </form>
+  </body>
+
+  <script>
+    const emailError = {
+      empty: 'Please enter a valid email address.',
+      invalid: 'Hmm, we don\'t recognize that email address. Please try again.',
+    };
+
+    const usernameError = {
+      empty: 'Please enter a valid username.',
+      invalid: 'Hmm, we don\'t recognize that username. Please try again.',
+      lowerLimit: 'The username you provided must have at least 6 characters.',
+      upperLimit: 'The username you provided must have at most 25 characters.',
+    };
+
+    const passwordError = {
+      empty: 'Please enter a password.',
+      invalid: 'Hmm, that\'s not the right password. Please try again.',
+      lowerLimit: 'The password you provided must have at least 6 characters.',
+      upperLimit: 'The password you provided must have at most 25 characters.',
+    };
+  </script>
+</html>
