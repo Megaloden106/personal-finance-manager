@@ -11,6 +11,10 @@ a {
   text-decoration: none;
 }
 
+.join {
+  background-color: #c4d7d7;
+}
+
 .hidden {
   display: none !important;
 }
@@ -26,6 +30,7 @@ a {
 .header {
   display: flex;
   height: 85px;
+  border-bottom: 1px solid #999;
   align-items: center;
 }
 
@@ -70,11 +75,13 @@ a {
   line-height: 38px;
 }
 .header__login:hover {
+  color: #1579a6;
   background-color: #1591b633;
   border: 2px solid #1e7ba4;
   line-height: 36px;
 }
 .header__login:active {
+  color: #156196;
   background-color: #1591b644;
 }
 
@@ -91,9 +98,9 @@ a {
 .form {
   position: relative;
   width: 720px;
-  padding-top: 80px;
   margin-right: auto;
   margin-left: auto;
+  padding-top: 80px;
   background-color: white;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
   text-align: center;
@@ -103,39 +110,53 @@ a {
   color: #1591b6;
 }
 
-.form__header {
+.form__header,
+.pr__form__header {
   margin-bottom: 40px;
   font-size: 28px;
 }
 
-.form__input {
+.form__input,
+.pr__form__input {
   position: relative;
   height: 52px;
   width: 360px;
-  padding: 28px 12px 6px 12px;
   margin-bottom: 12px;
+  padding-right: 12px;
+  padding-left: 12px;
   border: 1px solid #333;
   border-radius: 2px;
   font-size: 18px;
   outline: none;
 }
-.form__input:focus {
+.form__input:focus,
+.pr__form__input:focus {
   border: 2px solid #1591b6;
 }
 
-.form__label {
+.form__label,
+.pr__form__label {
   position: absolute;
-  left: 180px;
+  left: 186px;
   padding-top: 12.5px;
-  padding-left: 12px;
+  padding-right: 6px;
+  padding-left: 6px;
   font-size: 22px;
   -webkit-transition: 0.2 all;
   transition: 0.2s all;
 }
 .form__input:valid + .form__label,
-.form__input:focus + .form__label {
-  padding-top: 4px;
-  font-size: 16px;
+.form__input:focus + .form__label,
+.pr__form__input:valid + .pr__form__label,
+.pr__form__input:focus + .pr__form__label {
+  padding-top: 0;
+  background-color: white;
+  font-size: 14px;
+  transform: translateY(-8px);
+}
+.form__input:focus + .form__label,
+.pr__form__input:focus + .pr__form__label {
+  color: #1591b6;
 }
 
 .form__error-msg {
@@ -248,7 +269,8 @@ a {
   color: #156196;
 }
 
-.form__footer {
+.form__footer,
+.footer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -256,21 +278,106 @@ a {
   padding-bottom: 20px;
 }
 
-.form__footer__github-link {
+.footer {
+  width: 1600px;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: white;
+  border-top: 1px solid #999;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.form__footer__github-link,
+.footer__github-link  {
   display: flex;
   color: #1591b6;
   font-weight: bold;
   align-items: center;
 }
-.form__footer__github-link:hover {
+.form__footer__github-link:hover,
+.footer__github-link:hover {
   color: #1579a6;
 }
-.form__footer__github-link:active {
+.form__footer__github-link:active,
+.footer__github-link:active  {
   color: #156196;
 }
 
-
-.form__footer__github-icon {
+.form__footer__github-icon,
+.footer__github-icon {
   height: 15px;
   width: 15px;
+}
+
+.pr__form {
+  height: calc(100vh - 226px);
+  width: 1600px;
+  margin-right: auto;
+  margin-bottom: 0;
+  margin-left: auto;
+  padding-top: 80px;
+  background-color: white;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.pr__form__header,
+.pr__form__input {
+  margin-left: 400px;
+}
+
+.pr__form__input {
+  width: 480px;
+}
+
+.pr__form__label {
+  left: 567px;
+}
+
+.pr__form__steps {
+  display: flex;
+  margin-top: 40px;
+  margin-left: 400px;
+}
+
+.prfs__cancel,
+.prfs__submit {
+  height: 40px;
+  width: 200px;
+  padding: 0;
+  border-radius: 3px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+}
+
+.prfs__cancel {
+  margin-right: 20px;
+  color: #1591b6;
+  background-color: white;
+  border: 1px solid #445671;
+  font-weight: bold;
+  line-height: 38px;
+}
+.prfs__cancel:hover {
+  width: 198px;
+  color: #1579a6;
+  background-color: #1591b633;
+  border: 2px solid #1e7ba4;
+  line-height: 36px;
+}
+.prfs__cancel:active {
+  color: #156196;
+  background-color: #1591b644;
+}
+
+.prfs__submit {
+  color: white;
+  background-color: #1e7ba4;
+}
+.prfs__submit:hover {
+  background-color:#1e6994;
+}
+.prfs__submit:active {
+  background-color:#1e5374;
 }

@@ -11,13 +11,38 @@
   </head>
   <body>
     <header class="header">
-      <h1 class="header__logo">Personal Finance MS</h1>
-      <button class="header__login">
+      <h1 class="header__logo">Personal Finance Management System</h1>
+      <button class="header__join">
         <a href="/join/">Join now</a>
       </button>
-      <button class="header__signin">
+      <button class="header__login">
         <a href="/login/">Sign in</a>
       </button>
     </header>
+
+    <form class="pr__form" novalidate>
+      <h1 class="pr__form__header">Password Recovery</h1>
+      <input
+        id="username"
+        class="pr__form__input"
+        type="text"
+        required
+        validation="username|email"
+      >
+      <label class="pr__form__label" for="username">Enter your email or username</label>
+      <div id="error-for-username" class="form__error-msg" error-for="username"></div>
+      <div class="pr__form__steps">
+        <a class="prfs__cancel" href="/login/">Cancel</a>
+        <button class="prfs__submit">Find Account</button>
+      </div>
+    </form>
+
+    <footer class="footer">
+      <a class="footer__github-link" href="https://github.com/Megaloden106">
+        <img class="footer__github-icon" src="/static/images/icon-github.svg">
+        &nbsp;Github
+      </a>
+      &nbsp;&middot; Developed by Eddie Lo @ 2019.
+    </footer>
   </body>
 </html>
