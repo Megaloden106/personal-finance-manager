@@ -1,7 +1,7 @@
 {
-  "name": "mlb-teams-client",
+  "name": "personal-finance-management-system-client",
   "version": "1.0.0",
-  "description": "> Project description",
+  "description": "Personal Finance MS",
   "main": "index.js",
   "scripts": {},
   "repository": {
