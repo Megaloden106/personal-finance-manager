@@ -14,8 +14,9 @@ module.exports = {
     "plugin:@typescript-eslint/recommended",
   ],
   rules: {
-    "no-console": ["error", { allow: ["warn", "error"] }],
+    "no-console": ["error", { "allow": ["warn", "error"] }],
     "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+    "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
 
     // TS RULES
     "@typescript-eslint/indent": ["error", 2],

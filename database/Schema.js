@@ -107,7 +107,7 @@ const helpers = {
   },
 };
 
-class Model {
+class Schema {
   constructor(table, columns) {
     this.table = table;
     this.columns = columns;
@@ -235,4 +235,4 @@ class Model {
   }
 }
 
-module.exports = Model;
+module.exports = Schema;
