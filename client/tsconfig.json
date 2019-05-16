@@ -11,14 +11,5 @@
     "paths": {
       "@/*": ["*"],
     },
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
   },
-  "include": [
-    "./**/*",
-  ],
-  "exclude": [
-    "./node_modules",
-  ],
 }

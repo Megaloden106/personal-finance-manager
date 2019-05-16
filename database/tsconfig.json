@@ -5,16 +5,5 @@
     "target": "es6",
     "esModuleInterop": true,
     "sourceMap": true,
-    "strict": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
-    "strictPropertyInitialization": false
   },
-  "include": [
-    "./**/*",
-  ],
-  "exclude": [
-    "./node_modules",
-  ],
 }
