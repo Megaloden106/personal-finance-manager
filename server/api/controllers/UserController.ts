@@ -1,11 +1,11 @@
-import BaseController from './BaseController';
+import BaseControllerMethod from './BaseControllerMethod';
 
-class CreateUserController extends BaseController {
+class CreateUserMethod extends BaseControllerMethod {
   protected async executeLogic(): Promise<any> {
     this.send();
   }
 }
 
 export default {
-  createUser: new CreateUserController().execute,
+  createUser: new CreateUserMethod().execute,
 };
