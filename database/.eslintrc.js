@@ -12,6 +12,7 @@ module.exports = {
   extends: [
     "airbnb",
     "plugin:@typescript-eslint/recommended",
+    // "plugin:tslint-config-airbnb",
   ],
   rules: {
     "no-console": ["error", { "allow": ["warn", "error"] }],

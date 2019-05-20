@@ -20,3 +20,11 @@
 // };
 
 // module.exports = pgp(cn);
+
+// mock pg-promise
+export default {
+  any: async (query: string, values?: string[]): Promise<any> => Promise.resolve({
+    query,
+    values,
+  }),
+};
