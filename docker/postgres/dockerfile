@@ -1,0 +1,7 @@
+FROM postgres:11.2
+
+# Copy in sql dump schema file, runs automatically at database creation
+COPY ./schema.sql /docker-entrypoint-initdb.d/
+
+# give rw permission for root
+RUN chmd a+r /docker-entrypoint-initdb.d/*
