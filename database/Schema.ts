@@ -267,19 +267,18 @@ export default class Schema {
     let query = `UPDATE ${this.tableName} `;
     const { where } = criteria;
 
-    const newKeys: string[] = Object.keys(data)
-      .map((key): string => this.sanitize(key));
-    const newValues: any[] = Object.values(data)
+    const keys: string[] = Object.keys(data);
+    this.values = Object.values(data)
       .map((value): string => this.sanitize(value));
-    const sqlParameters: string[] = newValues.map((value: string, i: number): string => `${i}`);
+    const sqlParameters: string[] = this.values.map((value: string, i: number): string => `${i + 1}`);
 
     // (...columns) VALUES (...$_)
-    query += `(${newKeys.join(', ')}) VALUES (${sqlParameters.join(', ')})`;
+    query += `(${keys.join(', ')}) VALUES (${sqlParameters.join(', ')})`;
 
     // CONDITIONS | where _ = $1
     query += `\nWHERE ${this.getConditions(where || criteria)}`;
 
-    return this.execute(`${query};`, newValues);
+    return this.execute(`${query};`, this.values);
   }
 
   private getAttributes({
