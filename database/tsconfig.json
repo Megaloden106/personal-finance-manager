@@ -3,6 +3,7 @@
     "outDir": "./build",
     "module": "commonjs",
     "target": "es6",
+    "lib": ["esnext"],
     "esModuleInterop": true,
     "sourceMap": true,
   },

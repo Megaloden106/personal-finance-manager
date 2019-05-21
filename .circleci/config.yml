@@ -1,0 +1,71 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10.15.3
+    #   - image: postgres:11.2
+    #     command: -p 7071
+    #     environment:
+    #       POSTGRES_USER: postgres
+    #       POSTGRES_DB: pfms
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      - run: sudo apt-get update
+
+      # install postgres client
+      # - run: sudo apt install -y postgresql-client || true
+
+      # load seed script for data base
+      # - run: psql -U postgres -h localhost -p 7071 -d pfms -f docker/postgres/schema.sql
+
+      # check latest hash to avoid re-building frontend
+      - run: git log --pretty=format'%H' -n 1 -- client > client_checksum
+
+      # download and cache dependencies
+      - restore_cache:
+          key: v2-deps-app-({ checksum "package-lock.json" })
+      - restore_cache:
+          key: v2-deps-client-({ checksum "client/package-lock.json" })
+      - restore_cache:
+          key: v2-deps-server-({ checksum "server/package-lock.json" })
+      # - restore_cache:
+      #   key: v2-deps-database-({ checksum "database/package-lock.json" })
+      - restore_cache:
+          key: v2-built-client-({ checksum "client_checksum" })
+
+      # install only if package-lock has changed
+      - run: "if [[ ! -e node_modules ]]; then npm ci; fi"
+      - run: "if [[ ! -e client/node_modules ]]; then npm run install-client; fi"
+      - run: "if [[ ! -e server/node_modules ]]; then npm run install-server; fi"
+      # - run: "if [[ ! -e database/node_modules ]]; then npm run install-db"
+
+      # builds only if the dis dir is not restored
+      - run: "if [[ ! -e public/bundle.js ]]; then npm run react-prod; fi"
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v2-deps-app-({ checksum "package-lock.json" })
+      - save_cache:
+          paths:
+            - client/node_modules
+          key: v2-deps-client-({ checksum "client/package-lock.json" })
+      - save_cache:
+          paths:
+            - server/node_modules
+          key: v2-deps-server-({ checksum "server/package-lock.json" })
+      # - save_cache:
+          # paths:
+          #   - database/node_modules
+          # key: v2-deps-database-({ checksum "database/package-lock.json" })
+      - save_cache:
+          paths:
+            - public
+          key: v2-built-client-({ checksum "client_checksum" })
+
+      # run tests
+      - run: npm run lint
