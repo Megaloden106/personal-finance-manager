@@ -42,25 +42,35 @@ interface Option {
 interface Query {
   attributes?: string[];
   include?: Model[];
-  where?: any;
+  where?: Record<string, any>;
 }
+// columnName: value
+// columnName: Operation: value
+// columnName: Union: value | value[]
+// columnName: Union: Operation: value
+// Union: columnName: value
+// Union: columnName: Operation: value
 
 type Criteria = Query & Option;
+
+interface JoinWhere {
+  [columnName: string]: string; // key = child, value = parent
+}
 
 interface Model extends Query {
   as?: string;
   model?: Schema;
   parent?: string; // parent tablename
-  // where?: any; key = child, value = parent
+  where?: JoinWhere;
 }
 
 export default class Schema {
   private tableName: string;
   private values: any[];
-  private execute: Function;
-  private sanitize: Function;
-  private getOptions: Function;
-  private getOperations: Function;
+  private readonly execute: Function;
+  private readonly sanitize: Function;
+  private readonly getOptions: Function;
+  private readonly getOperations: Function;
 
   public constructor(tableName: string) {
     this.tableName = tableName;
