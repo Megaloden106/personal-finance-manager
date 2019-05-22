@@ -50,6 +50,7 @@ interface Query {
 // columnName: Union: Operation: value
 // Union: columnName: value
 // Union: columnName: Operation: value
+// Union: columnName: value[]
 
 type Criteria = Query & Option;
 
@@ -124,6 +125,17 @@ export default class Schema {
     this.getOperations = (column, condition): string[] => {
       if (typeof condition !== 'object') {
         return [`${column} = ${condition}`];
+      }
+
+      if (Array.isArray(condition)) {
+        this.values.push(...condition);
+        const result = [];
+
+        condition.forEach((value, i): void => {
+          result.push(`${column} = $${this.values.length - condition.length + i + 1}`);
+        });
+
+        return result;
       }
 
       const operations = [];
@@ -280,7 +292,7 @@ export default class Schema {
     const keys: string[] = Object.keys(data);
     this.values = Object.values(data)
       .map((value): string => this.sanitize(value));
-    const sqlParameters: string[] = this.values.map((value: string, i: number): string => `${i + 1}`);
+    const sqlParameters: string[] = this.values.map((value: string, i): string => `${i + 1}`);
 
     // (...columns) VALUES (...$_)
     query += `(${keys.join(', ')}) VALUES (${sqlParameters.join(', ')})`;
@@ -356,19 +368,30 @@ export default class Schema {
   private getConditions(where, union: Union = Union.and): string {
     const result = [];
 
-    const keys: string[] = Object.keys(where);
-    const values: any[] = Object.values(where)
-      .map((value): any => this.sanitize(value));
+    if (Array.isArray(where)) {
+      const keys = where.map((value): string => Object.keys(value)[0]);
+      const values = where.map((value): any => Object.values(value)[0])
+        .map((value): any => this.sanitize(value));
 
-    keys.forEach((key, i): void => {
-      if (key === Union.or) {
-        result.push(this.getConditions(values[i], Union.or));
-      } else if (key === Union.and) {
-        result.push(this.getConditions(values[i]));
-      } else { // key = column
-        result.push(...this.getOperations(key, values[i]));
-      }
-    });
+      this.values.push(...values);
+      keys.forEach((key, i): void => {
+        result.push(`${key} = $${this.values.length - where.length + i + 1}`);
+      });
+    } else {
+      const keys: string[] = Object.keys(where);
+      const values: any[] = Object.values(where)
+        .map((value): any => this.sanitize(value));
+
+      keys.forEach((key, i): void => {
+        if (key === Union.or) {
+          result.push(this.getConditions(values[i], Union.or));
+        } else if (key === Union.and) {
+          result.push(this.getConditions(values[i]));
+        } else { // key = column
+          result.push(...this.getOperations(key, values[i]));
+        }
+      });
+    }
 
     return result.join(`\n${union.toUpperCase()} `);
   }
