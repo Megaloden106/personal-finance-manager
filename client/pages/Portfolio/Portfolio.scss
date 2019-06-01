@@ -1,0 +1,11 @@
+.container {
+  display: grid;
+  grid-template-columns: 220px 916px 280px;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "sidebar graph filter"
+    "sidebar analytics filter";
+  grid-column-gap: 12px;
+  grid-row-gap: 6px;
+  border: 1px solid blue;
+}

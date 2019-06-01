@@ -15,7 +15,12 @@ app.use('/static', express.static('assets'));
 
 // no auth
 app.get(
-  ['/', '/login', '/join', '/password-reset'],
+  [
+    // '/',
+    '/login',
+    '/join',
+    '/password-reset',
+  ],
   express.static('views/pages/noauth'),
 );
 
