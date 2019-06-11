@@ -1,14 +1,22 @@
-.container {
+.header {
   display: flex;
-  flex-direction: column;
   height: 86px;
   width: 100vw;
-  border: 1px solid black;
+  border-bottom: 1px solid #999;
+  background-color: white;
   align-items: center;
+  justify-content: space-between;
 }
 
-.content {
-  height: 100%;
-  width: 1440px;
-  border: 1px solid black;
+.header-logo {
+  margin: 0;
+  margin-left: 20px;
+  color: #1591b6;
+}
+
+.header-username {
+  margin-right: 20px;
+  padding: 0;
+  font-size: 16px;
+  font-weight: bold;
 }
