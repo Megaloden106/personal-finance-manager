@@ -1,12 +1,21 @@
 import React, { SFC } from 'react';
+import { connect } from 'react-redux';
+import { AppState } from '@/reducers';
 import styles from './HeaderBar.scss';
 
-const HeaderBar: SFC = () => (
-  <div className={styles.container}>
-    <div className={styles.content}>
-      HEADER BAR
-    </div>
+interface HeaderProp {
+  username: string;
+}
+
+const HeaderBar: SFC<HeaderProp> = ({ username }: HeaderProp) => (
+  <div className={styles.header}>
+    <h1 className={styles.headerLogo}>Personal Finance MS</h1>
+    <h3 className={styles.headerUsername}>{ username }</h3>
   </div>
 );
 
-export default HeaderBar;
+const mapStateToProps = (state: AppState) => ({
+  username: state.user.username,
+});
+
+export default connect(mapStateToProps)(HeaderBar as any);
