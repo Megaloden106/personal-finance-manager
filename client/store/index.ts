@@ -10,7 +10,10 @@ import { AppState, rootEpic, rootReducer } from '@/reducers';
 const epicMiddleware: EpicMiddleware<any> = createEpicMiddleware();
 
 const initialState: AppState = {
-  user: { username: null },
+  user: {
+    username: null,
+    accessLevel: 0,
+  },
 };
 
 // createStore: Reducer<State>, Action, StoreExt: any, StateExt: any

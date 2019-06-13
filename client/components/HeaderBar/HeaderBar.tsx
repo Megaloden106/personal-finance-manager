@@ -7,7 +7,7 @@ interface HeaderProp {
   username: string;
 }
 
-const HeaderBar: SFC<HeaderProp> = ({ username }: HeaderProp) => (
+const HeaderBar: SFC<HeaderProp> = ({ username }) => (
   <div className={styles.header}>
     <h1 className={styles.headerLogo}>Personal Finance MS</h1>
     <h3 className={styles.headerUsername}>{ username }</h3>

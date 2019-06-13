@@ -20,6 +20,8 @@ module.exports = {
   rules: {
     "no-console": ["error", { allow: ["warn", "error"] }],
     "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+    "no-nested-ternary": "off",
+    "no-confusing-arrow": ["error", {"allowParens": true}],
 
     // TS RULES
     "@typescript-eslint/indent": ["error", 2],

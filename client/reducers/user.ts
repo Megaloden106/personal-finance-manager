@@ -11,6 +11,7 @@ enum UserActionType {
 
 export interface UserState {
   username?: string | null;
+  accessLevel?: number;
 }
 
 interface UserAction extends Action {
