@@ -1,6 +1,9 @@
 import { BehaviorSubject, empty, Observable } from 'rxjs';
 
-const user = new BehaviorSubject({ username: 'Test User' });
+const user = new BehaviorSubject({
+  username: 'Test User',
+  accessLevel: 0,
+});
 
 const ajax = {
   getJSON: (url: string): Observable<any> => {
