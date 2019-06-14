@@ -18,9 +18,9 @@ interface Route {
 const BaseNavBar: SFC<BaseNavBarProp> = ({ accessLevel, location }) => {
   let routes: Route[] = [
     { name: 'Summary', endpoint: '/', level: 0 },
-    { name: 'Portfolio', endpoint: '/portfolio', level: 0 },
-    { name: 'Table', endpoint: '/table', level: 0 },
-    { name: 'Allocation', endpoint: '/allocation', level: 1 },
+    { name: 'Portfolio', endpoint: '/portfolio/', level: 0 },
+    { name: 'Table', endpoint: '/table/', level: 0 },
+    { name: 'Allocation', endpoint: '/allocation/', level: 1 },
   ];
 
   routes = routes.map(route => ({

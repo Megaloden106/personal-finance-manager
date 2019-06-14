@@ -30,16 +30,16 @@
     padding: 0 12px;
     color: #1591b6;
     font-size: 20px;
-    line-height:  48px;
+    line-height: 47px;
     text-align: center;
 
     &:hover {
-      border-bottom: 2px solid #1591b6;
+      border-bottom: 3px solid #1591b6;
     }
   }
 
   .selected {
-    border-bottom: 2px solid #1591b6;
+    border-bottom: 3px solid #1591b6;
   }
 
   .disabled {

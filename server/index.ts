@@ -14,18 +14,14 @@ app.use(bodyParser.json());
 app.use('/static', express.static('assets'));
 
 // no auth
-app.get(
-  [
-    // '/',
-    '/login',
-    '/join',
-    '/password-reset',
-  ],
-  express.static('views/pages/noauth'),
-);
+const noAuthRoutes = ['/login', '/join', '/password-reset'];
+app.get(noAuthRoutes, express.static('views/pages/noauth'));
 
 // auth required
-app.use('/', express.static('../public'));
+const authRoutes = ['/', '/portfolio', '/table', '/allocation'];
+authRoutes.forEach((route): void => {
+  app.use(route, express.static('../public'));
+});
 
 // api routes
 app.use('/api', router);
