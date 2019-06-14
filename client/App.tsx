@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SFC } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -9,7 +9,7 @@ import Portfolio from '@/pages/Portfolio/Portfolio';
 import styles from './App.scss';
 import './globals.scss';
 
-ReactDOM.render(
+const App: SFC = () => (
   <Provider store={store}>
     <Router>
       <div className={styles.container}>
@@ -22,6 +22,12 @@ ReactDOM.render(
         </Switch>
       </div>
     </Router>
-  </Provider>,
+  </Provider>
+);
+
+ReactDOM.render(
+  <App />,
   document.getElementById('app'),
 );
+
+export default App;
