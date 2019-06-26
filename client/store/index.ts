@@ -22,8 +22,8 @@ const store: Store<AppState> = createStore(
   initialState,
   compose(
     applyMiddleware(epicMiddleware),
-    // eslint-disable-next-line
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+    (window as any).__REDUX_DEVTOOLS_EXTENSION__ // eslint-disable-line
+      && (window as any).__REDUX_DEVTOOLS_EXTENSION__(), // eslint-disable-line
   ),
 );
 

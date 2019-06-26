@@ -5,8 +5,8 @@ import ajax from '@/services/ajax';
 // import { ajax } from 'rxjs/ajax';
 
 enum UserActionType {
-  FETCH_USER_DATA = 'FETCH_USER_DATA',
-  UPDATE_USER_DATA = 'UPDATE_USER_DATA',
+  FETCH_USER_DATA = '[User] Fetch Data',
+  UPDATE_USER_DATA = '[User] Updates Data',
 }
 
 export interface UserState {
