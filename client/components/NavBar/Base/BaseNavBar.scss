@@ -1,3 +1,5 @@
+@import '../../../globals.scss';
+
 .container {
   display: flex;
   flex-direction: column;
@@ -10,7 +12,7 @@
 .nav {
   display: flex;
   height: 100%;
-  width: 1440px;
+  width: $app_width;
   margin: 0 auto;
   align-items: flex-start;
 }

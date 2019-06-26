@@ -1,12 +1,15 @@
+@import '../../globals';
+
 .container {
   display: grid;
-  grid-template-columns: 220px 916px 280px;
+  grid-template-columns: 1080px 280px;
   grid-template-rows: auto;
   grid-template-areas:
-    "sidebar graph filter"
-    "sidebar analytics filter";
-  grid-column-gap: 12px;
+    "graph sidebar"
+    "analytics sidebar";
+  grid-column-gap: 80px;
   grid-row-gap: 6px;
+  width: $app_width;
   margin-top: 6px;
   border: 1px solid blue;
 }
