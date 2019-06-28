@@ -13,6 +13,7 @@ const initialState: AppState = {
   user: {
     username: null,
     accessLevel: 0,
+    portfolios: [],
   },
 };
 

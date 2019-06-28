@@ -9,9 +9,20 @@ enum UserActionType {
   UPDATE_USER_DATA = '[User] Updates Data',
 }
 
+export interface Portfolio {
+  name: string;
+  brokerage: string;
+  balance: number;
+  returns: number;
+  isGroup: boolean;
+  isRetirement: boolean;
+  isSavings: boolean;
+}
+
 export interface UserState {
   username?: string | null;
   accessLevel?: number;
+  portfolios?: Portfolio[];
 }
 
 interface UserAction extends Action {
@@ -38,7 +49,6 @@ export const userEpic: Epic = action$ => action$.pipe(
 );
 
 const userReducer: Reducer = (state: UserState = initialState, action: UserAction) => {
-  console.log(action); // eslint-disable-line
   switch (action.type) {
     case UserActionType.UPDATE_USER_DATA:
       return { ...state, ...action.payload };

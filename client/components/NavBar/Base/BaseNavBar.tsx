@@ -32,14 +32,9 @@ const BaseNavBar: SFC<BaseNavBarProp> = ({ accessLevel, location }) => {
     <div className={styles.container}>
       <nav className={styles.nav}>
         <ul className={styles.navList}>
-          {routes.map(({
-            name,
-            endpoint,
-            className,
-            level,
-          }: Route) => (accessLevel < level
-            ? <li className={styles.disabled}>{ name }</li>
-            : <Link to={endpoint}><li className={className}>{ name }</li></Link>
+          {routes.map((route: Route) => (accessLevel < route.level
+            ? <li className={styles.disabled}>{ route.name }</li>
+            : <Link to={route.endpoint}><li className={route.className}>{ route.name }</li></Link>
           ))}
         </ul>
       </nav>
