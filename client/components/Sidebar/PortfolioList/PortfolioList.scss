@@ -1,0 +1,61 @@
+.header {
+  padding: 16px 24px;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+
+  h3 {
+    color: #1591b6;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 22px;
+    margin: 0;
+  }
+}
+
+%sub-detail {
+  color: #999;
+  font-size: 13px;
+  line-height: 16px;
+}
+
+.portfolio {
+  display: flex;
+  padding: 12px 24px;
+  color: #666;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #fafafa;
+  }
+
+  .amount {
+    text-align: right;
+  }
+
+  .detail {
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  .sub-detail {
+    @extend %sub-detail;
+  }
+
+  .sub-detail--pos {
+    @extend %sub-detail;
+    color: #21ce99;
+  }
+
+  .sub-detail--neg {
+    @extend %sub-detail;
+    color: #f45431;
+  }
+
+  .sub-detail--neutral {
+    @extend %sub-detail;
+    color: #888;
+  }
+
+}

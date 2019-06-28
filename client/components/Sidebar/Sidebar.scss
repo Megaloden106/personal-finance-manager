@@ -1,5 +1,42 @@
 .container {
   grid-area: sidebar;
-  height: 280px;
-  border: 1px solid black;
+  background-color: white;
+  border: 1px solid #eee;
+  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.01), 0 3px 24px rgba(48, 51, 51, 0.2);
+}
+
+.header {
+  display: flex;
+  padding: 16px 24px;
+  border-bottom: 1px solid #eee;
+  justify-content: space-between;
+
+  h3 {
+    color: #1591b6;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 22px;
+    margin: 0;
+  }
+
+  div {
+    display: flex;
+    height: 24px;
+    width: 24px;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover span {
+      background-color: #1591b6;
+    }
+
+    span {
+      display: block;
+      height: 4px;
+      width: 4px;
+      background-color: #666;
+      border-radius: 100%;
+    }
+  }
 }

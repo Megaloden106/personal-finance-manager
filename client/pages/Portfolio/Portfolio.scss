@@ -3,12 +3,13 @@
 .container {
   display: grid;
   grid-template-columns: 1080px 280px;
-  grid-template-rows: auto;
+  grid-template-rows: auto 1fr;
   grid-template-areas:
     "graph sidebar"
     "analytics sidebar";
   grid-column-gap: 80px;
   grid-row-gap: 6px;
+  align-items: start;
   width: $app_width;
   margin-top: 6px;
   border: 1px solid blue;
