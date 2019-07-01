@@ -43,7 +43,7 @@ const convertToStyle = (pos: Position, box: Box): string => {
 
 const Modal: SFC<DropdownProp> = ({ children, pos = {}, box = {} }) => {
   const [element, setElement] = useState<Element>(document.createElement('div'));
-  element.classList.add(style.dropdown);
+  element.classList.add(style.modal);
 
   // On change update style
   useEffect(() => {

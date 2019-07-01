@@ -19,10 +19,11 @@
     margin: 0;
   }
 
-  div {
+  button {
     display: flex;
     height: 24px;
     width: 24px;
+    padding: 0;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
@@ -38,5 +39,9 @@
       background-color: #666;
       border-radius: 100%;
     }
+  }
+
+  .menu--open span {
+    background-color: #1591b6;
   }
 }

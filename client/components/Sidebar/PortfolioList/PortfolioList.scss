@@ -41,6 +41,8 @@
 
   .sub-detail {
     @extend %sub-detail;
+    font-size: 11px;
+    line-height: 14px;
   }
 
   .sub-detail--pos {

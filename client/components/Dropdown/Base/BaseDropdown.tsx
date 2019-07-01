@@ -1,4 +1,5 @@
 import React, { SFC, useEffect } from 'react';
+import { fromEvent } from 'rxjs';
 import styles from './BaseDropdown.scss';
 import Modal, { Position, Box } from '@/components/Modal/Modal';
 
@@ -38,24 +39,23 @@ const BaseDropdown: SFC<BaseDropdownProp> = ({
 }) => {
   // Event listener for outside click modal click
   useEffect(() => {
-    const closeEvent = (event: MouseEvent) => {
+    const closeEvent = (event: Event) => {
       const modal = document.getElementById('modal') as Element;
       if (!modal.contains(event.target as Node)) {
         close();
       }
     };
-    document.addEventListener('click', closeEvent);
+    const subscription = fromEvent(document, 'click')
+      .subscribe(closeEvent);
 
-    return () => {
-      document.removeEventListener('click', closeEvent);
-    };
+    return () => subscription.unsubscribe();
   }, []);
 
   // Button class based on row
   const buttonClass = (value: string) => {
     const className = [styles.item];
     if (selected.data === value || selected.time === value) {
-      className.push(styles['item--selected']);
+      className.push(styles.itemSelected);
     }
 
     return className.join(' ');
@@ -72,7 +72,7 @@ const BaseDropdown: SFC<BaseDropdownProp> = ({
         {menu.map(item => (
           <button
             type="button"
-            onClick={() => rowClick && rowClick(item)}
+            onClick={() => rowClick(item)}
             className={buttonClass(item.text)}
             style={item.style}
             value={item.value}

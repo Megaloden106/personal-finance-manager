@@ -6,7 +6,7 @@
   "scripts": {
     "install-client": "cd client && npm ci",
     "install-server": "cd server && npm ci",
-    "install-all": "npm ci && npm run install-client && npm run install-server",
+    "postinstall": "npm run install-client && npm run install-server",
     "lint-client": "cd client && eslint --ext .ts .",
     "lint-db": "cd database && eslint --ext .ts .",
     "lint-server": "cd server && eslint --ext .ts .",

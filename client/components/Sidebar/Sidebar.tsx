@@ -1,16 +1,22 @@
-import React, { SFC } from 'react';
+import React, { SFC, useState } from 'react';
 import { connect } from 'react-redux';
 import { AppState } from '@/reducers';
 import { Portfolio } from '@/reducers/user';
-import styles from './Sidebar.scss';
+import SidebarDropdown from '../Dropdown/Sidebar/SidebarDropdown';
+import { Menu, Selected } from '../Dropdown/Base/BaseDropdown';
 import PortfolioList from './PortfolioList/PortfolioList';
+import styles from './Sidebar.scss';
 
 interface SidebarProp {
   portfolios: Portfolio[];
 }
 
-const Sidebar: SFC<SidebarProp> = ({ portfolios }) => {
 
+const Sidebar: SFC<SidebarProp> = ({ portfolios }) => {
+  const [displayDropdown, setDisplayDropdown] = useState<boolean>(false);
+  const [selected, setSelected] = useState<Selected>({ data: 'Returns', time: 'Total' });
+
+  // Set up separation of Portfolios
   const groups: Portfolio[] = [];
   const personal: Portfolio[] = [];
   const retirement: Portfolio[] = [];
@@ -29,19 +35,46 @@ const Sidebar: SFC<SidebarProp> = ({ portfolios }) => {
     else personal.push(portfolio);
   });
 
+  const handleVisibility = (visible: boolean) => {
+    setDisplayDropdown(visible);
+  };
+
+  const handleRowClick = (row: Menu) => {
+    handleVisibility(false);
+    setTimeout(() => {
+      setSelected({
+        ...selected,
+        [row.value]: row.text,
+      });
+    }, 200);
+  };
+
+  // TODO: Add global dropdown state
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h3>Portfolios</h3>
-        <div>
+        <button
+          type="button"
+          id="sidebar-anchor"
+          className={displayDropdown ? styles.menuOpen : undefined}
+          onClick={() => handleVisibility(!displayDropdown)}
+        >
           <span />
           <span />
           <span />
-        </div>
+        </button>
       </div>
       {lists.map(({ list, title }) => (
         list.length ? <PortfolioList list={list} title={title} /> : null
       ))}
+      {displayDropdown && (
+        <SidebarDropdown
+          close={() => handleVisibility(false)}
+          selected={selected}
+          rowClick={handleRowClick}
+        />
+      )}
     </div>
   );
 };

@@ -3,6 +3,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { fromEvent, Subscription } from 'rxjs';
 import BaseDropdown, { Selected } from '@/components/Dropdown/Base/BaseDropdown';
 import { Position, Box } from '@/components/Modal/Modal';
 
@@ -21,10 +22,10 @@ const SidebarDropdown: SFC<SidebarDropdown> = ({ close, rowClick, selected }) =>
     { text: 'APR', value: 'data', style: { 'border-bottom': '1px solid #eee' } },
     { text: 'Total', value: 'time' },
     { text: 'YTD', value: 'time' },
-    { text: '90 Day', value: 'time' },
-    { text: '180 Day', value: 'time' },
+    { text: '90 Days', value: 'time' },
+    { text: '180 Days', value: 'time' },
     { text: '1 Year', value: 'time' },
-    { text: '5 Year', value: 'time' },
+    { text: '5 Years', value: 'time' },
   ];
 
   // Sidebar specific repositioning
@@ -38,11 +39,10 @@ const SidebarDropdown: SFC<SidebarDropdown> = ({ close, rowClick, selected }) =>
       setBox({ width });
     };
     getClientRect();
-    window.addEventListener('resize', getClientRect);
+    const subscription: Subscription = fromEvent(window, 'resize')
+      .subscribe(getClientRect);
 
-    return () => {
-      window.removeEventListener('resize', getClientRect);
-    };
+    return () => subscription.unsubscribe();
   }, []);
 
   return (
