@@ -1,7 +1,7 @@
 import { BehaviorSubject, empty, Observable } from 'rxjs';
 
 const user = new BehaviorSubject({
-  username: 'Test User',
+  username: 'Guest',
   accessLevel: 0,
   portfolios: [
     {

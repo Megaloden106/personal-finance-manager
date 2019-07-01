@@ -18,7 +18,9 @@ const App: SFC = () => (
           <Route path="/" component={BaseNavBar} />
         </Switch>
         <Switch>
-          <Route path="/" component={Portfolio} />
+          <Route exact path="/" component={Portfolio} />
+          <Route path="/portfolio/" component={Portfolio} />
+          <Route path="/table/" component={Portfolio} />
         </Switch>
       </div>
     </Router>
