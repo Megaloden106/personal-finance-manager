@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { AppState } from '@/reducers';
 import { Portfolio } from '@/reducers/user';
 import SidebarDropdown from '../Dropdown/Sidebar/SidebarDropdown';
-import { Menu, Selected } from '../Dropdown/Base/BaseDropdown';
+import { Menu, Selected } from '@/shared/dropdown';
 import PortfolioList from './PortfolioList/PortfolioList';
 import styles from './Sidebar.scss';
 

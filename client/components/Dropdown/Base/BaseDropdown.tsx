@@ -1,22 +1,9 @@
-import React, { SFC, useEffect } from 'react';
+import React, { SFC, useEffect, useState } from 'react';
 import { fromEvent } from 'rxjs';
+import { Box, Position } from '@/shared/styleProps';
+import { Menu, Selected } from '@/shared/dropdown';
+import Portal from '@/components/Portal/Portal';
 import styles from './BaseDropdown.scss';
-import Modal, { Position, Box } from '@/components/Modal/Modal';
-
-interface Style {
-  [propName: string]: string;
-}
-
-export interface Menu {
-  text: string;
-  value: string;
-  style?: Style;
-}
-
-export interface Selected {
-  data: string;
-  time: string;
-}
 
 interface BaseDropdownProp {
   header?: string;
@@ -37,10 +24,14 @@ const BaseDropdown: SFC<BaseDropdownProp> = ({
   rowClick,
   close,
 }) => {
-  // Event listener for outside click modal click
+  const [dropdownStyle, setDropdownStyle] = useState([styles.dropdown]);
+
+  // Event listener for outside click dropdown click
   useEffect(() => {
+    setDropdownStyle(dropdownStyle.concat(styles.dropdownOpen));
+
     const closeEvent = (event: Event) => {
-      const modal = document.getElementById('modal') as Element;
+      const modal = document.getElementById('dropdown') as Element;
       if (!modal.contains(event.target as Node)) {
         close();
       }
@@ -62,26 +53,28 @@ const BaseDropdown: SFC<BaseDropdownProp> = ({
   };
 
   return (
-    <Modal pos={pos} box={box}>
-      {header && (
-        <div className={styles.header}>
-          <h3>{header}</h3>
+    <Portal pos={pos} box={box} target="dropdown">
+      <div className={dropdownStyle.join(' ')}>
+        {header && (
+          <div className={styles.header}>
+            <h3>{header}</h3>
+          </div>
+        )}
+        <div className={styles.content}>
+          {menu.map(item => (
+            <button
+              type="button"
+              onClick={() => rowClick(item)}
+              className={buttonClass(item.text)}
+              style={item.style}
+              value={item.value}
+            >
+              {item.text}
+            </button>
+          ))}
         </div>
-      )}
-      <div className={styles.content}>
-        {menu.map(item => (
-          <button
-            type="button"
-            onClick={() => rowClick(item)}
-            className={buttonClass(item.text)}
-            style={item.style}
-            value={item.value}
-          >
-            {item.text}
-          </button>
-        ))}
       </div>
-    </Modal>
+    </Portal>
   );
 };
 

@@ -4,8 +4,9 @@ import React, {
   useState,
 } from 'react';
 import { fromEvent, Subscription } from 'rxjs';
-import BaseDropdown, { Selected } from '@/components/Dropdown/Base/BaseDropdown';
-import { Position, Box } from '@/components/Modal/Modal';
+import { Box, Position } from '@/shared/styleProps';
+import { Selected } from '@/shared/dropdown';
+import BaseDropdown from '@/components/Dropdown/Base/BaseDropdown';
 
 interface SidebarDropdown {
   close: Function;
@@ -31,11 +32,15 @@ const SidebarDropdown: SFC<SidebarDropdown> = ({ close, rowClick, selected }) =>
   // Sidebar specific repositioning
   useEffect(() => {
     const getClientRect = () => {
-      const anchor = document.getElementById('sidebar-anchor');
-      const rect = (anchor as Element).getBoundingClientRect();
+      // Calculate position from body for dropdown
+      const anchor = (document.getElementById('sidebar-anchor') as Element)
+        .getBoundingClientRect();
+      const body = document.body.getBoundingClientRect();
       const width = 180;
+      const left = anchor.left - width / 2 - body.left;
+      const top = anchor.top + 41 - body.top;
 
-      setPos({ left: rect.left - width / 2, top: rect.top + 41 });
+      setPos({ left, top });
       setBox({ width });
     };
     getClientRect();
