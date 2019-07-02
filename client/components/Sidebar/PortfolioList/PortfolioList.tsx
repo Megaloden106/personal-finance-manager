@@ -19,17 +19,17 @@ const PortfolioList: SFC<PortfolioListProp> = ({ list, title }) => (
         ? `+${item.returns.toLocaleString()}`
         : item.returns.toLocaleString();
       const colorClass = item.returns > 0
-        ? styles['sub-detail--pos']
+        ? styles.subDetailPos
         : item.returns < 0
-          ? styles['sub-detail--neg']
-          : styles['sub-detail--neutral'];
+          ? styles.subDetailNeg
+          : styles.subDetailNeutral;
 
       return (
         <div className={styles.portfolio}>
           <div>
             <div className={styles.detail}>{item.name}</div>
             {title && (
-              <div className={styles.subDetail}>{item.brokerage}</div>
+              <div className={styles.subDetail}>{item.brokerage.toUpperCase()}</div>
             )}
           </div>
           <div className={styles.amount}>

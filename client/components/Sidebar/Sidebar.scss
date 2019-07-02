@@ -19,13 +19,18 @@
     margin: 0;
   }
 
-  div {
+  button {
     display: flex;
     height: 24px;
     width: 24px;
+    padding: 0;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
+
+    &.menu--open span {
+      background-color: #1591b6;
+    }
 
     &:hover span {
       background-color: #1591b6;
