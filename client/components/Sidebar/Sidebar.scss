@@ -28,6 +28,10 @@
     align-items: center;
     cursor: pointer;
 
+    &.menu--open span {
+      background-color: #1591b6;
+    }
+
     &:hover span {
       background-color: #1591b6;
     }
@@ -39,9 +43,5 @@
       background-color: #666;
       border-radius: 100%;
     }
-  }
-
-  .menu--open span {
-    background-color: #1591b6;
   }
 }

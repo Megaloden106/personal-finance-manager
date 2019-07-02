@@ -30,8 +30,10 @@ interface UserAction extends Action {
   payload?: UserState;
 }
 
-export const initialState: UserState = {
+export const userInitialState: UserState = {
   username: null,
+  accessLevel: 0,
+  portfolios: [],
 };
 
 export const updateUserData = (payload: UserState): UserAction => ({
@@ -48,10 +50,13 @@ export const userEpic: Epic = action$ => action$.pipe(
   )),
 );
 
-const userReducer: Reducer = (state: UserState = initialState, action: UserAction) => {
+const userReducer: Reducer<UserState, UserAction> = (state = userInitialState, action) => {
   switch (action.type) {
     case UserActionType.UPDATE_USER_DATA:
-      return { ...state, ...action.payload };
+      return {
+        ...state,
+        ...action.payload,
+      };
     default:
       return state;
   }

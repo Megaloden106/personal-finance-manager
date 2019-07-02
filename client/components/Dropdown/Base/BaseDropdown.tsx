@@ -1,25 +1,35 @@
 import React, { SFC, useEffect, useState } from 'react';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
 import { fromEvent } from 'rxjs';
-import { Box, Position } from '@/shared/styleProps';
-import { Menu, Selected } from '@/shared/dropdown';
+import { ClientRect } from '@/shared/styleProps';
+import { Item, ItemSelection } from '@/shared/dropdown';
+import { AppState } from '@/reducers';
+import { setDropdownItems, setItemSelection } from '@/reducers/dropdown';
 import Portal from '@/components/Portal/Portal';
 import styles from './BaseDropdown.scss';
 
-interface BaseDropdownProp {
-  header?: string;
-  menu: Menu[];
-  pos: Position;
-  box: Box;
-  selected: Selected;
+interface StateProps {
+  menu: Item[];
+  selected: ItemSelection;
+}
+
+interface DispatchProps {
   rowClick: Function;
   close: Function;
 }
 
-const BaseDropdown: SFC<BaseDropdownProp> = ({
-  header,
+interface ParentProps {
+  title?: string;
+  rect: ClientRect;
+}
+
+type BaseDropdownProps = StateProps & DispatchProps & ParentProps;
+
+const BaseDropdown: SFC<BaseDropdownProps> = ({
+  title,
+  rect,
   menu,
-  pos,
-  box,
   selected,
   rowClick,
   close,
@@ -28,6 +38,7 @@ const BaseDropdown: SFC<BaseDropdownProp> = ({
 
   // Event listener for outside click dropdown click
   useEffect(() => {
+    // Delayed style for animation
     setDropdownStyle(dropdownStyle.concat(styles.dropdownOpen));
 
     const closeEvent = (event: Event) => {
@@ -53,11 +64,11 @@ const BaseDropdown: SFC<BaseDropdownProp> = ({
   };
 
   return (
-    <Portal pos={pos} box={box} target="dropdown">
+    <Portal rect={rect} target="dropdown">
       <div className={dropdownStyle.join(' ')}>
-        {header && (
+        {title && (
           <div className={styles.header}>
-            <h3>{header}</h3>
+            <h3>{title}</h3>
           </div>
         )}
         <div className={styles.content}>
@@ -78,4 +89,20 @@ const BaseDropdown: SFC<BaseDropdownProp> = ({
   );
 };
 
-export default BaseDropdown;
+const mapStateToProps = (state: AppState): StateProps => ({
+  menu: state.dropdown.menu as Item[],
+  selected: state.dropdown.selected,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
+  rowClick: (item: Item) => {
+    dispatch(setDropdownItems(null));
+    dispatch(setItemSelection(item));
+  },
+  close: () => dispatch(setDropdownItems(null)),
+});
+
+export default connect<StateProps, DispatchProps, ParentProps, AppState>(
+  mapStateToProps,
+  mapDispatchToProps,
+)(BaseDropdown as any);

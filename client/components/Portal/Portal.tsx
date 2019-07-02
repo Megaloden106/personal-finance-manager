@@ -4,43 +4,33 @@ import {
   ReactNode,
 } from 'react';
 import ReactDOM from 'react-dom';
-import { Box, Position } from '@/shared/styleProps';
+import { ClientRect } from '@/shared/styleProps';
 
 interface DropdownProp {
   target: string;
   children: ReactNode;
-  pos?: Position;
-  box?: Box;
+  rect: ClientRect;
 }
 
-const convertToStyle = (pos: Position, box: Box): string => {
+const convertToStyle = (rect: ClientRect): string => {
   let htmlStyle = 'position: absolute; ';
-
-  Object.keys(pos).forEach((key: string) => {
-    htmlStyle += `${key}: ${(pos as any)[key]}px; `;
-  });
-  Object.keys(box).forEach((key: string) => {
-    htmlStyle += `${key}: ${(box as any)[key]}px; `;
+  Object.keys(rect).forEach((key: string) => {
+    htmlStyle += `${key}: ${(rect as any)[key]}px; `;
   });
 
   return htmlStyle;
 };
 
 
-const Portal: SFC<DropdownProp> = ({
-  target,
-  children,
-  pos = {},
-  box = {},
-}) => {
+const Portal: SFC<DropdownProp> = ({ target, children, rect }) => {
   const portal = document.getElementById(target) as HTMLElement;
 
   // On change update style
   useEffect(() => {
-    portal.setAttribute('style', convertToStyle(pos, box));
+    portal.setAttribute('style', convertToStyle(rect));
 
     return () => portal.removeAttribute('style');
-  }, [pos, box]);
+  }, [rect]);
 
   return (
     ReactDOM.createPortal(

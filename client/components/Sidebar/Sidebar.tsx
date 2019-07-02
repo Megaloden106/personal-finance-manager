@@ -1,21 +1,21 @@
-import React, { SFC, useState } from 'react';
+import React, { SFC } from 'react';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AppState } from '@/reducers';
 import { Portfolio } from '@/reducers/user';
+import { setDropdownItems } from '@/reducers/dropdown';
+import { Item } from '@/shared/dropdown';
 import SidebarDropdown from '../Dropdown/Sidebar/SidebarDropdown';
-import { Menu, Selected } from '@/shared/dropdown';
 import PortfolioList from './PortfolioList/PortfolioList';
 import styles from './Sidebar.scss';
 
-interface SidebarProp {
+interface SidebarProps {
   portfolios: Portfolio[];
+  menu: Item[];
+  setMenuItems: Function;
 }
 
-
-const Sidebar: SFC<SidebarProp> = ({ portfolios }) => {
-  const [displayDropdown, setDisplayDropdown] = useState<boolean>(false);
-  const [selected, setSelected] = useState<Selected>({ data: 'Returns', time: 'Total' });
-
+const Sidebar: SFC<SidebarProps> = ({ portfolios, menu, setMenuItems }) => {
   // Set up separation of Portfolios
   const groups: Portfolio[] = [];
   const personal: Portfolio[] = [];
@@ -35,21 +35,21 @@ const Sidebar: SFC<SidebarProp> = ({ portfolios }) => {
     else personal.push(portfolio);
   });
 
-  const handleVisibility = (visible: boolean) => {
-    setDisplayDropdown(visible);
+  const handleVisibility = (visible?: boolean) => {
+    const items = menu || visible === false ? null : [
+      { text: 'Returns', value: 'data' },
+      { text: 'Percentage', value: 'data' },
+      { text: 'APR', value: 'data', style: { 'border-bottom': '1px solid #eee' } },
+      { text: 'Total', value: 'time' },
+      { text: 'YTD', value: 'time' },
+      { text: '90 Days', value: 'time' },
+      { text: '180 Days', value: 'time' },
+      { text: '1 Year', value: 'time' },
+      { text: '5 Years', value: 'time' },
+    ];
+    setMenuItems(items);
   };
 
-  const handleRowClick = (row: Menu) => {
-    handleVisibility(false);
-    setTimeout(() => {
-      setSelected({
-        ...selected,
-        [row.value]: row.text,
-      });
-    }, 200);
-  };
-
-  // TODO: Add global dropdown state
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -57,8 +57,8 @@ const Sidebar: SFC<SidebarProp> = ({ portfolios }) => {
         <button
           type="button"
           id="sidebar-anchor"
-          className={displayDropdown ? styles.menuOpen : undefined}
-          onClick={() => handleVisibility(!displayDropdown)}
+          className={menu ? styles.menuOpen : undefined}
+          onClick={() => handleVisibility()}
         >
           <span />
           <span />
@@ -68,19 +68,18 @@ const Sidebar: SFC<SidebarProp> = ({ portfolios }) => {
       {lists.map(({ list, title }) => (
         list.length ? <PortfolioList list={list} title={title} /> : null
       ))}
-      {displayDropdown && (
-        <SidebarDropdown
-          close={() => handleVisibility(false)}
-          selected={selected}
-          rowClick={handleRowClick}
-        />
-      )}
+      {menu && <SidebarDropdown />}
     </div>
   );
 };
 
 const mapStateToProps = (state: AppState) => ({
   portfolios: state.user.portfolios,
+  menu: state.dropdown.menu,
 });
 
-export default connect(mapStateToProps)(Sidebar as any);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  setMenuItems: (items: Item[]) => dispatch(setDropdownItems(items)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar as any);
