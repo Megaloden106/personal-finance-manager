@@ -1,6 +1,6 @@
 import { Reducer, Action } from 'redux';
 import { ofType, Epic } from 'redux-observable';
-import { mergeMap, map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import ajax from '@/services/ajax';
 // import { ajax } from 'rxjs/ajax';
 
@@ -20,12 +20,12 @@ export interface Portfolio {
 }
 
 export interface UserState {
-  username?: string | null;
-  accessLevel?: number;
-  portfolios?: Portfolio[];
+  username: string | null;
+  accessLevel: number;
+  portfolios: Portfolio[];
 }
 
-interface UserAction extends Action {
+export interface UserAction extends Action {
   type: UserActionType;
   payload?: UserState;
 }
@@ -45,12 +45,14 @@ export const fetchUserData = (): UserAction => ({ type: UserActionType.FETCH_USE
 
 export const userEpic: Epic = action$ => action$.pipe(
   ofType(UserActionType.FETCH_USER_DATA),
-  mergeMap(() => ajax.getJSON('/api/user/').pipe(
-    map(response => updateUserData(response)),
-  )),
+  switchMap(() => ajax.getJSON('/api/user/')),
+  map(response => updateUserData(response)),
 );
 
-const userReducer: Reducer<UserState, UserAction> = (state = userInitialState, action) => {
+const userReducer: Reducer<UserState, UserAction> = (
+  state = userInitialState,
+  action,
+) => {
   switch (action.type) {
     case UserActionType.UPDATE_USER_DATA:
       return {

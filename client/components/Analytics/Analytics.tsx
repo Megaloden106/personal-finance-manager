@@ -1,7 +1,7 @@
-import React, { SFC } from 'react';
+import React, { FunctionComponent } from 'react';
 import styles from './Analytics.scss';
 
-const Analytics: SFC = () => (
+const Analytics: FunctionComponent = () => (
   <div className={styles.container}>
     ANALYTICS
   </div>

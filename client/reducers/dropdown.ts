@@ -39,7 +39,7 @@ export const setItemSelection = (payload: Item): SetItemAction => ({
   payload,
 });
 
-type DropdownAction = MenuItemsAction | SetItemAction;
+export type DropdownAction = MenuItemsAction | SetItemAction;
 
 const dropdownReducer: Reducer<DropdownState, DropdownAction> = (
   state = dropdownInitState,

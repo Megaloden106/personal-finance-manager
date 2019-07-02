@@ -1,4 +1,4 @@
-import React, { SFC } from 'react';
+import React, { FunctionComponent } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -9,7 +9,7 @@ import Portfolio from '@/pages/Portfolio/Portfolio';
 import styles from './App.scss';
 import './globals.scss';
 
-const App: SFC = () => (
+const App: FunctionComponent = () => (
   <Provider store={store}>
     <Router>
       <div className={styles.container}>

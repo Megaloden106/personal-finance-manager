@@ -1,16 +1,16 @@
-import React, { SFC, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { fromEvent, Subscription } from 'rxjs';
 import { ClientRect } from '@/shared/styleProps';
 import BaseDropdown from '@/components/Dropdown/Base/BaseDropdown';
 
-const SidebarDropdown: SFC = () => {
+const SidebarDropdown: FunctionComponent = () => {
   const [rect, setRect] = useState<ClientRect>({});
 
   // Sidebar specific repositioning
   useEffect(() => {
     const getClientRect = () => {
       // Calculate position from body for dropdown
-      const anchor = (document.getElementById('sidebar-anchor') as Element)
+      const anchor = (document.getElementById('sidebar-anchor') as HTMLElement)
         .getBoundingClientRect();
       const body = document.body.getBoundingClientRect();
       const width = 180;
@@ -24,9 +24,7 @@ const SidebarDropdown: SFC = () => {
     const subscription: Subscription = fromEvent(window, 'resize')
       .subscribe(getClientRect);
 
-    return () => {
-      subscription.unsubscribe();
-    };
+    return () => subscription.unsubscribe();
   }, []);
 
   return <BaseDropdown title="View" rect={rect} />;

@@ -1,12 +1,12 @@
 import {
-  SFC,
+  FunctionComponent,
   useEffect,
   ReactNode,
 } from 'react';
 import ReactDOM from 'react-dom';
 import { ClientRect } from '@/shared/styleProps';
 
-interface DropdownProp {
+interface DropdownProps {
   target: string;
   children: ReactNode;
   rect: ClientRect;
@@ -15,14 +15,14 @@ interface DropdownProp {
 const convertToStyle = (rect: ClientRect): string => {
   let htmlStyle = 'position: absolute; ';
   Object.keys(rect).forEach((key: string) => {
-    htmlStyle += `${key}: ${(rect as any)[key]}px; `;
+    htmlStyle += `${key}: ${rect[key]}px; `;
   });
 
   return htmlStyle;
 };
 
 
-const Portal: SFC<DropdownProp> = ({ target, children, rect }) => {
+const Portal: FunctionComponent<DropdownProps> = ({ target, children, rect }) => {
   const portal = document.getElementById(target) as HTMLElement;
 
   // On change update style

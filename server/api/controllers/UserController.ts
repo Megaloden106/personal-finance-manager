@@ -1,8 +1,9 @@
+import { Response } from 'express';
 import BaseControllerMethod from './BaseControllerMethod';
 
 class CreateUserMethod extends BaseControllerMethod {
-  protected async executeLogic(): Promise<any> {
-    this.send();
+  protected async executeLogic(): Promise<Response> {
+    return this.send();
   }
 }
 

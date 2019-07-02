@@ -1,7 +1,7 @@
-import React, { SFC } from 'react';
+import React, { FunctionComponent } from 'react';
 import styles from './Graph.scss';
 
-const Graph: SFC = () => (
+const Graph: FunctionComponent = () => (
   <div className={styles.container}>
     GRAPH
   </div>
