@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { fromEvent } from 'rxjs';
+import { fromEvent, Subscription, merge } from 'rxjs';
 import { ClientRect } from '@/shared/styleProps';
 import { Item, ItemSelection } from '@/shared/dropdown';
 import { AppState } from '@/reducers';
@@ -36,19 +36,22 @@ const BaseDropdown: FunctionComponent<BaseDropdownProps> = ({
 }) => {
   const [dropdownStyle, setDropdownStyle] = useState([styles.dropdown]);
 
+  // Event handler for closing dropdown
+  const handleCloseEvent = (event: Event) => {
+    const modal = document.getElementById('dropdown') as HTMLElement;
+    if (event.type === 'resize' || !modal.contains(event.target as Node)) {
+      close();
+    }
+  };
+
   // Event listener for outside click dropdown click
   useEffect(() => {
     // Delayed style for animation
     setDropdownStyle(dropdownStyle.concat(styles.dropdownOpen));
-
-    const closeEvent = (event: Event) => {
-      const modal = document.getElementById('dropdown') as HTMLElement;
-      if (!modal.contains(event.target as Node)) {
-        close();
-      }
-    };
-    const subscription = fromEvent(document, 'click')
-      .subscribe(closeEvent);
+    const subscription: Subscription = merge(
+      fromEvent(document, 'click'),
+      fromEvent(window, 'resize'),
+    ).subscribe(handleCloseEvent);
 
     return () => subscription.unsubscribe();
   }, []);

@@ -9,9 +9,9 @@ import { AppState, rootEpic, rootReducer } from '@/reducers';
 import { userInitialState, UserAction } from '@/reducers/user';
 import { dropdownInitState, DropdownAction } from '@/reducers/dropdown';
 
-type AllAction = UserAction | DropdownAction;
+type AppAction = UserAction | DropdownAction;
 
-const epicMiddleware: EpicMiddleware<AllAction> = createEpicMiddleware();
+const epicMiddleware: EpicMiddleware<AppAction> = createEpicMiddleware();
 
 const initialState: AppState = {
   user: userInitialState,
@@ -19,7 +19,7 @@ const initialState: AppState = {
 };
 
 // createStore: Reducer<State>, Action, StoreExt: any, StateExt: any
-const store: Store<AppState> = createStore(
+const store: Store<AppState, AppAction> = createStore(
   rootReducer,
   initialState,
   compose(
