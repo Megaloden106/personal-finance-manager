@@ -1,13 +1,13 @@
-import React, { SFC } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Portfolio } from '@/reducers/user';
 import styles from './PortfolioList.scss';
 
-interface PortfolioListProp {
+interface PortfolioListProps {
   list: Portfolio[];
   title: string | void;
 }
 
-const PortfolioList: SFC<PortfolioListProp> = ({ list, title }) => (
+const PortfolioList: FunctionComponent<PortfolioListProps> = ({ list, title }) => (
   <>
     {title && (
       <div className={styles.header}>
@@ -34,7 +34,7 @@ const PortfolioList: SFC<PortfolioListProp> = ({ list, title }) => (
           </div>
           <div className={styles.amount}>
             <div className={styles.detail}>{`${item.balance.toLocaleString()}$`}</div>
-            <div className={colorClass}>{`(${returns}$)`}</div>
+            <div className={colorClass}>{`${returns}$`}</div>
           </div>
         </div>
       );

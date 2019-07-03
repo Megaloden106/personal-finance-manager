@@ -1,4 +1,4 @@
-import React, { SFC } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { AppState } from '@/reducers';
@@ -9,13 +9,18 @@ import SidebarDropdown from '../Dropdown/Sidebar/SidebarDropdown';
 import PortfolioList from './PortfolioList/PortfolioList';
 import styles from './Sidebar.scss';
 
-interface SidebarProps {
+interface StateProps {
   portfolios: Portfolio[];
-  menu: Item[];
-  setMenuItems: Function;
+  menu: Item[] | null;
 }
 
-const Sidebar: SFC<SidebarProps> = ({ portfolios, menu, setMenuItems }) => {
+interface DispatchProps {
+  setMenuItems(items: Item[] | null): void;
+}
+
+type SidebarProps = StateProps & DispatchProps;
+
+const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, menu, setMenuItems }) => {
   // Set up separation of Portfolios
   const groups: Portfolio[] = [];
   const personal: Portfolio[] = [];
@@ -73,13 +78,13 @@ const Sidebar: SFC<SidebarProps> = ({ portfolios, menu, setMenuItems }) => {
   );
 };
 
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = (state: AppState): StateProps => ({
   portfolios: state.user.portfolios,
   menu: state.dropdown.menu,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setMenuItems: (items: Item[]) => dispatch(setDropdownItems(items)),
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
+  setMenuItems: (items: Item[] | null) => dispatch(setDropdownItems(items)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar as any);
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

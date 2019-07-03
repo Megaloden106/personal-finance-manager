@@ -1,4 +1,4 @@
-import React, { SFC, useEffect } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { fetchUserData } from '@/reducers/user';
@@ -7,11 +7,11 @@ import Graph from '@/components/Graph/Graph';
 import Analytics from '@/components/Analytics/Analytics';
 import styles from './Portfolio.scss';
 
-interface PortfolioProp {
-  initialize: Function;
+interface PortfolioProps {
+  initialize(): void;
 }
 
-const Portfolio: SFC<PortfolioProp> = ({ initialize }: PortfolioProp) => {
+const Portfolio: FunctionComponent<PortfolioProps> = ({ initialize }: PortfolioProps) => {
   useEffect(() => initialize(), []);
 
   return (
@@ -23,7 +23,7 @@ const Portfolio: SFC<PortfolioProp> = ({ initialize }: PortfolioProp) => {
   );
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch): PortfolioProps => ({
   initialize: () => dispatch(fetchUserData()),
 });
 

@@ -1,12 +1,14 @@
-import React, { SFC } from 'react';
+import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import { AppState } from '@/reducers';
 import styles from './BaseNavBar.scss';
 
-interface BaseNavBarProp extends RouteComponentProps {
+interface StateProps {
   accessLevel: number;
 }
+
+type BaseNavBarProps = StateProps & RouteComponentProps;
 
 interface Route {
   name: string;
@@ -15,7 +17,7 @@ interface Route {
   className?: string;
 }
 
-const BaseNavBar: SFC<BaseNavBarProp> = ({ accessLevel, location }) => {
+const BaseNavBar: FunctionComponent<BaseNavBarProps> = ({ accessLevel, location }) => {
   let routes: Route[] = [
     { name: 'Summary', endpoint: '/', level: 0 },
     { name: 'Portfolio', endpoint: '/portfolio/', level: 0 },
@@ -42,8 +44,8 @@ const BaseNavBar: SFC<BaseNavBarProp> = ({ accessLevel, location }) => {
   );
 };
 
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = (state: AppState): StateProps => ({
   accessLevel: state.user.accessLevel,
 });
 
-export default withRouter(connect(mapStateToProps)(BaseNavBar as any) as any);
+export default withRouter(connect(mapStateToProps)(BaseNavBar));

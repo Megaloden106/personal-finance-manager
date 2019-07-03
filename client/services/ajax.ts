@@ -1,4 +1,5 @@
 import { BehaviorSubject, empty, Observable } from 'rxjs';
+import { UserState } from '@/reducers/user';
 
 const user = new BehaviorSubject({
   username: 'Guest',
@@ -97,7 +98,7 @@ const user = new BehaviorSubject({
 });
 
 const ajax = {
-  getJSON: (url: string): Observable<any> => {
+  getJSON: (url: string): Observable<UserState> => {
     switch (url) {
       case '/api/user/':
         return user.asObservable();

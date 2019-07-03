@@ -1,4 +1,4 @@
-import React, { SFC, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { fromEvent } from 'rxjs';
@@ -15,8 +15,8 @@ interface StateProps {
 }
 
 interface DispatchProps {
-  rowClick: Function;
-  close: Function;
+  rowClick(item: Item): void;
+  close(): void;
 }
 
 interface ParentProps {
@@ -26,7 +26,7 @@ interface ParentProps {
 
 type BaseDropdownProps = StateProps & DispatchProps & ParentProps;
 
-const BaseDropdown: SFC<BaseDropdownProps> = ({
+const BaseDropdown: FunctionComponent<BaseDropdownProps> = ({
   title,
   rect,
   menu,
@@ -42,7 +42,7 @@ const BaseDropdown: SFC<BaseDropdownProps> = ({
     setDropdownStyle(dropdownStyle.concat(styles.dropdownOpen));
 
     const closeEvent = (event: Event) => {
-      const modal = document.getElementById('dropdown') as Element;
+      const modal = document.getElementById('dropdown') as HTMLElement;
       if (!modal.contains(event.target as Node)) {
         close();
       }
@@ -102,7 +102,4 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
   close: () => dispatch(setDropdownItems(null)),
 });
 
-export default connect<StateProps, DispatchProps, ParentProps, AppState>(
-  mapStateToProps,
-  mapDispatchToProps,
-)(BaseDropdown as any);
+export default connect(mapStateToProps, mapDispatchToProps)(BaseDropdown);

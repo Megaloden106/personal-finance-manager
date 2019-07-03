@@ -4,7 +4,7 @@ export default abstract class BaseController {
   private req: Request;
   private res: Response;
 
-  protected abstract executeLogic(): Promise<any>;
+  protected abstract executeLogic(): Promise<Response>;
 
   public execute(req: Request, res: Response): void {
     this.req = req;
