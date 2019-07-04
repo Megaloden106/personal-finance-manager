@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import { Portfolio } from '@/reducers/user';
 import styles from './PortfolioList.scss';
 
 interface PortfolioListProps {

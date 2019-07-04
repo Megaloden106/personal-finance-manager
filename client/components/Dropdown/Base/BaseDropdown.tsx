@@ -2,9 +2,6 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { fromEvent, Subscription, merge } from 'rxjs';
-import { ClientRect } from '@/shared/styleProps';
-import { Item, ItemSelection } from '@/shared/dropdown';
-import { AppState } from '@/reducers';
 import { setDropdownItems, setItemSelection } from '@/reducers/dropdown';
 import Portal from '@/components/Portal/Portal';
 import styles from './BaseDropdown.scss';
@@ -21,7 +18,7 @@ interface DispatchProps {
 
 interface ParentProps {
   title?: string;
-  rect: ClientRect;
+  rect: PortalRect;
 }
 
 type BaseDropdownProps = StateProps & DispatchProps & ParentProps;

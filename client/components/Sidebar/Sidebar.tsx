@@ -1,10 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { AppState } from '@/reducers';
-import { Portfolio } from '@/reducers/user';
 import { setDropdownItems } from '@/reducers/dropdown';
-import { Item } from '@/shared/dropdown';
 import SidebarDropdown from '../Dropdown/Sidebar/SidebarDropdown';
 import PortfolioList from './PortfolioList/PortfolioList';
 import styles from './Sidebar.scss';

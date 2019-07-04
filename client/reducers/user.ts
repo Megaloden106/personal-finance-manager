@@ -1,4 +1,4 @@
-import { Reducer, Action } from 'redux';
+import { Reducer } from 'redux';
 import { ofType, Epic } from 'redux-observable';
 import { map, switchMap } from 'rxjs/operators';
 import ajax from '@/services/ajax';
@@ -7,27 +7,6 @@ import ajax from '@/services/ajax';
 enum UserActionType {
   FETCH_USER_DATA = '[User] Fetch Data',
   UPDATE_USER_DATA = '[User] Updates Data',
-}
-
-export interface Portfolio {
-  name: string;
-  brokerage: string;
-  balance: number;
-  returns: number;
-  isGroup: boolean;
-  isRetirement: boolean;
-  isSavings: boolean;
-}
-
-export interface UserState {
-  username: string | null;
-  accessLevel: number;
-  portfolios: Portfolio[];
-}
-
-export interface UserAction extends Action {
-  type: UserActionType;
-  payload?: UserState;
 }
 
 export const userInitialState: UserState = {

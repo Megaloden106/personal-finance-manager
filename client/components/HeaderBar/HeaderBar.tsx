@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
-import { AppState } from '@/reducers';
 import styles from './HeaderBar.scss';
 
 interface HeaderProps {

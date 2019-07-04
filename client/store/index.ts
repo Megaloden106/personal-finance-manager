@@ -5,11 +5,9 @@ import {
   compose,
 } from 'redux';
 import { createEpicMiddleware, EpicMiddleware } from 'redux-observable';
-import { AppState, rootEpic, rootReducer } from '@/reducers';
-import { userInitialState, UserAction } from '@/reducers/user';
-import { dropdownInitState, DropdownAction } from '@/reducers/dropdown';
-
-type AppAction = UserAction | DropdownAction;
+import { rootEpic, rootReducer } from '@/reducers';
+import { userInitialState } from '@/reducers/user';
+import { dropdownInitState } from '@/reducers/dropdown';
 
 const epicMiddleware: EpicMiddleware<AppAction> = createEpicMiddleware();
 
@@ -24,8 +22,8 @@ const store: Store<AppState, AppAction> = createStore(
   initialState,
   compose(
     applyMiddleware(epicMiddleware),
-    (window as any).__REDUX_DEVTOOLS_EXTENSION__ // eslint-disable-line
-      && (window as any).__REDUX_DEVTOOLS_EXTENSION__(), // eslint-disable-line
+    window.__REDUX_DEVTOOLS_EXTENSION__ // eslint-disable-line
+      && window.__REDUX_DEVTOOLS_EXTENSION__(), // eslint-disable-line
   ),
 );
 

@@ -25,7 +25,8 @@ module.exports = {
 
     // TS RULES
     "@typescript-eslint/indent": ["error", 2],
-    "@typescript-eslint/explicit-function-return-type": "off", // annoying to force return type
+    "@typescript-eslint/explicit-function-return-type": "off", // annoying to force return type with react
+    "@typescript-eslint/no-empty-interface": "off",
 
     // REACT RULES
     "react/jsx-filename-extension": ["warn", {

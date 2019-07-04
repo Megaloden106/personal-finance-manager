@@ -4,15 +4,14 @@ import {
   ReactNode,
 } from 'react';
 import ReactDOM from 'react-dom';
-import { ClientRect } from '@/shared/styleProps';
 
 interface DropdownProps {
   target: string;
   children: ReactNode;
-  rect: ClientRect;
+  rect: PortalRect;
 }
 
-const convertToStyle = (rect: ClientRect): string => {
+const convertToStyle = (rect: PortalRect): string => {
   let htmlStyle = 'position: absolute; ';
   Object.keys(rect).forEach((key: string) => {
     htmlStyle += `${key}: ${rect[key]}px; `;

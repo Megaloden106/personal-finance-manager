@@ -1,5 +1,4 @@
 import { BehaviorSubject, empty, Observable } from 'rxjs';
-import { UserState } from '@/reducers/user';
 
 const user = new BehaviorSubject({
   username: 'Guest',

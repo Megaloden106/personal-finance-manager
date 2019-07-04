@@ -1,12 +1,11 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { ClientRect } from '@/shared/styleProps';
 import BaseDropdown from '@/components/Dropdown/Base/BaseDropdown';
 
 const SidebarDropdown: FunctionComponent = () => {
-  const [rect, setRect] = useState<ClientRect>({});
+  const [rect, setRect] = useState<PortalRect>({});
 
   // Calculate position from body for dropdown
-  const getClientRect = () => {
+  const getPortalRect = () => {
     const anchor = (document.getElementById('sidebar-anchor') as HTMLElement)
       .getBoundingClientRect();
     const body = document.body.getBoundingClientRect();
@@ -17,7 +16,7 @@ const SidebarDropdown: FunctionComponent = () => {
     setRect({ left, top, width });
   };
 
-  useEffect(() => getClientRect(), []);
+  useEffect(() => getPortalRect(), []);
 
   return <BaseDropdown title="View" rect={rect} />;
 };

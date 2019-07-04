@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
-import { AppState } from '@/reducers';
 import styles from './BaseNavBar.scss';
 
 interface StateProps {
