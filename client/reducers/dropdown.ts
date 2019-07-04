@@ -1,14 +1,8 @@
-import { Reducer, Action } from 'redux';
-import { Item, ItemSelection } from '@/shared/dropdown';
+import { Reducer } from 'redux';
 
 enum DropdownActionType {
   SET_DROPDOWN_ITEMS = '[Dropdown] Set Items',
   SET_DROPDOWN_SELECT = '[Dropdown] Set Selected Data',
-}
-
-export interface DropdownState {
-  menu: Item[] | null;
-  selected: ItemSelection;
 }
 
 export const dropdownInitState: DropdownState = {
@@ -19,27 +13,16 @@ export const dropdownInitState: DropdownState = {
   },
 };
 
-interface MenuItemsAction extends Action {
-  type: DropdownActionType.SET_DROPDOWN_ITEMS;
-  payload: Item[] | null;
-}
-
 export const setDropdownItems = (payload: Item[] | null): MenuItemsAction => ({
   type: DropdownActionType.SET_DROPDOWN_ITEMS,
   payload,
 });
-
-interface SetItemAction extends Action {
-  type: DropdownActionType.SET_DROPDOWN_SELECT;
-  payload: Item;
-}
 
 export const setItemSelection = (payload: Item): SetItemAction => ({
   type: DropdownActionType.SET_DROPDOWN_SELECT,
   payload,
 });
 
-export type DropdownAction = MenuItemsAction | SetItemAction;
 
 const dropdownReducer: Reducer<DropdownState, DropdownAction> = (
   state = dropdownInitState,
