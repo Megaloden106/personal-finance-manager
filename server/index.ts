@@ -18,7 +18,7 @@ const noAuthRoutes = ['/login', '/join', '/password-reset'];
 app.get(noAuthRoutes, express.static('views/pages/noauth'));
 
 // auth required
-const authRoutes = ['/', '/portfolio', '/table', '/allocation'];
+const authRoutes = ['/', '/portfolio/:id', '/table', '/allocation'];
 authRoutes.forEach((route): void => {
   app.use(route, express.static('../public'));
 });
