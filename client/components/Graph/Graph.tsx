@@ -10,6 +10,7 @@ import { scaleLinear, scaleTime } from 'd3-scale';
 import { line } from 'd3-shape';
 import { extent } from 'd3-array';
 import { easeLinear } from 'd3-ease';
+import moment from 'moment';
 import 'd3-transition';
 import styles from './Graph.scss';
 
@@ -51,22 +52,57 @@ const Graph: FunctionComponent<GraphProps> = ({
   const d3Graph = useRef(null);
   const { current } = d3Graph;
 
-  useEffect(() => {
-    if (data.length) {
-      const bal = data[data.length - 1].balance;
-      const ret = bal - data[0].balance;
-      const perc = ret / data[0].balance * 100;
-      setBalance(bal);
-      setReturns(ret > 0 ? `+$${ret.toLocaleString()}` : `-$${(-ret).toLocaleString()}`);
-      setPercentage(ret > 0 ? `+${perc.toFixed(2)}%` : `-$${(-perc).toFixed(2)}%`);
+  const getFilterData = () => {
+    const filterDate = moment(data[data.length - 1].date);
+    if (filter.time.match(/\d+/)) {
+      const count = filter.time.match(/\d+/) as string[];
+      const timeframe = filter.time.match(/D$/) ? 'days' : 'years';
+      filterDate.subtract(count[0], timeframe);
+    } else {
+      filterDate.startOf('year');
     }
-  }, [data]);
+
+    let filterData = filter.time !== 'All'
+      ? data.filter(d => filterDate.diff(d.date) <= 0)
+      : data;
+
+    const cumulative: Cumulative = {
+      balance: 0,
+      returns: -filterData[0].returns,
+      transfers: -filterData[0].transfers,
+    };
+    filterData = filterData.map((d: PortfolioEntry): PortfolioEntry => {
+      cumulative.balance = d.balance;
+      cumulative.returns += d.returns;
+      cumulative.transfers += d.transfers;
+      return {
+        ...d,
+        cBalance: cumulative.balance,
+        cReturns: cumulative.returns,
+        cTransfers: cumulative.transfers,
+      };
+    });
+    cumulative.balance -= filterData[0].balance;
+
+    const bal = filterData[filterData.length - 1].balance;
+    const ret = cumulative[filter.data.toLowerCase()];
+    const perc = ret / filterData[0].balance * 100;
+    setBalance(bal);
+    setReturns(ret > 0 ? `+$${ret.toLocaleString()}` : `-$${(-ret).toLocaleString()}`);
+    setPercentage(ret > 0 ? `+${perc.toFixed(2)}%` : `-$${(-perc).toFixed(2)}%`);
+
+    return filterData;
+  };
 
   useEffect(() => {
     if (data.length && current) {
+      const filterData = getFilterData();
+
+      d3.select(current)
+        .selectAll('g')
+        .remove();
+
       const svg = d3.select(current)
-        .attr('width', width)
-        .attr('height', height)
         .append('g');
 
       // set ranges
@@ -74,22 +110,25 @@ const Graph: FunctionComponent<GraphProps> = ({
         .domain([data[0].date, data[data.length - 1].date])
         .range([0, width]);
       const y = d3.scaleLinear()
-        .range([height, 0]);
+        .range([height - 4, 0]);
 
       // define line
       const valueLine = d3.line<PortfolioEntry>()
         .x(d => x(d.date))
-        .y(d => y(d.balance));
+        .y(d => y(d[`c${filter.data}`]));
 
-      x.domain(d3.extent(data, d => d.date) as Date[]);
-      y.domain(d3.extent(data, d => d.balance) as number[]);
+      x.domain(d3.extent(filterData, d => d.date) as Date[]);
+      y.domain(d3.extent(filterData, d => d[`c${filter.data}`]) as number[]);
 
       // set data to appended path
       const drawLine = svg.selectAll('.path')
-        .data([data]);
+        .data([filterData]);
 
-      const color = data[0].balance > data[data.length - 1].balance
-        ? '#f45431' : data[0].balance < data[data.length - 1].balance
+      // set color for line
+      const first = filterData[0][`c${filter.data}`];
+      const last = filterData[filterData.length - 1][`c${filter.data}`];
+      const color = first > last
+        ? '#f45431' : last > first
           ? '#21ce99' : '#888';
 
       const lineEnter = drawLine.enter()
@@ -107,14 +146,14 @@ const Graph: FunctionComponent<GraphProps> = ({
         .attr('stroke-dashoffset', length)
         .raise()
         .transition()
-        .duration(1000)
+        .duration(500)
         .ease(d3.easeLinear)
         .attr('stroke-dashoffset', 0);
 
       lineEnter.exit()
         .remove();
     }
-  }, [data, current]);
+  }, [data, current, filter.time, filter.data]);
 
   // TODO: change data filters to radio
   return (
@@ -134,7 +173,11 @@ const Graph: FunctionComponent<GraphProps> = ({
           </h5>
         </>
       )}
-      <svg ref={d3Graph} />
+      <svg
+        ref={d3Graph}
+        height={height}
+        width={width}
+      />
       <div className={styles.filter}>
         <nav className={styles.filterTime}>
           <ul>
