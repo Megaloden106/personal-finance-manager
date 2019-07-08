@@ -12,13 +12,13 @@ interface PortfolioProps {
   initialize(): void;
 }
 
-const Portfolio: FunctionComponent<PortfolioProps> = ({ initialize }: PortfolioProps) => {
+const Portfolio: FunctionComponent<PortfolioProps> = ({ initialize }) => {
   useEffect(() => initialize(), []);
 
   return (
     <div className={styles.container}>
       <Sidebar />
-      <Graph height={500} width={500} data={[]} />
+      <Graph height={340} width={1056} />
       <Analytics />
     </div>
   );
@@ -26,8 +26,10 @@ const Portfolio: FunctionComponent<PortfolioProps> = ({ initialize }: PortfolioP
 
 const mapDispatchToProps = (dispatch: Dispatch): PortfolioProps => ({
   initialize: () => {
+    // TODO: move to Summary page when complete
     dispatch(fetchUserData());
     dispatch(fetchPortfolio());
+    // TODO add init of single portfolio
   },
 });
 
