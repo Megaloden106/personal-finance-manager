@@ -155,7 +155,6 @@ const Graph: FunctionComponent<GraphProps> = ({
     }
   }, [data, current, filter.time, filter.data]);
 
-  // TODO: change data filters to radio
   return (
     <div className={styles.container}>
       {data.length && (
