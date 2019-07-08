@@ -17,8 +17,3 @@ interface Item {
   value: string;
   style?: Style;
 }
-
-interface ItemSelection {
-  data?: string;
-  time?: string;
-}

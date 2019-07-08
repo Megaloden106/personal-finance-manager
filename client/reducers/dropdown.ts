@@ -5,7 +5,7 @@ enum DropdownActionType {
   SET_DROPDOWN_SELECT = '[Dropdown] Set Selected Data',
 }
 
-export const dropdownInitState: DropdownState = {
+export const initialDropdownState: DropdownState = {
   menu: null,
   selected: {
     data: 'Returns',
@@ -23,9 +23,8 @@ export const setItemSelection = (payload: Item): SetItemAction => ({
   payload,
 });
 
-
 const dropdownReducer: Reducer<DropdownState, DropdownAction> = (
-  state = dropdownInitState,
+  state = initialDropdownState,
   action,
 ) => {
   switch (action.type) {

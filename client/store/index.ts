@@ -6,14 +6,16 @@ import {
 } from 'redux';
 import { createEpicMiddleware, EpicMiddleware } from 'redux-observable';
 import { rootEpic, rootReducer } from '@/reducers';
-import { userInitialState } from '@/reducers/user';
-import { dropdownInitState } from '@/reducers/dropdown';
+import { initialUserState } from '@/reducers/user';
+import { initialDropdownState } from '@/reducers/dropdown';
+import { initialPortfolioState } from '@/reducers/portfolio';
 
 const epicMiddleware: EpicMiddleware<AppAction> = createEpicMiddleware();
 
 const initialState: AppState = {
-  user: userInitialState,
-  dropdown: dropdownInitState,
+  user: initialUserState,
+  dropdown: initialDropdownState,
+  portfolio: initialPortfolioState,
 };
 
 // createStore: Reducer<State>, Action, StoreExt: any, StateExt: any

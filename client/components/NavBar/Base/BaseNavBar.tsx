@@ -5,6 +5,7 @@ import styles from './BaseNavBar.scss';
 
 interface StateProps {
   accessLevel: number;
+  id: number | string | null;
 }
 
 type BaseNavBarProps = StateProps & RouteComponentProps;
@@ -16,11 +17,11 @@ interface Route {
   className?: string;
 }
 
-const BaseNavBar: FunctionComponent<BaseNavBarProps> = ({ accessLevel, location }) => {
+const BaseNavBar: FunctionComponent<BaseNavBarProps> = ({ accessLevel, location, id }) => {
   let routes: Route[] = [
-    { name: 'Summary', endpoint: '/', level: 0 },
-    { name: 'Portfolio', endpoint: '/portfolio/', level: 0 },
-    { name: 'Table', endpoint: '/table/', level: 0 },
+    { name: 'Summary', endpoint: '/', level: 1 },
+    { name: 'Portfolio', endpoint: `/portfolio/${id}`, level: 0 },
+    { name: 'Table', endpoint: '/table/', level: 1 },
     { name: 'Allocation', endpoint: '/allocation/', level: 1 },
   ];
 
@@ -45,6 +46,7 @@ const BaseNavBar: FunctionComponent<BaseNavBarProps> = ({ accessLevel, location 
 
 const mapStateToProps = (state: AppState): StateProps => ({
   accessLevel: state.user.accessLevel,
+  id: state.portfolio.id,
 });
 
 export default withRouter(connect(mapStateToProps)(BaseNavBar));

@@ -76,7 +76,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, menu, setMenuIte
 };
 
 const mapStateToProps = (state: AppState): StateProps => ({
-  portfolios: state.user.portfolios,
+  portfolios: state.portfolio.list,
   menu: state.dropdown.menu,
 });
 

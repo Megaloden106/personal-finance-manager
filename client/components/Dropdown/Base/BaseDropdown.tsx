@@ -8,7 +8,7 @@ import styles from './BaseDropdown.scss';
 
 interface StateProps {
   menu: Item[];
-  selected: ItemSelection;
+  selected: PortfolioFilter;
 }
 
 interface DispatchProps {
