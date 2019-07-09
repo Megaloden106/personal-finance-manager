@@ -12,10 +12,14 @@ interface Portfolio {
 interface PortfolioEntry {
   date: Date;
   balance: number;
-  deposit: number;
-  withdrawal: number;
+  transfers: number;
   returns: number;
   cumulativeReturns: number;
+  [propName: string]: number | Date;
+}
+
+interface Cumulative {
+  [propName: string]: number;
 }
 
 interface PortfolioFilter {
