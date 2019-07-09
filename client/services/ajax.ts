@@ -110,8 +110,14 @@ const portfolio = new BehaviorSubject<PortfolioList>({
   ],
   data: [
     {
+      date: new Date('10/31/2018'),
+      balance: 150_447.17,
+      transfers: 200,
+      returns: -1_194.32 + -1_437.91,
+      cumulativeReturns: 28_648.91,
+    }, {
       date: new Date('11/30/2018'),
-      balance: 151_335.450,
+      balance: 151_335.50,
       transfers: 200,
       returns: -252.84 + 179.60,
       cumulativeReturns: 29_337.24,
