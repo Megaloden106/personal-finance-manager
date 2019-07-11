@@ -5,13 +5,18 @@ import React, {
   useState,
 } from 'react';
 import { connect } from 'react-redux';
+import { take } from 'rxjs/operators';
 import { select, mouse } from 'd3-selection';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { line } from 'd3-shape';
 import { extent, bisector } from 'd3-array';
 import { easeLinear } from 'd3-ease';
-import moment from 'moment';
+import { interpolateNumber } from 'd3-interpolate';
 import 'd3-transition';
+import moment from 'moment';
+import { Subscription, interval } from 'rxjs';
+import GraphStats from './GraphStats/GraphStats';
+import GraphFilters from './GraphFilters/GraphFilters';
 import styles from './Graph.scss';
 
 const d3 = {
@@ -23,10 +28,10 @@ const d3 = {
   easeLinear,
   mouse,
   bisector,
+  interpolateNumber,
 };
 
 interface StateProps {
-  name: string | null;
   data: PortfolioEntry[];
 }
 
@@ -38,71 +43,65 @@ interface ParentProps {
 type GraphProps = StateProps & ParentProps;
 
 const Graph: FunctionComponent<GraphProps> = ({
-  name,
   data,
   height,
   width,
 }) => {
+  const [next, setNext] = useState<PortfolioEntry | null>(null);
   const [balance, setBalance] = useState<number>(0);
-  const [returns, setReturns] = useState<string>('');
-  const [percentage, setPercentage] = useState<string>('');
+  const [returns, setReturns] = useState<number>(0);
+  const [percentage, setPercentage] = useState<number>(0);
   const [date, setDate] = useState<string>('');
 
   const [filter, setFilter] = useState<PortfolioFilter>({ time: '180D', data: 'Balance' });
-  const timeFilters = ['30D', '90D', '180D', '1Y', '5Y', '10Y', 'YTD', 'All'];
-  const dataFilters = ['Balance', 'Returns', 'Transfers'];
+  const [filterData, setFilterData] = useState<PortfolioEntry[]>([]);
 
   const d3Graph = useRef(null);
   const { current } = d3Graph;
 
-  const updateValues = (filterData: PortfolioEntry[]) => {
-    const bal = filterData[filterData.length - 1].balance;
-    const ret = filterData[filterData.length - 1].returns;
-    const perc = ret / filterData[0].balance * 100;
-    setBalance(bal);
-    setReturns(ret > 0 ? `+$${ret.toLocaleString()}` : `-$${(-ret).toLocaleString()}`);
-    setPercentage(ret > 0 ? `+${perc.toFixed(2)}%` : `-$${(-perc).toFixed(2)}%`);
-  };
-
-  const getFilterData = () => {
-    const filterDate = moment(data[data.length - 1].date);
-    if (filter.time.match(/\d+/)) {
-      const count = filter.time.match(/\d+/) as string[];
-      const timeframe = filter.time.match(/D$/) ? 'days' : 'years';
-      filterDate.subtract(count[0], timeframe);
-    } else {
-      filterDate.startOf('year');
-    }
-
-    let filterData = filter.time !== 'All'
-      ? data.filter(d => filterDate.diff(d.date) <= 0)
-      : data;
-
-    const cumulative: Cumulative = {
-      balance: 0,
-      returns: -filterData[0].returns,
-      transfers: -filterData[0].transfers,
-    };
-    filterData = filterData.map((d: PortfolioEntry): PortfolioEntry => {
-      cumulative.balance = d.balance;
-      cumulative.returns += d.returns;
-      cumulative.transfers += d.transfers;
-      return {
-        ...d,
-        cBalance: cumulative.balance,
-        cReturns: cumulative.returns,
-        cTransfers: cumulative.transfers,
-      };
-    });
-    cumulative.balance -= filterData[0].balance;
-
-    updateValues(filterData);
-    return filterData;
-  };
-
+  // update filtered data based on data and filters
   useEffect(() => {
     if (data.length && current) {
-      const filterData = getFilterData();
+      const filterDate = moment(data[data.length - 1].date);
+      if (filter.time.match(/\d+/)) {
+        const count = filter.time.match(/\d+/) as string[];
+        const timeframe = filter.time.match(/D$/) ? 'days' : 'years';
+        filterDate.subtract(count[0], timeframe);
+      } else {
+        filterDate.startOf('year');
+      }
+
+      // filter data based on filter time
+      const modifiedData = filter.time !== 'All'
+        ? data.filter(d => filterDate.diff(d.date) <= 0)
+        : data;
+
+      // get cumulative values for filtered data
+      const cumulative: Cumulative = {
+        balance: 0,
+        returns: -modifiedData[0].returns,
+        transfers: -modifiedData[0].transfers,
+      };
+
+      // update filter data state
+      setFilterData(modifiedData.map((d: PortfolioEntry): PortfolioEntry => {
+        cumulative.balance = d.balance;
+        cumulative.returns += d.returns;
+        cumulative.transfers += d.transfers;
+        return {
+          ...d,
+          cBalance: cumulative.balance,
+          cReturns: cumulative.returns,
+          cTransfers: cumulative.transfers,
+        };
+      }));
+    }
+  }, [data, filter.time, filter.data]);
+
+  // update svg based on the filtered data
+  useEffect(() => {
+    if (filterData.length) {
+      setNext(filterData[filterData.length - 1]);
 
       d3.select(current)
         .selectAll('g')
@@ -203,7 +202,7 @@ const Graph: FunctionComponent<GraphProps> = ({
         .on('mouseover', () => focusEnter.style('display', null))
         .on('mouseout', () => {
           focusEnter.style('display', 'none');
-          updateValues(filterData);
+          setNext(filterData[filterData.length - 1]);
           setDate('');
         })
         .on('mousemove', function mousemove() {
@@ -217,74 +216,63 @@ const Graph: FunctionComponent<GraphProps> = ({
             .attr('transform', `translate(0, ${y(dy)})`);
 
           // recalc balance
-          const ret = dp.cReturns as number;
-          const perc = ret / filterData[0].balance * 100;
-          setBalance(dp.cBalance as number);
-          setReturns(ret >= 0 ? `+$${ret.toLocaleString()}` : `-$${(-ret).toLocaleString()}`);
-          setPercentage(ret >= 0 ? `+${perc.toFixed(2)}%` : `-$${(-perc).toFixed(2)}%`);
+          setNext(dp);
           setDate(moment(dp.date).format('MMM D, YYYY'));
         });
     }
-  }, [data, current, filter.time, filter.data]);
+  }, [filterData, current]);
+
+  // use subscription to update values in transition/animation
+  let subscription: Subscription;
+  useEffect(() => {
+    if (next) {
+      if (subscription) subscription.unsubscribe();
+      const nextPercent = next.cReturns as number / filterData[0].balance * 100;
+
+      // get interpolated values
+      const interBalance = d3.interpolateNumber(balance, next.cBalance);
+      const interReturns = d3.interpolateNumber(returns, next.cReturns);
+      const interPercentage = d3.interpolateNumber(percentage, nextPercent);
+
+      // set an interval of 100ms to transition from perv to next
+      subscription = interval(1).pipe(
+        take(50),
+      ).subscribe((i: number) => {
+        setBalance(interBalance((i + 1) * 5 / 250));
+        setReturns(interReturns((i + 1) * 5 / 250));
+        setPercentage(interPercentage((i + 1) * 5 / 250));
+      });
+
+      return () => subscription.unsubscribe();
+    }
+
+    return undefined;
+  }, [next]);
 
   return (
     <div className={styles.container}>
       {data.length && (
-        <>
-          <h1 className={styles.name}>{name}</h1>
-          <h1 className={styles.balance}>{`$${balance.toLocaleString()}`}</h1>
-          <h5 className={
-            [
-              styles.returns,
-              returns[0] === '+' ? styles.returnsPos : undefined,
-              returns[0] === '-' ? styles.returnsNeg : undefined,
-            ].join(' ')}
-          >
-            {`${returns} (${percentage})`}
-            {date && (
-              <span className={styles.date}>
-                &nbsp;On&nbsp;
-                {date}
-              </span>
-            )}
-          </h5>
-        </>
+        <GraphStats
+          balance={balance}
+          returns={returns}
+          percentage={percentage}
+          date={date}
+        />
       )}
       <svg
         ref={d3Graph}
         height={height}
         width={width}
       />
-      <div className={styles.filter}>
-        <nav className={styles.filterTime}>
-          <ul>
-            {timeFilters.map((tf: string) => (
-              <li className={tf === filter.time ? styles.selected : undefined}>
-                <button type="button" onClick={() => setFilter({ ...filter, time: tf })}>
-                  {tf}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <nav className={styles.filterData}>
-          <ul>
-            {dataFilters.map((df: string) => (
-              <li className={df === filter.data ? styles.selected : undefined}>
-                <button type="button" onClick={() => setFilter({ ...filter, data: df })}>
-                  {df}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </div>
+      <GraphFilters
+        filter={filter}
+        setFilter={(pf: PortfolioFilter) => setFilter(pf)}
+      />
     </div>
   );
 };
 
 const mapStateToProps = (state: AppState): StateProps => ({
-  name: state.portfolio.name,
   data: state.portfolio.data,
 });
 
