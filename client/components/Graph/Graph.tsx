@@ -158,6 +158,23 @@ const Graph: FunctionComponent<GraphProps> = ({
       lineEnter.exit()
         .remove();
 
+      // append dotted zero line
+      const zeroLine = svg.selectAll('.zero-line')
+        .data([filterData]);
+
+      const zeroLineEnter = zeroLine.enter()
+        .append('g');
+
+      const startValue = filterData[0][`c${filter.data}`];
+
+      zeroLineEnter.append('line')
+        .attr('stroke', '#888')
+        .attr('stroke-width', 1)
+        .attr('stroke-dasharray', '1, 5')
+        .attr('x1', 0)
+        .attr('x2', width)
+        .attr('transform', `translate(0, ${y(startValue)})`);
+
       // helper func to determine dot snapping
       const { left } = d3.bisector((d: PortfolioEntry) => d.date);
       const bisect = (mx: number) => {
