@@ -5,6 +5,7 @@ import React, {
   useState,
 } from 'react';
 import { connect } from 'react-redux';
+import { Subscription, interval } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { select, mouse } from 'd3-selection';
 import { scaleLinear, scaleTime } from 'd3-scale';
@@ -14,7 +15,6 @@ import { easeLinear } from 'd3-ease';
 import { interpolateNumber } from 'd3-interpolate';
 import 'd3-transition';
 import moment from 'moment';
-import { Subscription, interval } from 'rxjs';
 import GraphStats from './GraphStats/GraphStats';
 import GraphFilters from './GraphFilters/GraphFilters';
 import styles from './Graph.scss';
@@ -50,7 +50,7 @@ const Graph: FunctionComponent<GraphProps> = ({
   const [next, setNext] = useState<PortfolioEntry | null>(null);
   const [balance, setBalance] = useState<number>(0);
   const [returns, setReturns] = useState<number>(0);
-  const [percentage, setPercentage] = useState<number>(0);
+  const [transfers, setTransfers] = useState<number>(0);
   const [date, setDate] = useState<string>('');
 
   const [filter, setFilter] = useState<PortfolioFilter>({ time: '180D', data: 'Balance' });
@@ -227,12 +227,11 @@ const Graph: FunctionComponent<GraphProps> = ({
   useEffect(() => {
     if (next) {
       if (subscription) subscription.unsubscribe();
-      const nextPercent = next.cReturns as number / filterData[0].balance * 100;
 
       // get interpolated values
       const interBalance = d3.interpolateNumber(balance, next.cBalance);
       const interReturns = d3.interpolateNumber(returns, next.cReturns);
-      const interPercentage = d3.interpolateNumber(percentage, nextPercent);
+      const interTransfers = d3.interpolateNumber(transfers, next.cTransfers);
 
       // set an interval of 100ms to transition from perv to next
       subscription = interval(1).pipe(
@@ -240,7 +239,7 @@ const Graph: FunctionComponent<GraphProps> = ({
       ).subscribe((i: number) => {
         setBalance(interBalance((i + 1) * 5 / 250));
         setReturns(interReturns((i + 1) * 5 / 250));
-        setPercentage(interPercentage((i + 1) * 5 / 250));
+        setTransfers(interTransfers((i + 1) * 5 / 250));
       });
 
       return () => subscription.unsubscribe();
@@ -251,11 +250,13 @@ const Graph: FunctionComponent<GraphProps> = ({
 
   return (
     <div className={styles.container}>
-      {data.length && (
+      {filterData.length && next && (
         <GraphStats
+          filter={filter}
+          start={filterData[0].balance}
           balance={balance}
           returns={returns}
-          percentage={percentage}
+          transfers={transfers}
           date={date}
         />
       )}

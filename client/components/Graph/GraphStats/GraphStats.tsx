@@ -4,9 +4,11 @@ import { convertToMoney, convertToPercent } from '@/services/formatter';
 import styles from './GraphStats.scss';
 
 interface ParentProps {
+  filter: PortfolioFilter;
+  start: number;
   balance: number;
   returns: number;
-  percentage: number;
+  transfers: number;
   date: string;
 }
 
@@ -17,32 +19,41 @@ interface StateProps {
 type GraphStatsProps = StateProps & ParentProps;
 
 const GraphStats: FunctionComponent<GraphStatsProps> = ({
+  filter,
+  start,
   name,
   balance,
   returns,
-  percentage,
+  transfers,
   date,
-}) => (
-  <>
-    <h1 className={styles.name}>{name}</h1>
-    <h1 className={styles.balance}>{convertToMoney(balance)}</h1>
-    <h5 className={
-      [
-        styles.returns,
-        returns > 0 ? styles.returnsPos : undefined,
-        returns < 0 ? styles.returnsNeg : undefined,
-      ].join(' ')}
-    >
-      {`${convertToMoney(returns)} (${convertToPercent(percentage)})`}
-      {date && (
-        <span className={styles.date}>
-          &nbsp;On&nbsp;
-          {date}
-        </span>
-      )}
-    </h5>
-  </>
-);
+}) => {
+  const data = filter.data === 'Balance'
+    ? balance - start : filter.data === 'Returns'
+      ? returns : transfers;
+  const percentage = data / start * 100;
+
+  return (
+    <>
+      <h1 className={styles.name}>{name}</h1>
+      <h1 className={styles.balance}>{convertToMoney(balance)}</h1>
+      <h5 className={
+        [
+          styles.returns,
+          data > 0 ? styles.returnsPos : undefined,
+          data < 0 ? styles.returnsNeg : undefined,
+        ].join(' ')}
+      >
+        {`${convertToMoney(data)} (${convertToPercent(percentage)})`}
+        {date && (
+          <span className={styles.date}>
+            &nbsp;On&nbsp;
+            {date}
+          </span>
+        )}
+      </h5>
+    </>
+  );
+};
 
 const mapStateToProps = (state: AppState): StateProps => ({
   name: state.portfolio.name,

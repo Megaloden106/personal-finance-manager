@@ -2,9 +2,9 @@ export const convertToMoney = (num: number): string => {
   if (num === 0) {
     return '$0.00';
   }
-  const money = num.toFixed(2);
+  const money = Math.abs(num).toFixed(2);
   let comma = money.length % 3 || 3;
-  let result = '$';
+  let result = num >= 0 ? '$' : '-$';
   for (let i = 0; i < money.length; i += 1) {
     if (comma === 0 && money[i] !== '.') {
       result += ',';
