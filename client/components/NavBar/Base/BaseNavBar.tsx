@@ -35,8 +35,12 @@ const BaseNavBar: FunctionComponent<BaseNavBarProps> = ({ accessLevel, location,
       <nav className={styles.nav}>
         <ul className={styles.navList}>
           {routes.map((route: Route) => (accessLevel < route.level
-            ? <li className={styles.disabled}>{ route.name }</li>
-            : <Link to={route.endpoint}><li className={route.className}>{ route.name }</li></Link>
+            ? <li key={route.name} className={styles.disabled}>{ route.name }</li>
+            : (
+              <Link key={route.name} to={route.endpoint}>
+                <li className={route.className}>{ route.name }</li>
+              </Link>
+            )
           ))}
         </ul>
       </nav>

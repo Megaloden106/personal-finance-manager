@@ -74,6 +74,7 @@ const BaseDropdown: FunctionComponent<BaseDropdownProps> = ({
         <div className={styles.content}>
           {menu.map(item => (
             <button
+              key={item.text}
               type="button"
               onClick={() => rowClick(item)}
               className={buttonClass(item.text)}
