@@ -15,7 +15,10 @@ const GraphFilters: FunctionComponent<GraphFiltersProps> = ({ filter, setFilter 
       <nav className={styles.filterTime}>
         <ul>
           {timeFilters.map((tf: string) => (
-            <li className={tf === filter.time ? styles.selected : undefined}>
+            <li
+              key={tf}
+              className={tf === filter.time ? styles.selected : undefined}
+            >
               <button type="button" onClick={() => setFilter({ ...filter, time: tf })}>
                 {tf}
               </button>
@@ -26,7 +29,10 @@ const GraphFilters: FunctionComponent<GraphFiltersProps> = ({ filter, setFilter 
       <nav className={styles.filterData}>
         <ul>
           {dataFilters.map((df: string) => (
-            <li className={df === filter.data ? styles.selected : undefined}>
+            <li
+              key={df}
+              className={df === filter.data ? styles.selected : undefined}
+            >
               <button type="button" onClick={() => setFilter({ ...filter, data: df })}>
                 {df}
               </button>
