@@ -13,7 +13,7 @@
     "lint": "npm run lint-client && npm run lint-server && npm run lint-db",
     "start-prod": "cd server && npm run start",
     "start-dev": "cd server && npm run start-dev",
-    "react-prod": "cd client && $(npm bin)/webpack -p",
+    "react-prod": "cd client && webpack -p",
     "react-dev": "cd client && webpack -d --watch",
     "prod": "npm run react-prod && npm run start-prod",
     "dev": "npm run react-dev & npm run start-dev"
@@ -29,9 +29,7 @@
     "url": "https://github.com/Megaloden106/personal-finance-manager/issues"
   },
   "homepage": "https://github.com/Megaloden106/personal-finance-manager#readme",
-  "dependencies": {
-    "@types/d3": "^5.7.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/compression": "0.0.36",
     "@types/express": "^4.17.0",
