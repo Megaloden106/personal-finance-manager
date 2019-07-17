@@ -13,7 +13,7 @@
     "lint": "npm run lint-client && npm run lint-server && npm run lint-db",
     "start-prod": "cd server && npm run start",
     "start-dev": "cd server && npm run start-dev",
-    "react-prod": "cd client && webpack -p",
+    "react-prod": "cd client && $(npm bin)/webpack -p",
     "react-dev": "cd client && webpack -d --watch",
     "prod": "npm run react-prod && npm run start-prod",
     "dev": "npm run react-dev & npm run start-dev"

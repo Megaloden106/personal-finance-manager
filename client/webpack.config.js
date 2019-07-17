@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const webpack = require('webpack');
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const Dotenv = require('dotenv-webpack');
 
 const rootDIR = path.resolve(__dirname, '..');
@@ -10,14 +13,18 @@ const clientDIR = path.resolve(__dirname);
 const appDIR = path.resolve(__dirname, 'App.tsx');
 const publicDIR = path.resolve(__dirname, '..', 'public');
 
+const template = path.resolve(__dirname, '..', 'public', 'index.template.html');
+
 module.exports = {
   entry: appDIR,
   output: {
-    filename: 'bundle.js',
+    // filename: '[name].[contenthash].js',
+    filename: '[name].bundle.js',
     path: publicDIR,
   },
   // Enable sourcemaps for debugging webpack's output.
-  devtool: 'source-map',
+  // devtool: 'source-map',
+  devtool: false,
   resolve: {
     alias: {
       '~': rootDIR,
@@ -68,10 +75,34 @@ module.exports = {
   // },
   optimization: {
     nodeEnv: 'production',
-    minimizer: [new UglifyJsPlugin()],
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module, chunks, cacheGroupKey) {
+            const moduleFileName = module.identifier();
+            if (moduleFileName.match(/react|redux/g)) {
+              return 'react';
+            }
+            if (moduleFileName.match(/d3/g)) {
+              return 'd3';
+            }
+            return cacheGroupKey;
+          },
+          chunks: 'all',
+          maxInitialRequests: 10,
+        },
+      },
+    },
   },
   plugins: [
+    // new BundleAnalyzerPlugin(),
+    new UglifyJsPlugin(),
     new CompressionPlugin(),
+    new HtmlWebpackPlugin({ template }),
     new Dotenv(),
+    // Ignore all locale files of moment.js
+    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   ],
 };
