@@ -50,10 +50,9 @@ const Graph: FunctionComponent<GraphProps> = ({
   const [next, setNext] = useState<PortfolioEntry | null>(null);
   const [balance, setBalance] = useState<number>(0);
   const [returns, setReturns] = useState<number>(0);
-  const [transfers, setTransfers] = useState<number>(0);
   const [date, setDate] = useState<string>('');
 
-  const [filter, setFilter] = useState<PortfolioFilter>({ time: '180D', data: 'Balance' });
+  const [filter, setFilter] = useState<PortfolioFilter>({ time: '180D', data: 'Returns' });
   const [filterData, setFilterData] = useState<PortfolioEntry[]>([]);
 
   const d3Graph = useRef(null);
@@ -77,22 +76,14 @@ const Graph: FunctionComponent<GraphProps> = ({
         : data;
 
       // get cumulative values for filtered data
-      const cumulative: Cumulative = {
-        balance: 0,
-        returns: -modifiedData[0].returns,
-        transfers: -modifiedData[0].transfers,
-      };
+      const cumulative: Cumulative = { returns: -modifiedData[0].returns };
 
       // update filter data state
       setFilterData(modifiedData.map((d: PortfolioEntry): PortfolioEntry => {
-        cumulative.balance = d.balance;
         cumulative.returns += d.returns;
-        cumulative.transfers += d.transfers;
         return {
           ...d,
-          cBalance: cumulative.balance,
           cReturns: cumulative.returns,
-          cTransfers: cumulative.transfers,
         };
       }));
     }
@@ -102,6 +93,7 @@ const Graph: FunctionComponent<GraphProps> = ({
   useEffect(() => {
     if (filterData.length) {
       setNext(filterData[filterData.length - 1]);
+      const selector = filter.data === 'Balance' ? filter.data.toLowerCase() : `c${filter.data}`;
 
       d3.select(current)
         .selectAll('g')
@@ -120,18 +112,18 @@ const Graph: FunctionComponent<GraphProps> = ({
       // define line
       const valueLine = d3.line<PortfolioEntry>()
         .x(d => x(d.date))
-        .y(d => y(d[`c${filter.data}`]));
+        .y(d => y(d[selector]));
 
       x.domain(d3.extent(filterData, d => d.date) as Date[]);
-      y.domain(d3.extent(filterData, d => d[`c${filter.data}`]) as number[]);
+      y.domain(d3.extent(filterData, d => d[selector]) as number[]);
 
       // set data to appended path
       const drawLine = svg.selectAll('.path')
         .data([filterData]);
 
       // set color for line
-      const first = filterData[0][`c${filter.data}`];
-      const last = filterData[filterData.length - 1][`c${filter.data}`];
+      const first = filterData[0][selector];
+      const last = filterData[filterData.length - 1][selector];
       const color = first > last
         ? '#f45431' : last > first
           ? '#21ce99' : '#888';
@@ -165,7 +157,7 @@ const Graph: FunctionComponent<GraphProps> = ({
       const zeroLineEnter = zeroLine.enter()
         .append('g');
 
-      const startValue = filterData[0][`c${filter.data}`];
+      const startValue = filterData[0][selector];
 
       zeroLineEnter.append('line')
         .attr('stroke', '#888')
@@ -225,7 +217,7 @@ const Graph: FunctionComponent<GraphProps> = ({
         .on('mousemove', function mousemove() {
           // get datapoint
           const dp = bisect(d3.mouse(this)[0]);
-          const dy = dp[`c${filter.data}`];
+          const dy = dp[selector];
 
           // move focus to snapping location
           focusEnter.attr('transform', `translate(${x(dp.date)}, 0)`);
@@ -246,9 +238,8 @@ const Graph: FunctionComponent<GraphProps> = ({
       if (subscription) subscription.unsubscribe();
 
       // get interpolated values
-      const interBalance = d3.interpolateNumber(balance, next.cBalance);
+      const interBalance = d3.interpolateNumber(balance, next.balance);
       const interReturns = d3.interpolateNumber(returns, next.cReturns);
-      const interTransfers = d3.interpolateNumber(transfers, next.cTransfers);
 
       // set an interval of 100ms to transition from perv to next
       subscription = interval(1).pipe(
@@ -256,7 +247,6 @@ const Graph: FunctionComponent<GraphProps> = ({
       ).subscribe((i: number) => {
         setBalance(interBalance((i + 1) * 5 / 250));
         setReturns(interReturns((i + 1) * 5 / 250));
-        setTransfers(interTransfers((i + 1) * 5 / 250));
       });
 
       return () => subscription.unsubscribe();
@@ -273,7 +263,6 @@ const Graph: FunctionComponent<GraphProps> = ({
           start={filterData[0].balance}
           balance={balance}
           returns={returns}
-          transfers={transfers}
           date={date}
         />
       )}
