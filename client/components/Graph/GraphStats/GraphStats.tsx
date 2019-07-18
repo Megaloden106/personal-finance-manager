@@ -8,7 +8,6 @@ interface ParentProps {
   start: number;
   balance: number;
   returns: number;
-  transfers: number;
   date: string;
 }
 
@@ -24,12 +23,9 @@ const GraphStats: FunctionComponent<GraphStatsProps> = ({
   name,
   balance,
   returns,
-  transfers,
   date,
 }) => {
-  const data = filter.data === 'Balance'
-    ? balance - start : filter.data === 'Returns'
-      ? returns : transfers;
+  const data = filter.data === 'Balance' ? balance - start : returns;
   const percentage = data / start * 100;
 
   return (
