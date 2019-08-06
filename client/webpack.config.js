@@ -2,8 +2,8 @@
 const webpack = require('webpack');
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const CompressionPlugin = require('compression-webpack-plugin');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const Dotenv = require('dotenv-webpack');
 
@@ -80,16 +80,17 @@ module.exports = {
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
-          name(module, chunks, cacheGroupKey) {
-            const moduleFileName = module.identifier();
-            if (moduleFileName.match(/react|redux/g)) {
-              return 'react';
-            }
-            if (moduleFileName.match(/d3/g)) {
-              return 'd3';
-            }
-            return cacheGroupKey;
-          },
+          name: 'vendor',
+          // name(module, chunks, cacheGroupKey) {
+          //   const moduleFileName = module.identifier();
+          //   if (moduleFileName.match(/react|redux/g)) {
+          //     return 'react';
+          //   }
+          //   if (moduleFileName.match(/d3/g)) {
+          //     return 'd3';
+          //   }
+          //   return cacheGroupKey;
+          // },
           chunks: 'all',
           maxInitialRequests: 10,
         },
@@ -98,8 +99,8 @@ module.exports = {
   },
   plugins: [
     // new BundleAnalyzerPlugin(),
+    // new CompressionPlugin(),
     new UglifyJsPlugin(),
-    new CompressionPlugin(),
     new HtmlWebpackPlugin({ template }),
     new Dotenv(),
     // Ignore all locale files of moment.js
