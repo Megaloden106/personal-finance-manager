@@ -17,35 +17,35 @@ export const initialPortfolioState: PortfolioState = {
   data: [],
 };
 
-export const initializePortfolioEntry = (payload: PortfolioList): InitPortfolioAction => ({
+export const initializePortfolioList = (portfolio: PortfolioList): InitPortfolioAction => ({
   type: PortfolioActionType.INIT_PORTFOLIO_DATA,
-  payload,
+  portfolio,
 });
 
-export const updatePortfolioEntry = (payload: PortfolioData): UpdateDataAction => ({
+export const updatePortfolioData = (data: PortfolioData): UpdateDataAction => ({
   type: PortfolioActionType.UPDATE_PORTFOLIO_DATA,
-  payload,
+  data,
 });
 
 export const fetchPortfolio = (): FetchPortfolioAction => (
   { type: PortfolioActionType.FETCH_PORTFOLIO }
 );
 
-export const fetchPortfolioEntry = (payload: number| string): FetchPortfolioEntryAction => ({
+export const fetchPortfolioData = (id: number| string): FetchPortfolioEntryAction => ({
   type: PortfolioActionType.FETCH_PORTFOLIO_DATA,
-  payload,
+  id,
 });
 
 const portfolioStateEpic: Epic = action$ => action$.pipe(
   ofType(PortfolioActionType.FETCH_PORTFOLIO),
   switchMap(() => ajax.getJSON('/api/portfolio/')),
-  map(initializePortfolioEntry),
+  map(initializePortfolioList),
 );
 
 const PortfolioEntryEpic: Epic = action$ => action$.pipe(
   ofType(PortfolioActionType.FETCH_PORTFOLIO_DATA),
-  switchMap((action: FetchPortfolioEntryAction) => ajax.getJSON(`/api/portfolio/${action.payload}`)),
-  map(updatePortfolioEntry),
+  switchMap(({ id }: FetchPortfolioEntryAction) => ajax.getJSON(`/api/portfolio/${id}`)),
+  map(updatePortfolioData),
 );
 
 export const portfolioEpic = combineEpics(
@@ -61,16 +61,16 @@ const portfolioReducer: Reducer<PortfolioState, PortfolioAction> = (
     case PortfolioActionType.INIT_PORTFOLIO_DATA:
       return {
         ...state,
-        name: action.payload.list[0].name,
-        id: action.payload.list[0].id,
-        ...action.payload,
+        name: action.portfolio.list[0].name,
+        id: action.portfolio.list[0].id,
+        ...action.portfolio,
       };
     case PortfolioActionType.UPDATE_PORTFOLIO_DATA:
       return {
         ...state,
-        name: action.payload.name,
-        id: action.payload.id,
-        data: action.payload.data,
+        name: action.data.name,
+        id: action.data.id,
+        data: action.data.entries,
       };
     default:
       return state;

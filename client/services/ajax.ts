@@ -170,7 +170,7 @@ const portfolio = new BehaviorSubject<PortfolioList>({
 const summary = new BehaviorSubject({
   id: 1,
   name: 'Summary',
-  data: [
+  entries: [
     {
       date: new Date('11/30/2018'),
       balance: 151_335.450,

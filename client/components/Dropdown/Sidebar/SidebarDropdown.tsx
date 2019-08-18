@@ -1,7 +1,12 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import BaseDropdown from '@/components/Dropdown/Base/BaseDropdown';
 
-const SidebarDropdown: FunctionComponent = () => {
+interface SidebarDropdownProps {
+  selected: PortfolioFilter;
+  rowClick(item: Item): void;
+}
+
+const SidebarDropdown: FunctionComponent<SidebarDropdownProps> = ({ selected, rowClick }) => {
   const [rect, setRect] = useState<PortalRect>({});
 
   // Calculate position from body for dropdown
@@ -18,7 +23,14 @@ const SidebarDropdown: FunctionComponent = () => {
 
   useEffect(() => getPortalRect(), []);
 
-  return <BaseDropdown title="View" rect={rect} />;
+  return (
+    <BaseDropdown
+      title="View"
+      rect={rect}
+      selected={selected}
+      rowClick={rowClick}
+    />
+  );
 };
 
 export default SidebarDropdown;
