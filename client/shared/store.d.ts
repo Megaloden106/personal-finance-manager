@@ -30,24 +30,16 @@ type UserAction = FetchUserAction | UpdateUserAction;
 
 declare enum DropdownActionType {
   SET_DROPDOWN_ITEMS = '[Dropdown] Set Items',
-  SET_DROPDOWN_SELECT = '[Dropdown] Set Selected Data',
 }
 
 interface DropdownState {
   menu: Item[] | null;
-  selected: PortfolioFilter;
 }
 
 interface MenuItemsAction {
   type: DropdownActionType.SET_DROPDOWN_ITEMS;
-  payload: Item[] | null;
+  menu: Item[] | null;
 }
-
-interface SetItemAction {
-  type: DropdownActionType.SET_DROPDOWN_SELECT;
-  payload: Item;
-}
-
 
 declare enum PortfolioActionType {
   FETCH_PORTFOLIO = '[Portfolio] Fetch Portfolio',
@@ -56,7 +48,7 @@ declare enum PortfolioActionType {
   UPDATE_PORTFOLIO_DATA = '[Portfolio] Update Data',
 }
 
-type DropdownAction = MenuItemsAction | SetItemAction;
+type DropdownAction = MenuItemsAction;
 
 interface PortfolioState {
   name: string | null;
@@ -73,7 +65,7 @@ interface PortfolioList {
 interface PortfolioData {
   id: string | number;
   name: string;
-  data: PortfolioEntry[];
+  entries: PortfolioEntry[];
 }
 
 interface FetchPortfolioAction {
@@ -82,17 +74,17 @@ interface FetchPortfolioAction {
 
 interface FetchPortfolioEntryAction {
   type: PortfolioActionType.FETCH_PORTFOLIO_DATA;
-  payload: number | string;
+  id: number | string;
 }
 
 interface InitPortfolioAction {
   type: PortfolioActionType.INIT_PORTFOLIO_DATA;
-  payload: PortfolioList;
+  portfolio: PortfolioList;
 }
 
 interface UpdateDataAction {
   type: PortfolioActionType.UPDATE_PORTFOLIO_DATA;
-  payload: PortfolioData;
+  data: PortfolioData;
 }
 
 type PortfolioAction = FetchPortfolioAction | InitPortfolioAction | UpdateDataAction

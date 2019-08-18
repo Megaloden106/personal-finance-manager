@@ -2,25 +2,15 @@ import { Reducer } from 'redux';
 
 enum DropdownActionType {
   SET_DROPDOWN_ITEMS = '[Dropdown] Set Items',
-  SET_DROPDOWN_SELECT = '[Dropdown] Set Selected Data',
 }
 
 export const initialDropdownState: DropdownState = {
   menu: null,
-  selected: {
-    data: 'Returns',
-    time: 'Total',
-  },
 };
 
-export const setDropdownItems = (payload: Item[] | null): MenuItemsAction => ({
+export const setDropdownItems = (menu: Item[] | null): MenuItemsAction => ({
   type: DropdownActionType.SET_DROPDOWN_ITEMS,
-  payload,
-});
-
-export const setItemSelection = (payload: Item): SetItemAction => ({
-  type: DropdownActionType.SET_DROPDOWN_SELECT,
-  payload,
+  menu,
 });
 
 const dropdownReducer: Reducer<DropdownState, DropdownAction> = (
@@ -31,15 +21,7 @@ const dropdownReducer: Reducer<DropdownState, DropdownAction> = (
     case DropdownActionType.SET_DROPDOWN_ITEMS:
       return {
         ...state,
-        menu: action.payload,
-      };
-    case DropdownActionType.SET_DROPDOWN_SELECT:
-      return {
-        ...state,
-        selected: {
-          ...state.selected,
-          [action.payload.value]: action.payload.text,
-        },
+        menu: action.menu,
       };
     default:
       return state;

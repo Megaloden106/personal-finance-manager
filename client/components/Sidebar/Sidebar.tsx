@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { setDropdownItems } from '@/reducers/dropdown';
@@ -41,7 +41,11 @@ const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, menu, setMenuIte
     const items = menu || visible === false ? null : [
       { text: 'Returns', value: 'data' },
       { text: 'Percentage', value: 'data' },
-      { text: 'APR', value: 'data', style: { 'border-bottom': '1px solid #eee' } },
+      {
+        text: 'APR',
+        value: 'data',
+        style: { 'border-bottom': '1px solid #eee' },
+      },
       { text: 'Total', value: 'time' },
       { text: 'YTD', value: 'time' },
       { text: '90 Days', value: 'time' },
@@ -50,6 +54,18 @@ const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, menu, setMenuIte
       { text: '5 Years', value: 'time' },
     ];
     setMenuItems(items);
+  };
+
+  const [selected, setSelected] = useState<PortfolioFilter>({
+    data: 'Returns',
+    time: 'Total',
+  });
+
+  const handleRowClick = ({ value, text }: Item) => {
+    setSelected({
+      ...selected,
+      [value]: text,
+    });
   };
 
   return (
@@ -70,7 +86,12 @@ const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, menu, setMenuIte
       {lists.map(({ list, title }) => (
         list.length ? <PortfolioList list={list} title={title} /> : null
       ))}
-      {menu && <SidebarDropdown />}
+      {menu && (
+        <SidebarDropdown
+          selected={selected}
+          rowClick={handleRowClick}
+        />
+      )}
     </div>
   );
 };

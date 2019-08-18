@@ -13,9 +13,9 @@ export const initialUserState: UserState = {
   accessLevel: 0,
 };
 
-export const updateUserData = (payload: UserState): UpdateUserAction => ({
+export const updateUserData = (user: UserState): UpdateUserAction => ({
   type: UserActionType.INIT_USER_DATA,
-  payload,
+  payload: user,
 });
 
 export const fetchUserData = (): FetchUserAction => ({ type: UserActionType.FETCH_USER_DATA });

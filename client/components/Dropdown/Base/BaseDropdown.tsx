@@ -2,23 +2,23 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { fromEvent, Subscription, merge } from 'rxjs';
-import { setDropdownItems, setItemSelection } from '@/reducers/dropdown';
+import { setDropdownItems } from '@/reducers/dropdown';
 import Portal from '@/components/Portal/Portal';
 import styles from './BaseDropdown.scss';
 
 interface StateProps {
   menu: Item[];
-  selected: PortfolioFilter;
 }
 
 interface DispatchProps {
-  rowClick(item: Item): void;
   close(): void;
 }
 
 interface ParentProps {
   title?: string;
   rect: PortalRect;
+  selected: PortfolioFilter;
+  rowClick(item: Item): void;
 }
 
 type BaseDropdownProps = StateProps & DispatchProps & ParentProps;
@@ -26,9 +26,9 @@ type BaseDropdownProps = StateProps & DispatchProps & ParentProps;
 const BaseDropdown: FunctionComponent<BaseDropdownProps> = ({
   title,
   rect,
-  menu,
   selected,
   rowClick,
+  menu,
   close,
 }) => {
   const [dropdownStyle, setDropdownStyle] = useState([styles.dropdown]);
@@ -63,6 +63,11 @@ const BaseDropdown: FunctionComponent<BaseDropdownProps> = ({
     return className.join(' ');
   };
 
+  const handleRowClick = (item: Item) => {
+    rowClick(item);
+    close();
+  };
+
   return (
     <Portal rect={rect} target="dropdown">
       <div className={dropdownStyle.join(' ')}>
@@ -76,7 +81,7 @@ const BaseDropdown: FunctionComponent<BaseDropdownProps> = ({
             <button
               key={item.text}
               type="button"
-              onClick={() => rowClick(item)}
+              onClick={() => handleRowClick(item)}
               className={buttonClass(item.text)}
               style={item.style}
               value={item.value}
@@ -92,14 +97,9 @@ const BaseDropdown: FunctionComponent<BaseDropdownProps> = ({
 
 const mapStateToProps = (state: AppState): StateProps => ({
   menu: state.dropdown.menu as Item[],
-  selected: state.dropdown.selected,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
-  rowClick: (item: Item) => {
-    dispatch(setDropdownItems(null));
-    dispatch(setItemSelection(item));
-  },
   close: () => dispatch(setDropdownItems(null)),
 });
 
