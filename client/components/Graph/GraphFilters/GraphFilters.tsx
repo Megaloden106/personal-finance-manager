@@ -12,34 +12,30 @@ const GraphFilters: FunctionComponent<GraphFiltersProps> = ({ filter, setFilter 
 
   return (
     <div className={styles.filter}>
-      <nav className={styles.filterTime}>
-        <ul>
-          {timeFilters.map((tf: string) => (
-            <li
-              key={tf}
-              className={tf === filter.time ? styles.selected : undefined}
-            >
-              <button type="button" onClick={() => setFilter({ ...filter, time: tf })}>
-                {tf}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
-      <nav className={styles.filterData}>
-        <ul>
-          {dataFilters.map((df: string) => (
-            <li
-              key={df}
-              className={df === filter.data ? styles.selected : undefined}
-            >
-              <button type="button" onClick={() => setFilter({ ...filter, data: df })}>
-                {df}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <div className={styles.filterTime}>
+        {timeFilters.map((tf: string) => (
+          <button
+            type="button"
+            key={tf}
+            className={tf === filter.time ? styles.selected : undefined}
+            onClick={() => setFilter({ ...filter, time: tf })}
+          >
+            {tf}
+          </button>
+        ))}
+      </div>
+      <div className={styles.filterData}>
+        {dataFilters.map((df: string) => (
+          <button
+            type="button"
+            key={df}
+            className={df === filter.data ? styles.selected : undefined}
+            onClick={() => setFilter({ ...filter, data: df })}
+          >
+            {df}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
