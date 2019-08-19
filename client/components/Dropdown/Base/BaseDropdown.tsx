@@ -1,34 +1,23 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
 import { fromEvent, Subscription, merge } from 'rxjs';
-import { setDropdownItems } from '@/reducers/dropdown';
 import Portal from '@/components/Portal/Portal';
 import styles from './BaseDropdown.scss';
 
-interface StateProps {
-  menu: Item[];
-}
-
-interface DispatchProps {
-  close(): void;
-}
-
-interface ParentProps {
+interface BaseDropdownProps {
   title?: string;
   rect: PortalRect;
+  menu: Item[];
   selected: PortfolioFilter;
+  close(): void;
   rowClick(item: Item): void;
 }
-
-type BaseDropdownProps = StateProps & DispatchProps & ParentProps;
 
 const BaseDropdown: FunctionComponent<BaseDropdownProps> = ({
   title,
   rect,
+  menu,
   selected,
   rowClick,
-  menu,
   close,
 }) => {
   const [dropdownStyle, setDropdownStyle] = useState([styles.dropdown]);
@@ -95,12 +84,4 @@ const BaseDropdown: FunctionComponent<BaseDropdownProps> = ({
   );
 };
 
-const mapStateToProps = (state: AppState): StateProps => ({
-  menu: state.dropdown.menu as Item[],
-});
-
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
-  close: () => dispatch(setDropdownItems(null)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(BaseDropdown);
+export default BaseDropdown;

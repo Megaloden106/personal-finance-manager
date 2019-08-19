@@ -1,23 +1,21 @@
 import React, { FunctionComponent, useState } from 'react';
-import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { setDropdownItems } from '@/reducers/dropdown';
 import SidebarDropdown from '../Dropdown/Sidebar/SidebarDropdown';
 import PortfolioList from './PortfolioList/PortfolioList';
 import styles from './Sidebar.scss';
 
-interface StateProps {
+interface SidebarProps {
   portfolios: Portfolio[];
-  menu: Item[] | null;
 }
 
-interface DispatchProps {
-  setMenuItems(items: Item[] | null): void;
-}
+const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios }) => {
+  const [selected, setSelected] = useState<PortfolioFilter>({
+    data: 'Returns',
+    time: 'Total',
+  });
 
-type SidebarProps = StateProps & DispatchProps;
+  const [menu, setMenuItems] = useState<Item[] | null>(null);
 
-const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, menu, setMenuItems }) => {
   // Set up separation of Portfolios
   const groups: Portfolio[] = [];
   const personal: Portfolio[] = [];
@@ -37,8 +35,8 @@ const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, menu, setMenuIte
     else personal.push(portfolio);
   });
 
-  const handleVisibility = (visible?: boolean) => {
-    const items = menu || visible === false ? null : [
+  const handleAnchorClick = () => {
+    const items = menu ? null : [
       { text: 'Returns', value: 'data' },
       { text: 'Percentage', value: 'data' },
       {
@@ -56,11 +54,6 @@ const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, menu, setMenuIte
     setMenuItems(items);
   };
 
-  const [selected, setSelected] = useState<PortfolioFilter>({
-    data: 'Returns',
-    time: 'Total',
-  });
-
   const handleRowClick = ({ value, text }: Item) => {
     setSelected({
       ...selected,
@@ -76,7 +69,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, menu, setMenuIte
           type="button"
           id="sidebar-anchor"
           className={menu ? styles.menuOpen : undefined}
-          onClick={() => handleVisibility()}
+          onClick={handleAnchorClick}
         >
           <span />
           <span />
@@ -89,6 +82,8 @@ const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, menu, setMenuIte
       {menu && (
         <SidebarDropdown
           selected={selected}
+          menu={menu}
+          close={() => setMenuItems(null)}
           rowClick={handleRowClick}
         />
       )}
@@ -96,13 +91,8 @@ const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, menu, setMenuIte
   );
 };
 
-const mapStateToProps = (state: AppState): StateProps => ({
+const mapStateToProps = (state: AppState): SidebarProps => ({
   portfolios: state.portfolio.list,
-  menu: state.dropdown.menu,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
-  setMenuItems: (items: Item[] | null) => dispatch(setDropdownItems(items)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
+export default connect(mapStateToProps)(Sidebar);

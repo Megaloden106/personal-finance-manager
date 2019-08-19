@@ -3,10 +3,17 @@ import BaseDropdown from '@/components/Dropdown/Base/BaseDropdown';
 
 interface SidebarDropdownProps {
   selected: PortfolioFilter;
+  menu: Item[];
+  close(): void;
   rowClick(item: Item): void;
 }
 
-const SidebarDropdown: FunctionComponent<SidebarDropdownProps> = ({ selected, rowClick }) => {
+const SidebarDropdown: FunctionComponent<SidebarDropdownProps> = ({
+  selected,
+  menu,
+  close,
+  rowClick,
+}) => {
   const [rect, setRect] = useState<PortalRect>({});
 
   // Calculate position from body for dropdown
@@ -27,7 +34,9 @@ const SidebarDropdown: FunctionComponent<SidebarDropdownProps> = ({ selected, ro
     <BaseDropdown
       title="View"
       rect={rect}
+      menu={menu}
       selected={selected}
+      close={close}
       rowClick={rowClick}
     />
   );
