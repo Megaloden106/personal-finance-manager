@@ -1,10 +1,9 @@
 interface AppState {
   user: UserState;
-  dropdown: DropdownState;
   portfolio: PortfolioState;
 }
 
-type AppAction = UserAction | DropdownAction | PortfolioAction;
+type AppAction = UserAction | PortfolioAction;
 
 declare enum UserActionType {
   FETCH_USER_DATA = '[User] Fetch Data',
@@ -26,20 +25,6 @@ interface UpdateUserAction {
 }
 
 type UserAction = FetchUserAction | UpdateUserAction;
-
-
-declare enum DropdownActionType {
-  SET_DROPDOWN_ITEMS = '[Dropdown] Set Items',
-}
-
-interface DropdownState {
-  menu: Item[] | null;
-}
-
-interface MenuItemsAction {
-  type: DropdownActionType.SET_DROPDOWN_ITEMS;
-  menu: Item[] | null;
-}
 
 declare enum PortfolioActionType {
   FETCH_PORTFOLIO = '[Portfolio] Fetch Portfolio',

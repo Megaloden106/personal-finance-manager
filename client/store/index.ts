@@ -7,14 +7,12 @@ import {
 import { createEpicMiddleware, EpicMiddleware } from 'redux-observable';
 import { rootEpic, rootReducer } from '@/reducers';
 import { initialUserState } from '@/reducers/user';
-import { initialDropdownState } from '@/reducers/dropdown';
 import { initialPortfolioState } from '@/reducers/portfolio';
 
 const epicMiddleware: EpicMiddleware<AppAction> = createEpicMiddleware();
 
 const initialState: AppState = {
   user: initialUserState,
-  dropdown: initialDropdownState,
   portfolio: initialPortfolioState,
 };
 

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc && NODE_ENV=production node ./build/index.js",
-    "start-dev": "nodemon --config nodemon.json"
+    "start-dev": "npx nodemon --config nodemon.json"
   },
   "repository": {
     "type": "git",
@@ -23,10 +23,7 @@
     "compression": "^1.7.4",
     "express": "^4.17.1",
     "morgan": "^1.9.1",
-    "nodemon": "^1.19.1",
     "path": "^0.12.7"
   },
-  "devDependencies": {
-    "ts-node": "^8.3.0"
-  }
+  "devDependencies": {}
 }
