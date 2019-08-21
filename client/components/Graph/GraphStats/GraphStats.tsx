@@ -1,6 +1,6 @@
 import React, { FunctionComponent, memo } from 'react';
 import { connect } from 'react-redux';
-import { convertToMoney, convertToPercent } from '@/services/util';
+import { convertToMoney, convertToPercent } from '@/shared/util';
 import styles from './GraphStats.scss';
 
 interface ParentProps {
