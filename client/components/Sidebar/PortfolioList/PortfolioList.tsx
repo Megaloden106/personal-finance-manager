@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { convertToMoney } from '@/services/util';
+import { convertToMoney } from '@/shared/util';
 import styles from './PortfolioList.scss';
 
 interface PortfolioListProps {

@@ -8,7 +8,7 @@ interface GraphFiltersProps {
 
 const GraphFilters: FunctionComponent<GraphFiltersProps> = ({ filter, setFilter }) => {
   const timeFilters = ['30D', '90D', '180D', '1Y', '5Y', '10Y', 'YTD', 'All'];
-  const dataFilters = ['Returns', 'Balance'];
+  const dataFilters = ['Cumulative Returns', 'Balance'];
 
   return (
     <div className={styles.filter}>

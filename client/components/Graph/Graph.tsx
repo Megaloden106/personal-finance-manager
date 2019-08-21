@@ -15,6 +15,7 @@ import { easeLinear } from 'd3-ease';
 import { interpolateNumber } from 'd3-interpolate';
 import 'd3-transition';
 import moment from 'moment';
+import { convertToCamelCase } from '@/shared/util';
 import GraphStats from './GraphStats/GraphStats';
 import GraphFilters from './GraphFilters/GraphFilters';
 import styles from './Graph.scss';
@@ -52,7 +53,7 @@ const Graph: FunctionComponent<GraphProps> = ({
   const [returns, setReturns] = useState<number>(0);
   const [date, setDate] = useState<string>('');
 
-  const [filter, setFilter] = useState<PortfolioFilter>({ time: '180D', data: 'Returns' });
+  const [filter, setFilter] = useState<PortfolioFilter>({ time: '180D', data: 'Cumulative Returns' });
   const [filterData, setFilterData] = useState<PortfolioEntry[]>([]);
 
   const d3Graph = useRef(null);
@@ -83,7 +84,7 @@ const Graph: FunctionComponent<GraphProps> = ({
         cumulative.returns += d.returns;
         return {
           ...d,
-          cReturns: cumulative.returns,
+          cumulativeReturns: cumulative.returns,
         };
       }));
     }
@@ -93,7 +94,7 @@ const Graph: FunctionComponent<GraphProps> = ({
   useEffect(() => {
     if (filterData.length) {
       setNext(filterData[filterData.length - 1]);
-      const selector = filter.data === 'Balance' ? filter.data.toLowerCase() : `c${filter.data}`;
+      const selector = filter.data === 'Balance' ? filter.data.toLowerCase() : convertToCamelCase(filter.data);
 
       d3.select(current)
         .selectAll('g')
@@ -239,7 +240,7 @@ const Graph: FunctionComponent<GraphProps> = ({
 
       // get interpolated values
       const interBalance = d3.interpolateNumber(balance, next.balance);
-      const interReturns = d3.interpolateNumber(returns, next.cReturns);
+      const interReturns = d3.interpolateNumber(returns, next.cumulativeReturns);
 
       // set an interval of 100ms to transition from perv to next
       subscription = interval(1).pipe(
