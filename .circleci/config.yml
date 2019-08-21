@@ -68,4 +68,5 @@ jobs:
           key: v2-built-client-{{ checksum "client_checksum" }}
 
       # run tests
+      - run: npm run commit
       - run: npm run lint
