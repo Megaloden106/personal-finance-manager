@@ -15,6 +15,7 @@
     },
     "types": [
       "d3",
+      "node",
     ],
   },
   "exclude": [

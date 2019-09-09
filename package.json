@@ -14,7 +14,7 @@
     "start-prod": "cd server && npm run start",
     "start-dev": "cd server && npm run start-dev",
     "react-prod": "cd client && $(npm bin)/webpack -p",
-    "react-dev": "cd client && webpack -d --watch",
+    "react-dev": "cd client && $(npm bin)/webpack -d --watch",
     "prod": "npm run react-prod && npm run start-prod",
     "dev": "npm run react-dev & npm run start-dev",
     "commit": "npx ts-node .circleci/commit-validation.ts"
@@ -36,7 +36,7 @@
     "@types/d3": "^5.7.2",
     "@types/express": "^4.17.0",
     "@types/morgan": "^1.7.35",
-    "@types/node": "^11.13.17",
+    "@types/node": "^11.13.20",
     "@types/react": "^16.8.23",
     "@types/react-dom": "^16.8.4",
     "@types/react-redux": "^7.1.1",
