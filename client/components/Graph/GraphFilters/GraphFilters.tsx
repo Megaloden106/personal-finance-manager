@@ -8,7 +8,7 @@ interface GraphFiltersProps {
 
 const GraphFilters: FunctionComponent<GraphFiltersProps> = ({ filter, setFilter }) => {
   const timeFilters = ['30D', '90D', '180D', '1Y', '5Y', '10Y', 'YTD', 'All'];
-  const dataFilters = ['Cumulative Returns', 'Balance'];
+  // const dataFilters = ['Cumulative Returns', 'Balance'];
 
   return (
     <div className={styles.filter}>
@@ -24,7 +24,7 @@ const GraphFilters: FunctionComponent<GraphFiltersProps> = ({ filter, setFilter 
           </button>
         ))}
       </div>
-      <div className={styles.filterData}>
+      {/* <div className={styles.filterData}>
         {dataFilters.map((df: string) => (
           <button
             type="button"
@@ -35,7 +35,7 @@ const GraphFilters: FunctionComponent<GraphFiltersProps> = ({ filter, setFilter 
             {df}
           </button>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };
