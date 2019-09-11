@@ -15,7 +15,7 @@ const publicDIR = path.resolve(__dirname, '..', 'public');
 
 const template = path.resolve(__dirname, '..', 'public', 'index.template.html');
 
-module.exports = {
+const config = {
   entry: appDIR,
   output: {
     // filename: '[name].[contenthash].js',
@@ -102,8 +102,14 @@ module.exports = {
     // new CompressionPlugin(),
     new UglifyJsPlugin(),
     new HtmlWebpackPlugin({ template }),
-    new Dotenv(),
     // Ignore all locale files of moment.js
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
   ],
+};
+
+module.exports = (_, { mode }) => {
+  const dotenvPath = path.resolve(__dirname, 'environment', `.env.${mode}`);
+  config.plugins.push(new Dotenv({ path: dotenvPath }));
+
+  return config;
 };
