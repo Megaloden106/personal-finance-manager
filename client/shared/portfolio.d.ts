@@ -9,17 +9,12 @@ interface Portfolio {
   isSavings: boolean;
 }
 
-interface PortfolioEntry {
+interface PortfolioData {
   date: Date;
   balance: number;
   transfers: number;
   returns: number;
   cumulativeReturns: number;
-  [propName: string]: number | Date;
-}
-
-interface Cumulative {
-  [propName: string]: number;
 }
 
 interface PortfolioFilter {

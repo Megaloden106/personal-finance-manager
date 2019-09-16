@@ -1,7 +1,8 @@
 import { Reducer } from 'redux';
 import { ofType, Epic, combineEpics } from 'redux-observable';
 import { map, switchMap } from 'rxjs/operators';
-import ajax from '@/services/ajax';
+import { from } from 'rxjs';
+import axios from '@/services/axios';
 
 enum PortfolioActionType {
   FETCH_PORTFOLIO = '[Portfolio] Fetch Portfolio',
@@ -38,13 +39,15 @@ export const fetchPortfolioData = (id: number| string): FetchPortfolioEntryActio
 
 const portfolioStateEpic: Epic = action$ => action$.pipe(
   ofType(PortfolioActionType.FETCH_PORTFOLIO),
-  switchMap(() => ajax.getJSON('/api/portfolio/')),
+  switchMap(() => from(axios.get('/api/portfolio/'))),
+  map(_res => _res.data),
   map(initializePortfolioList),
 );
 
 const PortfolioEntryEpic: Epic = action$ => action$.pipe(
   ofType(PortfolioActionType.FETCH_PORTFOLIO_DATA),
-  switchMap(({ id }: FetchPortfolioEntryAction) => ajax.getJSON(`/api/portfolio/${id}`)),
+  switchMap(({ id }: FetchPortfolioEntryAction) => from(axios.get(`/api/portfolio/${id}`))),
+  map(_res => _res.data),
   map(updatePortfolioData),
 );
 

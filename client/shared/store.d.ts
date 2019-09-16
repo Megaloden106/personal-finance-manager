@@ -42,17 +42,6 @@ interface PortfolioState {
   data: PortfolioEntry[];
 }
 
-interface PortfolioList {
-  list: Portfolio[];
-  data: PortfolioEntry[];
-}
-
-interface PortfolioData {
-  id: string | number;
-  name: string;
-  entries: PortfolioEntry[];
-}
-
 interface FetchPortfolioAction {
   type: PortfolioActionType.FETCH_PORTFOLIO;
 }
