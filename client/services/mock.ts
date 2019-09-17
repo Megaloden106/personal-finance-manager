@@ -13,10 +13,12 @@ export default class BaseMockService {
     this.scenarios = scenarios;
   }
 
-  public isUrlMocked({ method, url }: AxiosRequestConfig): boolean {
+  public isUrlMocked(_config: AxiosRequestConfig): boolean {
+    const { method } = _config;
     if (!method) return false;
 
-    const matchedRoutes = this.scenarios.filter(_s => _s.url === url);
+    const matchedRoutes = this.scenarios
+      .filter(_s => _s.url === BaseMockService.getQueryUrl(_config));
     for (let i = 0; i < matchedRoutes.length; i += 1) {
       const { scenarios: _s } = matchedRoutes[i];
       const upperCaseMethod = method.toUpperCase() as Method;
@@ -27,10 +29,11 @@ export default class BaseMockService {
   }
 
   public getScenario({ config }: AxiosError): AxiosPromise | null {
-    const { url, method } = config;
+    const { method } = config;
     let scenario: ScenarioResponse | undefined;
 
-    const matchedRoutes = this.scenarios.filter(_s => _s.url === url);
+    const matchedRoutes = this.scenarios
+      .filter(_s => _s.url === BaseMockService.getQueryUrl(config));
     for (let i = 0; i < matchedRoutes.length && !scenario; i += 1) {
       const { scenarios: _s } = matchedRoutes[i];
       const upperCaseMethod = (method && method.toUpperCase()) as Method;
@@ -55,5 +58,16 @@ export default class BaseMockService {
         });
       }, delay);
     });
+  }
+
+  private static getQueryUrl({ url, params }: AxiosRequestConfig) {
+    let queryUrl = url;
+    if (params) {
+      queryUrl += '?';
+      Object.keys(params).forEach((k) => {
+        queryUrl += `${k}=${params[k]}`;
+      });
+    }
+    return queryUrl;
   }
 }

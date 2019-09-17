@@ -4,6 +4,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { Subscription, interval } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -16,6 +17,7 @@ import { interpolateNumber } from 'd3-interpolate';
 import 'd3-transition';
 import moment from 'moment';
 import { convertToCamelCase } from '@/shared/util';
+import { fetchPortfolioData } from '@/reducers/portfolio';
 import GraphStats from './GraphStats/GraphStats';
 import GraphFilters from './GraphFilters/GraphFilters';
 import styles from './Graph.scss';
@@ -33,7 +35,15 @@ const d3 = {
 };
 
 interface StateProps {
-  data: PortfolioEntry[];
+  data: PortfolioData[];
+  id: string | number | null;
+}
+
+interface DispatchProps {
+  getPortfolioData(
+    id: string | number,
+    params: PortfolioParam,
+  ): void;
 }
 
 interface ParentProps {
@@ -41,23 +51,33 @@ interface ParentProps {
   width: number;
 }
 
-type GraphProps = StateProps & ParentProps;
+type GraphProps = StateProps & DispatchProps & ParentProps;
 
 const Graph: FunctionComponent<GraphProps> = ({
+  id,
   data,
+  getPortfolioData,
   height,
   width,
 }) => {
-  const [next, setNext] = useState<PortfolioEntry | null>(null);
+  const [next, setNext] = useState<PortfolioData | null>(null);
   const [balance, setBalance] = useState<number>(0);
   const [returns, setReturns] = useState<number>(0);
   const [date, setDate] = useState<string>('');
 
   const [filter, setFilter] = useState<PortfolioFilter>({ time: '180D', data: 'Cumulative Returns' });
-  const [filterData, setFilterData] = useState<PortfolioEntry[]>([]);
+  const [filterData, setFilterData] = useState<PortfolioData[]>([]);
 
   const d3Graph = useRef(null);
   const { current } = d3Graph;
+
+  useEffect(() => {
+    if (id) {
+      const params = { range: filter.time };
+
+      getPortfolioData(id, params);
+    }
+  }, [id, filter.time]);
 
   // update filtered data based on data and filters
   useEffect(() => {
@@ -77,10 +97,10 @@ const Graph: FunctionComponent<GraphProps> = ({
         : data;
 
       // get cumulative values for filtered data
-      const cumulative: Cumulative = { returns: -modifiedData[0].returns };
+      const cumulative = { returns: -modifiedData[0].returns };
 
       // update filter data state
-      setFilterData(modifiedData.map((d: PortfolioEntry): PortfolioEntry => {
+      setFilterData(modifiedData.map((d: PortfolioData): PortfolioData => {
         cumulative.returns += d.returns;
         return {
           ...d,
@@ -111,7 +131,7 @@ const Graph: FunctionComponent<GraphProps> = ({
         .range([height - 4, 4]);
 
       // define line
-      const valueLine = d3.line<PortfolioEntry>()
+      const valueLine = d3.line<PortfolioData>()
         .x(d => x(d.date))
         .y(d => y(d[selector]));
 
@@ -169,15 +189,15 @@ const Graph: FunctionComponent<GraphProps> = ({
         .attr('transform', `translate(0, ${y(startValue)})`);
 
       // helper func to determine dot snapping
-      const { left } = d3.bisector((d: PortfolioEntry) => d.date);
+      const { left } = d3.bisector((d: PortfolioData) => d.date);
       const bisect = (mx: number) => {
         const dx = d3.scaleTime()
-          .domain(d3.extent(filterData, (d: PortfolioEntry) => d.date) as Date[])
+          .domain(d3.extent(filterData, (d: PortfolioData) => d.date) as Date[])
           .range([0, width]);
         const hoverDate = dx.invert(mx);
         const index = left(filterData, hoverDate, 1);
-        const a: PortfolioEntry = filterData[index - 1];
-        const b: PortfolioEntry = filterData[index];
+        const a: PortfolioData = filterData[index - 1];
+        const b: PortfolioData = filterData[index];
         return moment(hoverDate).diff(a.date) > moment(b.date).diff(hoverDate) ? b : a;
       };
 
@@ -282,6 +302,11 @@ const Graph: FunctionComponent<GraphProps> = ({
 
 const mapStateToProps = (state: AppState): StateProps => ({
   data: state.portfolio.data,
+  id: state.portfolio.id,
 });
 
-export default connect(mapStateToProps)(Graph);
+const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
+  getPortfolioData: (id, params) => dispatch(fetchPortfolioData(id, params)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Graph);
