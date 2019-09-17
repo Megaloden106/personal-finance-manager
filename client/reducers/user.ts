@@ -1,7 +1,8 @@
 import { Reducer } from 'redux';
 import { ofType, Epic } from 'redux-observable';
-import { map, switchMap } from 'rxjs/operators';
-import ajax from '@/services/ajax';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { from } from 'rxjs';
+import axios from '@/services/axios';
 
 enum UserActionType {
   FETCH_USER_DATA = '[User] Fetch Data',
@@ -22,7 +23,8 @@ export const fetchUserData = (): FetchUserAction => ({ type: UserActionType.FETC
 
 export const userEpic: Epic = action$ => action$.pipe(
   ofType(UserActionType.FETCH_USER_DATA),
-  switchMap(() => ajax.getJSON('/api/user/')),
+  switchMap(() => from(axios.get('/api/user/'))),
+  map(_res => _res.data),
   map(updateUserData),
 );
 

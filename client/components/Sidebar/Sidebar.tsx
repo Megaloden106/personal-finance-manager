@@ -42,7 +42,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios }) => {
       {
         text: 'APR',
         value: 'data',
-        style: { 'border-bottom': '1px solid #eee' },
+        style: { borderBottom: '1px solid #eee' },
       },
       { text: 'Total', value: 'time' },
       { text: 'YTD', value: 'time' },
@@ -77,7 +77,13 @@ const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios }) => {
         </button>
       </div>
       {lists.map(({ list, title }) => (
-        list.length ? <PortfolioList list={list} title={title} /> : null
+        list.length && (
+          <PortfolioList
+            key={`${title}-${list.length}`}
+            list={list}
+            title={title}
+          />
+        )
       ))}
       {menu && (
         <SidebarDropdown

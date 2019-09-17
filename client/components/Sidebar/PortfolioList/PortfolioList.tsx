@@ -25,7 +25,7 @@ const PortfolioList: FunctionComponent<PortfolioListProps> = ({ list, title }) =
           : styles.subDetailNeutral;
 
       return (
-        <div key={`${item.id}-${item.balance}`} className={styles.portfolio}>
+        <div key={item.id} className={styles.portfolio}>
           <div>
             <div className={styles.detail}>{item.name}</div>
             {title && (

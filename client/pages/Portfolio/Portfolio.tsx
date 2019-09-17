@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { fetchUserData } from '@/reducers/user';
-import { fetchPortfolio } from '@/reducers/portfolio';
+import { fetchPortfolioList } from '@/reducers/portfolio';
 import Sidebar from '@/components/Sidebar/Sidebar';
 import Graph from '@/components/Graph/Graph';
 import Analytics from '@/components/Analytics/Analytics';
@@ -28,8 +28,7 @@ const mapDispatchToProps = (dispatch: Dispatch): PortfolioProps => ({
   initialize: () => {
     // TODO: move to Summary page when complete
     dispatch(fetchUserData());
-    dispatch(fetchPortfolio());
-    // TODO add init of single portfolio
+    dispatch(fetchPortfolioList());
   },
 });
 
