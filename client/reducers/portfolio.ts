@@ -7,6 +7,7 @@ import axios from '@/services/axios';
 enum PortfolioActionType {
   FETCH_PORTFOLIO_LIST = '[Portfolio] Fetch Portfolio List',
   INIT_PORTFOLIO_LIST = '[Portfolio] Initialize Portfolio List',
+  SET_PORTFOLIO = '[Portfolio] Set Portfolio',
   FETCH_PORTFOLIO_DATA = '[Portfolio] Fetch Data',
   UPDATE_PORTFOLIO_DATA = '[Portfolio] Update Data',
 }
@@ -33,6 +34,11 @@ const portfolioListEpic: Epic = action$ => action$.pipe(
   map(_res => _res.data),
   map(initializePortfolioList),
 );
+
+export const setPortfolio = (portfolio: Portfolio): SetPortfolioAction => ({
+  type: PortfolioActionType.SET_PORTFOLIO,
+  portfolio,
+});
 
 export const fetchPortfolioData = (
   id: string| number,
@@ -74,14 +80,12 @@ const portfolioReducer: Reducer<PortfolioState, PortfolioAction> = (
         id: action.portfolios[0].id,
         list: action.portfolios,
       };
-    case PortfolioActionType.FETCH_PORTFOLIO_DATA: {
-      const portfolios = state.list.filter(({ id }) => id === action.id);
+    case PortfolioActionType.SET_PORTFOLIO:
       return {
         ...state,
-        name: portfolios[0].name,
-        id: portfolios[0].id,
+        name: action.portfolio.name,
+        id: action.portfolio.id,
       };
-    }
     case PortfolioActionType.UPDATE_PORTFOLIO_DATA:
       return {
         ...state,

@@ -1,6 +1,7 @@
 declare enum PortfolioActionType {
   FETCH_PORTFOLIO_LIST = '[Portfolio] Fetch Portfolio List',
   INIT_PORTFOLIO_LIST = '[Portfolio] Initialize Portfolio List',
+  SET_PORTFOLIO = '[Portfolio] Set Portfolio',
   FETCH_PORTFOLIO_DATA = '[Portfolio] Fetch Data',
   UPDATE_PORTFOLIO_DATA = '[Portfolio] Update Data',
 }
@@ -32,10 +33,16 @@ interface UpdateDataAction {
   data: PortfolioData[];
 }
 
+interface SetPortfolioAction {
+  type: PortfolioActionType.SET_PORTFOLIO;
+  portfolio: Portfolio;
+}
+
 type PortfolioAction = FetchPortfolioAction |
 InitPortfolioListAction |
 FetchPortfolioDataAction |
-UpdateDataAction;
+UpdateDataAction |
+setPortfolioAction;
 
 interface Portfolio {
   id: number;

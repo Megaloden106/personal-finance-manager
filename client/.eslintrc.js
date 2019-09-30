@@ -22,6 +22,7 @@ module.exports = {
     "no-underscore-dangle": ["error", { "allowAfterThis": true }],
     "no-nested-ternary": "off",
     "no-confusing-arrow": ["error", {"allowParens": true}],
+    "import/prefer-default-export": "off",
 
     // TS RULES
     "@typescript-eslint/indent": ["error", 2],
