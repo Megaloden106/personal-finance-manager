@@ -4,11 +4,17 @@ import SidebarDropdown from '../Dropdown/Sidebar/SidebarDropdown';
 import PortfolioList from './PortfolioList/PortfolioList';
 import styles from './Sidebar.scss';
 
-interface SidebarProps {
+interface ParentProps {
+  setPortfolio(portfolio: Portfolio): void;
+}
+
+interface StateProps {
   portfolios: Portfolio[];
 }
 
-const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios }) => {
+type SidebarProps = ParentProps & StateProps;
+
+const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, setPortfolio }) => {
   const [selected, setSelected] = useState<PortfolioFilter>({
     data: 'Returns',
     time: 'Total',
@@ -82,6 +88,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios }) => {
             key={`${title}-${list.length}`}
             list={list}
             title={title}
+            setPortfolio={setPortfolio}
           />
         )
       ))}
@@ -97,7 +104,7 @@ const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios }) => {
   );
 };
 
-const mapStateToProps = (state: AppState): SidebarProps => ({
+const mapStateToProps = (state: AppState): StateProps => ({
   portfolios: state.portfolio.list,
 });
 

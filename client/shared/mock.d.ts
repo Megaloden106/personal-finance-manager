@@ -1,7 +1,6 @@
 interface Scenario {
   scenarios: ScenarioList;
   url: string;
-  usecases: string[];
 }
 
 interface ScenarioList {

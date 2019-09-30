@@ -9,7 +9,7 @@ export const UserSenarios: Scenario[] = [
   {
     scenarios: {
       GET: {
-        delay: 100,
+        delay: Math.floor(Math.random() * 150) + 100,
         description: 'User Data',
         response: {
           body: userData,
@@ -18,6 +18,5 @@ export const UserSenarios: Scenario[] = [
       },
     },
     url: `${api}`,
-    usecases: ['Use Case 1'],
   },
 ];

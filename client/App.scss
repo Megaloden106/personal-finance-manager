@@ -8,8 +8,10 @@ body {
 }
 
 button {
-  border: none;
-  outline: none;
+  border: unset;
+  outline: unset;
+  font: unset;
+  text-align: unset;
 }
 
 .container {

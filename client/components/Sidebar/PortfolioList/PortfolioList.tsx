@@ -5,9 +5,10 @@ import styles from './PortfolioList.scss';
 interface PortfolioListProps {
   list: Portfolio[];
   title: string | void;
+  setPortfolio(portfolio: Portfolio): void;
 }
 
-const PortfolioList: FunctionComponent<PortfolioListProps> = ({ list, title }) => (
+const PortfolioList: FunctionComponent<PortfolioListProps> = ({ list, title, setPortfolio }) => (
   <>
     {title && (
       <div className={styles.header}>
@@ -25,7 +26,12 @@ const PortfolioList: FunctionComponent<PortfolioListProps> = ({ list, title }) =
           : styles.subDetailNeutral;
 
       return (
-        <div key={item.id} className={styles.portfolio}>
+        <button
+          type="button"
+          key={item.id}
+          className={styles.portfolio}
+          onClick={() => setPortfolio(item)}
+        >
           <div>
             <div className={styles.detail}>{item.name}</div>
             {title && (
@@ -36,7 +42,7 @@ const PortfolioList: FunctionComponent<PortfolioListProps> = ({ list, title }) =
             <div className={styles.detail}>{balance}</div>
             <div className={colorClass}>{returns}</div>
           </div>
-        </div>
+        </button>
       );
     })}
   </>
