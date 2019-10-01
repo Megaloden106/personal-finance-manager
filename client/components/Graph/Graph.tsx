@@ -6,14 +6,11 @@ import React, {
 } from 'react';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { Subscription, interval } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { select, mouse } from 'd3-selection';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { line } from 'd3-shape';
 import { extent, bisector } from 'd3-array';
 import { easeLinear } from 'd3-ease';
-import { interpolateNumber } from 'd3-interpolate';
 import 'd3-transition';
 import moment from 'moment';
 import { convertToCamelCase } from '@/shared/util';
@@ -31,7 +28,6 @@ const d3 = {
   easeLinear,
   mouse,
   bisector,
-  interpolateNumber,
 };
 
 interface StateProps {
@@ -78,6 +74,13 @@ const Graph: FunctionComponent<GraphProps> = ({
       getPortfolioData(id, params);
     }
   }, [id, filter.time]);
+
+  useEffect(() => {
+    if (next) {
+      setBalance(next.balance);
+      setReturns(next.cumulativeReturns);
+    }
+  }, [next]);
 
   // update filtered data based on data and filters
   useEffect(() => {
@@ -251,30 +254,6 @@ const Graph: FunctionComponent<GraphProps> = ({
         });
     }
   }, [filterData, current]);
-
-  // use subscription to update values in transition/animation
-  let subscription: Subscription;
-  useEffect(() => {
-    if (next) {
-      if (subscription) subscription.unsubscribe();
-
-      // get interpolated values
-      const interBalance = d3.interpolateNumber(balance, next.balance);
-      const interReturns = d3.interpolateNumber(returns, next.cumulativeReturns);
-
-      // set an interval of 100ms to transition from perv to next
-      subscription = interval(1).pipe(
-        take(50),
-      ).subscribe((i: number) => {
-        setBalance(interBalance((i + 1) * 5 / 250));
-        setReturns(interReturns((i + 1) * 5 / 250));
-      });
-
-      return () => subscription.unsubscribe();
-    }
-
-    return undefined;
-  }, [next]);
 
   return (
     <div className={styles.container}>

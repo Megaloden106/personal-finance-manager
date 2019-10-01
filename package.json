@@ -7,7 +7,7 @@
     "install-client": "cd client && npm ci",
     "install-server": "cd server && npm ci",
     "postinstall": "npm run install-client && npm run install-server",
-    "lint-client": "cd client && eslint --ext .ts .",
+    "lint-client": "cd client && eslint --ext .ts,.tsx .",
     "lint-db": "cd database && eslint --ext .ts .",
     "lint-server": "cd server && eslint --ext .ts .",
     "lint": "npm run lint-client && npm run lint-server && npm run lint-db",
