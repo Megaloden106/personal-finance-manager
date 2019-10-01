@@ -2,6 +2,7 @@ import React, { FunctionComponent, memo } from 'react';
 import { connect } from 'react-redux';
 import { convertToMoney, convertToPercent } from '@/shared/util';
 import styles from './GraphStats.scss';
+import RollingNumber from '@/components/RollingNumber/RollingNumber';
 
 interface ParentProps {
   filter: PortfolioFilter;
@@ -31,7 +32,9 @@ const GraphStats: FunctionComponent<GraphStatsProps> = ({
   return (
     <>
       <h1 className={styles.name}>{name}</h1>
-      <h1 className={styles.balance}>{convertToMoney(balance)}</h1>
+      <h1 className={styles.balance}>
+        <RollingNumber nextValue={balance} formatter={convertToMoney} />
+      </h1>
       <h5 className={
         [
           styles.returns,
@@ -39,7 +42,10 @@ const GraphStats: FunctionComponent<GraphStatsProps> = ({
           data < 0 ? styles.returnsNeg : undefined,
         ].join(' ')}
       >
-        {`${convertToMoney(data)} (${convertToPercent(percentage)})`}
+        <RollingNumber nextValue={data} formatter={convertToMoney} />
+        <span>&nbsp;(</span>
+        <RollingNumber nextValue={percentage} formatter={convertToPercent} />
+        <span>)</span>
         {date && (
           <span className={styles.date}>
             &nbsp;On&nbsp;

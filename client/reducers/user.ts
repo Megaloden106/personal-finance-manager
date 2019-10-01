@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { ofType, Epic } from 'redux-observable';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { from } from 'rxjs';
 import axios from '@/services/axios';
 

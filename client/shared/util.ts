@@ -29,3 +29,5 @@ export const convertToPercent = (num: number): string => {
 export const convertToCamelCase = (str: string): string => str[0].toLowerCase()
   + str.slice(1)
     .replace(/ [A-Z]/, chars => chars[1]);
+
+export const indentyCallback = (_i: number): number => _i;

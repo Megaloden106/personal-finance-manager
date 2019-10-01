@@ -83,14 +83,14 @@ const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, setPortfolio }) 
         </button>
       </div>
       {lists.map(({ list, title }) => (
-        list.length && (
+        list.length ? (
           <PortfolioList
             key={`${title}-${list.length}`}
             list={list}
             title={title}
             setPortfolio={setPortfolio}
           />
-        )
+        ) : null
       ))}
       {menu && (
         <SidebarDropdown
