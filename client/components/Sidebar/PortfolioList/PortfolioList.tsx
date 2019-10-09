@@ -6,10 +6,14 @@ import RollingNumber from '@/components/RollingNumber/RollingNumber';
 interface PortfolioListProps {
   list: Portfolio[];
   title: string | void;
-  setPortfolio(portfolio: Portfolio): void;
+  portfolioClick(portfolio: Portfolio): void;
 }
 
-const PortfolioList: FunctionComponent<PortfolioListProps> = ({ list, title, setPortfolio }) => (
+const PortfolioList: FunctionComponent<PortfolioListProps> = ({
+  list,
+  title,
+  portfolioClick,
+}) => (
   <>
     {title && (
       <div className={styles.header}>
@@ -28,7 +32,7 @@ const PortfolioList: FunctionComponent<PortfolioListProps> = ({ list, title, set
           type="button"
           key={item.id}
           className={styles.portfolio}
-          onClick={() => setPortfolio(item)}
+          onClick={() => portfolioClick(item)}
         >
           <div>
             <div className={styles.detail}>{item.name}</div>
