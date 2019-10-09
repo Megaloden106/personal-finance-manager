@@ -2,14 +2,14 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import BaseDropdown from '@/components/Dropdown/Base/BaseDropdown';
 
 interface SidebarDropdownProps {
-  selected: PortfolioFilter;
+  filter: PortfolioFilter;
   menu: Item[];
   close(): void;
   rowClick(item: Item): void;
 }
 
 const SidebarDropdown: FunctionComponent<SidebarDropdownProps> = ({
-  selected,
+  filter,
   menu,
   close,
   rowClick,
@@ -32,10 +32,10 @@ const SidebarDropdown: FunctionComponent<SidebarDropdownProps> = ({
 
   return (
     <BaseDropdown
-      title="View"
-      rect={rect}
+      filter={filter}
       menu={menu}
-      selected={selected}
+      rect={rect}
+      title="View"
       close={close}
       rowClick={rowClick}
     />

@@ -4,19 +4,19 @@ import Portal from '@/components/Portal/Portal';
 import styles from './BaseDropdown.scss';
 
 interface BaseDropdownProps {
-  title?: string;
-  rect: PortalRect;
+  filter: PortfolioFilter;
   menu: Item[];
-  selected: PortfolioFilter;
+  rect: PortalRect;
+  title?: string;
   close(): void;
   rowClick(item: Item): void;
 }
 
 const BaseDropdown: FunctionComponent<BaseDropdownProps> = ({
-  title,
-  rect,
+  filter,
   menu,
-  selected,
+  rect,
+  title,
   rowClick,
   close,
 }) => {
@@ -30,10 +30,18 @@ const BaseDropdown: FunctionComponent<BaseDropdownProps> = ({
     }
   };
 
+  // Event handler for row clicks
+  const handleRowClick = (item: Item) => {
+    rowClick(item);
+    close();
+  };
+
   // Event listener for outside click dropdown click
   useEffect(() => {
     // Delayed style for animation
     setDropdownStyle(dropdownStyle.concat(styles.dropdownOpen));
+
+    // Close event on clicks and resize
     const subscription: Subscription = merge(
       fromEvent(document, 'click'),
       fromEvent(window, 'resize'),
@@ -45,16 +53,11 @@ const BaseDropdown: FunctionComponent<BaseDropdownProps> = ({
   // Button class based on row
   const buttonClass = (value: string) => {
     const className = [styles.item];
-    if (selected.data === value || selected.time === value) {
+    if (filter.data === value || filter.time === value) {
       className.push(styles.itemSelected);
     }
 
     return className.join(' ');
-  };
-
-  const handleRowClick = (item: Item) => {
-    rowClick(item);
-    close();
   };
 
   return (

@@ -18,3 +18,10 @@ interface DeepReadonlyArray<T> extends ReadonlyArray<DeepReadonly<T>> {}
 type DeepReadonlyObject<T> = {
   readonly [P in keyof T]: DeepReadonly<T[P]>;
 };
+
+interface Route {
+  name: string;
+  endpoint: string;
+  level: number;
+  className?: string;
+}

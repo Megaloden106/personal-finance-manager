@@ -4,8 +4,6 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
 import { select, mouse } from 'd3-selection';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { line } from 'd3-shape';
@@ -13,111 +11,64 @@ import { extent, bisector } from 'd3-array';
 import { easeLinear } from 'd3-ease';
 import 'd3-transition';
 import moment from 'moment';
-import { convertToCamelCase } from '@/shared/util';
-import { fetchPortfolioData } from '@/reducers/portfolio';
-import GraphStats from './GraphStats/GraphStats';
-import GraphFilters from './GraphFilters/GraphFilters';
+import { convertToCamelCase, convertToMoney, convertToPercent } from '@/shared/util';
+import RollingNumber from '../RollingNumber/RollingNumber';
 import styles from './Graph.scss';
 
 const d3 = {
+  bisector,
+  easeLinear,
+  extent,
+  line,
+  mouse,
   select,
   scaleLinear,
   scaleTime,
-  line,
-  extent,
-  easeLinear,
-  mouse,
-  bisector,
 };
 
-interface StateProps {
+interface GraphProps {
   data: PortfolioData[];
-  id: string | number | null;
-}
-
-interface DispatchProps {
-  getPortfolioData(
-    id: string | number,
-    params: PortfolioParam,
-  ): void;
-}
-
-interface ParentProps {
+  filter: PortfolioFilter;
   height: number;
+  name: string | null;
   width: number;
+  filterClick(filter: PortfolioFilter): void;
 }
-
-type GraphProps = StateProps & DispatchProps & ParentProps;
 
 const Graph: FunctionComponent<GraphProps> = ({
-  id,
   data,
-  getPortfolioData,
+  filter,
   height,
+  name,
   width,
+  filterClick,
 }) => {
-  const [next, setNext] = useState<PortfolioData | null>(null);
   const [balance, setBalance] = useState<number>(0);
   const [returns, setReturns] = useState<number>(0);
+  const [percentage, setPercentage] = useState<number>(0);
   const [date, setDate] = useState<string>('');
-
-  const [filter, setFilter] = useState<PortfolioFilter>({ time: '180D', data: 'Cumulative Returns' });
-  const [filterData, setFilterData] = useState<PortfolioData[]>([]);
 
   const d3Graph = useRef(null);
   const { current } = d3Graph;
 
-  useEffect(() => {
-    if (id) {
-      const params = { range: filter.time };
+  const timeFilters = ['30D', '90D', '180D', '1Y', '5Y', '10Y', 'YTD', 'All'];
+  const dataFilters = ['Cumulative Returns'];
 
-      getPortfolioData(id, params);
-    }
-  }, [id, filter.time]);
-
-  useEffect(() => {
-    if (next) {
-      setBalance(next.balance);
-      setReturns(next.cumulativeReturns);
-    }
-  }, [next]);
-
-  // update filtered data based on data and filters
-  useEffect(() => {
-    if (data.length && current) {
-      const filterDate = moment(data[data.length - 1].date);
-      if (filter.time.match(/\d+/)) {
-        const count = filter.time.match(/\d+/) as string[];
-        const timeframe = filter.time.match(/D$/) ? 'days' : 'years';
-        filterDate.subtract(count[0], timeframe);
-      } else {
-        filterDate.startOf('year');
-      }
-
-      // filter data based on filter time
-      const modifiedData = filter.time !== 'All'
-        ? data.filter(d => filterDate.diff(d.date) <= 0)
-        : data;
-
-      // get cumulative values for filtered data
-      const cumulative = { returns: -modifiedData[0].returns };
-
-      // update filter data state
-      setFilterData(modifiedData.map((d: PortfolioData): PortfolioData => {
-        cumulative.returns += d.returns;
-        return {
-          ...d,
-          cumulativeReturns: cumulative.returns,
-        };
-      }));
-    }
-  }, [data, filter.time, filter.data]);
+  const setNext = (next: PortfolioData, newDate: string = '') => {
+    const start = data[0];
+    const nextReturns = next.cumulativeReturns - start.cumulativeReturns;
+    setBalance(next.balance);
+    setReturns(nextReturns);
+    setPercentage(nextReturns / start.balance * 100);
+    setDate(newDate);
+  };
 
   // update svg based on the filtered data
   useEffect(() => {
-    if (filterData.length) {
-      setNext(filterData[filterData.length - 1]);
-      const selector = filter.data === 'Balance' ? filter.data.toLowerCase() : convertToCamelCase(filter.data);
+    if (data.length) {
+      const end: PortfolioData = data[data.length - 1];
+      const selector = convertToCamelCase(filter.data);
+      setNext(end);
 
       d3.select(current)
         .selectAll('g')
@@ -138,16 +89,16 @@ const Graph: FunctionComponent<GraphProps> = ({
         .x(d => x(d.date))
         .y(d => y(d[selector]));
 
-      x.domain(d3.extent(filterData, d => d.date) as Date[]);
-      y.domain(d3.extent(filterData, d => d[selector]) as number[]);
+      x.domain(d3.extent(data, d => d.date) as Date[]);
+      y.domain(d3.extent(data, d => d[selector]) as number[]);
 
       // set data to appended path
       const drawLine = svg.selectAll('.path')
-        .data([filterData]);
+        .data([data]);
 
       // set color for line
-      const first = filterData[0][selector];
-      const last = filterData[filterData.length - 1][selector];
+      const first = data[0][selector];
+      const last = data[data.length - 1][selector];
       const color = first > last
         ? '#f45431' : last > first
           ? '#21ce99' : '#888';
@@ -176,12 +127,12 @@ const Graph: FunctionComponent<GraphProps> = ({
 
       // append dotted zero line
       const zeroLine = svg.selectAll('.zero-line')
-        .data([filterData]);
+        .data([data]);
 
       const zeroLineEnter = zeroLine.enter()
         .append('g');
 
-      const startValue = filterData[0][selector];
+      const startValue = data[0][selector];
 
       zeroLineEnter.append('line')
         .attr('stroke', '#888')
@@ -195,17 +146,17 @@ const Graph: FunctionComponent<GraphProps> = ({
       const { left } = d3.bisector((d: PortfolioData) => d.date);
       const bisect = (mx: number) => {
         const dx = d3.scaleTime()
-          .domain(d3.extent(filterData, (d: PortfolioData) => d.date) as Date[])
+          .domain(d3.extent(data, (d: PortfolioData) => d.date) as Date[])
           .range([0, width]);
         const hoverDate = dx.invert(mx);
-        const index = left(filterData, hoverDate, 1);
-        const a: PortfolioData = filterData[index - 1];
-        const b: PortfolioData = filterData[index];
+        const index = left(data, hoverDate, 1);
+        const a: PortfolioData = data[index - 1];
+        const b: PortfolioData = data[index];
         return moment(hoverDate).diff(a.date) > moment(b.date).diff(hoverDate) ? b : a;
       };
 
       const focus = svg.selectAll('.focus')
-        .data([filterData]);
+        .data([data]);
 
       const focusEnter = focus.enter()
         .append('g')
@@ -235,8 +186,7 @@ const Graph: FunctionComponent<GraphProps> = ({
         .on('mouseover', () => focusEnter.style('display', null))
         .on('mouseout', () => {
           focusEnter.style('display', 'none');
-          setNext(filterData[filterData.length - 1]);
-          setDate('');
+          setNext(end);
         })
         .on('mousemove', function mousemove() {
           // get datapoint
@@ -249,43 +199,68 @@ const Graph: FunctionComponent<GraphProps> = ({
             .attr('transform', `translate(0, ${y(dy)})`);
 
           // recalc balance
-          setNext(dp);
-          setDate(moment(dp.date).format('MMM D, YYYY'));
+          setNext(dp, moment(dp.date).format('MMM D, YYYY'));
         });
     }
-  }, [filterData, current]);
+  }, [data, current]);
 
   return (
     <div className={styles.container}>
-      {filterData.length && next && (
-        <GraphStats
-          filter={filter}
-          start={filterData[0].balance}
-          balance={balance}
-          returns={returns}
-          date={date}
-        />
-      )}
+      <h1 className={styles.name}>{name}</h1>
+      <h1 className={styles.balance}>
+        <RollingNumber nextValue={balance} formatter={convertToMoney} />
+      </h1>
+      <h5 className={
+        [
+          styles.returns,
+          returns > 0 ? styles.returnsPos : undefined,
+          returns < 0 ? styles.returnsNeg : undefined,
+        ].join(' ')}
+      >
+        <RollingNumber nextValue={returns} formatter={convertToMoney} />
+        <span>&nbsp;(</span>
+        <RollingNumber nextValue={percentage} formatter={convertToPercent} />
+        <span>)</span>
+        {date && (
+          <span className={styles.date}>
+            &nbsp;On&nbsp;
+            {date}
+          </span>
+        )}
+      </h5>
       <svg
         ref={d3Graph}
         height={height}
         width={width}
       />
-      <GraphFilters
-        filter={filter}
-        setFilter={(pf: PortfolioFilter) => setFilter(pf)}
-      />
+      <div className={styles.filter}>
+        <div className={styles.filterTime}>
+          {timeFilters.map((tf: string) => (
+            <button
+              type="button"
+              key={tf}
+              className={tf === filter.time ? styles.selected : undefined}
+              onClick={() => filterClick({ ...filter, time: tf })}
+            >
+              {tf}
+            </button>
+          ))}
+        </div>
+        <div className={styles.filterData}>
+          {dataFilters.map((df: string) => (
+            <button
+              type="button"
+              key={df}
+              className={df === filter.data ? styles.selected : undefined}
+              onClick={() => filterClick({ ...filter, data: df })}
+            >
+              {df}
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
 
-const mapStateToProps = (state: AppState): StateProps => ({
-  data: state.portfolio.data,
-  id: state.portfolio.id,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
-  getPortfolioData: (id, params) => dispatch(fetchPortfolioData(id, params)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Graph);
+export default Graph;

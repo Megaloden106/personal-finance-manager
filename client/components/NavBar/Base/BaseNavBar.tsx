@@ -1,36 +1,21 @@
-import React, { FunctionComponent, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import React, { FunctionComponent } from 'react';
+import { Link } from 'react-router-dom';
+import * as H from 'history';
 import styles from './BaseNavBar.scss';
 
-interface StateProps {
+interface BaseNavBarProps {
   accessLevel: number;
   id: number | string | null;
+  location: H.Location<H.LocationState>;
 }
 
-type BaseNavBarProps = StateProps & RouteComponentProps;
-
-interface Route {
-  name: string;
-  endpoint: string;
-  level: number;
-  className?: string;
-}
-
-const BaseNavBar: FunctionComponent<BaseNavBarProps> = ({
-  history,
-  accessLevel,
-  location,
-  id,
-}) => {
+const BaseNavBar: FunctionComponent<BaseNavBarProps> = ({ accessLevel, id, location }) => {
   let routes: Route[] = [
     { name: 'Summary', endpoint: '/', level: 1 },
-    { name: 'Portfolio', endpoint: `/portfolio/${id}`, level: 0 },
+    { name: 'Portfolio', endpoint: `/portfolio/${id}/`, level: 0 },
     { name: 'Table', endpoint: '/table/', level: 1 },
     { name: 'Allocation', endpoint: '/allocation/', level: 1 },
   ];
-
-  useEffect(() => history.push(`/portfolio/${id}`), [id]);
 
   routes = routes.map(route => ({
     ...route,
@@ -55,9 +40,4 @@ const BaseNavBar: FunctionComponent<BaseNavBarProps> = ({
   );
 };
 
-const mapStateToProps = (state: AppState): StateProps => ({
-  accessLevel: state.user.accessLevel,
-  id: state.portfolio.id,
-});
-
-export default withRouter(connect(mapStateToProps)(BaseNavBar));
+export default BaseNavBar;

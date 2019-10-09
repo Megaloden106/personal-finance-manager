@@ -1,21 +1,15 @@
 import React, { FunctionComponent, useState } from 'react';
-import { connect } from 'react-redux';
 import SidebarDropdown from '../Dropdown/Sidebar/SidebarDropdown';
 import PortfolioList from './PortfolioList/PortfolioList';
 import styles from './Sidebar.scss';
 
-interface ParentProps {
-  setPortfolio(portfolio: Portfolio): void;
-}
-
-interface StateProps {
+interface SidebarProps {
   portfolios: Portfolio[];
+  portfolioClick(portfolio: Portfolio): void;
 }
 
-type SidebarProps = ParentProps & StateProps;
-
-const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, setPortfolio }) => {
-  const [selected, setSelected] = useState<PortfolioFilter>({
+const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, portfolioClick }) => {
+  const [filter, setFilter] = useState<PortfolioFilter>({
     data: 'Returns',
     time: 'Total',
   });
@@ -61,8 +55,8 @@ const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, setPortfolio }) 
   };
 
   const handleRowClick = ({ value, text }: Item) => {
-    setSelected({
-      ...selected,
+    setFilter({
+      ...filter,
       [value]: text,
     });
   };
@@ -88,13 +82,13 @@ const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, setPortfolio }) 
             key={`${title}-${list.length}`}
             list={list}
             title={title}
-            setPortfolio={setPortfolio}
+            portfolioClick={portfolioClick}
           />
         ) : null
       ))}
       {menu && (
         <SidebarDropdown
-          selected={selected}
+          filter={filter}
           menu={menu}
           close={() => setMenuItems(null)}
           rowClick={handleRowClick}
@@ -104,8 +98,4 @@ const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, setPortfolio }) 
   );
 };
 
-const mapStateToProps = (state: AppState): StateProps => ({
-  portfolios: state.portfolio.list,
-});
-
-export default connect(mapStateToProps)(Sidebar);
+export default Sidebar;
