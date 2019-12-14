@@ -1,5 +1,7 @@
-.container {
+.analytics {
   grid-area: analytics;
-  height: 240px;
-  border: 1px solid black;
+  display: grid;
+  grid-template-columns: 340px 340px 340px;
+  grid-column-gap: 18px;
+  padding-left: 24px;
 }

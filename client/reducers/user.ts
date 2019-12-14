@@ -23,7 +23,7 @@ export const fetchUserData = (): FetchUserAction => ({ type: UserActionType.FETC
 
 export const userEpic: Epic = action$ => action$.pipe(
   ofType(UserActionType.FETCH_USER_DATA),
-  switchMap(() => from(axios.get('/api/user/'))),
+  switchMap(() => from(axios.get('/api/user'))),
   map(_res => _res.data),
   map(updateUserData),
 );

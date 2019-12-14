@@ -2,15 +2,18 @@ declare enum PortfolioActionType {
   FETCH_PORTFOLIO_LIST = '[Portfolio] Fetch Portfolio List',
   INIT_PORTFOLIO_LIST = '[Portfolio] Initialize Portfolio List',
   SET_PORTFOLIO = '[Portfolio] Set Portfolio',
-  FETCH_PORTFOLIO_DATA = '[Portfolio] Fetch Data',
-  UPDATE_PORTFOLIO_DATA = '[Portfolio] Update Data',
+  FETCH_PORTFOLIO_DATA = '[Portfolio] Fetch Portfolio Data',
+  UPDATE_PORTFOLIO_DATA = '[Portfolio] Update Portfolio Data',
+  FETCH_ANALYTICS_DATA = '[Portfolio] Fetch Analytics',
+  UPDATE_ANALYTICS_DATA = '[Portfolio] Update Analytics',
 }
 
 interface PortfolioState {
   name: string | null;
-  id: string | number | null;
+  id: string | null;
   list: Portfolio[];
   data: PortfolioData[];
+  analytics: AnalyticsData;
 }
 
 interface FetchPortfolioAction {
@@ -28,7 +31,7 @@ interface FetchPortfolioDataAction {
   params: PortfolioParam;
 }
 
-interface UpdateDataAction {
+interface UpdatePortfolioDataAction {
   type: PortfolioActionType.UPDATE_PORTFOLIO_DATA;
   data: PortfolioData[];
 }
@@ -38,11 +41,23 @@ interface SetPortfolioAction {
   portfolio: Portfolio;
 }
 
+interface FetchAnalyticsDataAction {
+  type: PortfolioActionType.FETCH_ANALYTICS_DATA;
+  id: string;
+}
+
+interface UpdateAnalyticsDataAction {
+  type: PortfolioActionType.UPDATE_ANALYTICS_DATA;
+  data: AnalyticsData;
+}
+
 type PortfolioAction = FetchPortfolioAction |
 InitPortfolioListAction |
 FetchPortfolioDataAction |
 UpdateDataAction |
-setPortfolioAction;
+setPortfolioAction |
+UpdatePortfolioDataAction |
+UpdateAnalyticsDataAction;
 
 interface Portfolio {
   id: number;
@@ -71,4 +86,32 @@ interface PortfolioParam {
 interface PortfolioFilter {
   time: string;
   data: string;
+}
+
+interface AnalyticsData {
+  total?: TotalAnalytics;
+  annual?: AnnualizeAnalytics;
+  pastYear?: PastYearAnalytics;
+  [key: string]: TotalAnalytics | AnnualizeAnalytics | PastYearAnalytics;
+}
+
+interface TotalAnalytics {
+  balance: number;
+  cashFlow: number;
+  returns: number;
+  [key: string]: number;
+}
+
+interface AnnualizeAnalytics {
+  returns: number;
+  rateOfReturn: number;
+  cashFlow: number;
+  [key: string]: number;
+}
+
+interface PastYearAnalytics {
+  returns: number;
+  rateOfReturn: number;
+  cashFlow: number;
+  [key: string]: number;
 }

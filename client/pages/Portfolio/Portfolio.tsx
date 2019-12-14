@@ -2,7 +2,12 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { fetchUserData } from '@/reducers/user';
-import { fetchPortfolioList, setPortfolio, fetchPortfolioData } from '@/reducers/portfolio';
+import {
+  fetchPortfolioList,
+  setPortfolio,
+  fetchPortfolioData,
+  fetchAnalyticsData,
+} from '@/reducers/portfolio';
 import Sidebar from '@/components/Sidebar/Sidebar';
 import Graph from '@/components/Graph/PortfolioGraphContainer';
 import Analytics from '@/components/Analytics/Analytics';
@@ -10,16 +15,14 @@ import styles from './Portfolio.scss';
 
 interface StateProps {
   portfolios: Portfolio[];
-  id: string | number | null;
+  id: string | null;
 }
 
 interface DispatchProps {
   initialize(): void;
   handlePortfolioClick(portfolio: Portfolio): void;
-  getPortfolioData(
-    id: string | number,
-    params: PortfolioParam,
-  ): void;
+  getPortfolioData(id: string | number, params: PortfolioParam): void;
+  getAnalyticsData(id: string): void;
 }
 
 type PortfolioProps = StateProps & DispatchProps;
@@ -30,6 +33,7 @@ const Portfolio: FunctionComponent<PortfolioProps> = ({
   initialize,
   handlePortfolioClick,
   getPortfolioData,
+  getAnalyticsData,
 }) => {
   const [filter, setFilter] = useState<PortfolioFilter>({ time: '180D', data: 'Cumulative Returns' });
 
@@ -40,6 +44,7 @@ const Portfolio: FunctionComponent<PortfolioProps> = ({
       const params = { range: filter.time };
 
       getPortfolioData(id, params);
+      getAnalyticsData(id);
     }
   }, [id, filter.time]);
 
@@ -70,7 +75,8 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
   },
   handlePortfolioClick: (portfolio: Portfolio) => dispatch(setPortfolio(portfolio)),
   // TODO: move to Summary or Header page when complete
-  getPortfolioData: (id, params) => dispatch(fetchPortfolioData(id, params)),
+  getPortfolioData: (id: string, params) => dispatch(fetchPortfolioData(id, params)),
+  getAnalyticsData: (id: string) => dispatch(fetchAnalyticsData(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Portfolio);

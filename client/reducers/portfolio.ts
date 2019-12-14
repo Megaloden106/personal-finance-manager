@@ -8,8 +8,10 @@ enum PortfolioActionType {
   FETCH_PORTFOLIO_LIST = '[Portfolio] Fetch Portfolio List',
   INIT_PORTFOLIO_LIST = '[Portfolio] Initialize Portfolio List',
   SET_PORTFOLIO = '[Portfolio] Set Portfolio',
-  FETCH_PORTFOLIO_DATA = '[Portfolio] Fetch Data',
-  UPDATE_PORTFOLIO_DATA = '[Portfolio] Update Data',
+  FETCH_PORTFOLIO_DATA = '[Portfolio] Fetch Portfolio Data',
+  UPDATE_PORTFOLIO_DATA = '[Portfolio] Update Portfolio Data',
+  FETCH_ANALYTICS_DATA = '[Portfolio] Fetch Analytics',
+  UPDATE_ANALYTICS_DATA = '[Portfolio] Update Analytics',
 }
 
 export const initialPortfolioState: PortfolioState = {
@@ -17,6 +19,7 @@ export const initialPortfolioState: PortfolioState = {
   id: null,
   list: [],
   data: [],
+  analytics: {},
 };
 
 export const fetchPortfolioList = (): FetchPortfolioAction => (
@@ -30,7 +33,7 @@ export const initializePortfolioList = (portfolios: Portfolio[]): InitPortfolioL
 
 const portfolioListEpic: Epic = action$ => action$.pipe(
   ofType(PortfolioActionType.FETCH_PORTFOLIO_LIST),
-  switchMap(() => from(axios.get('/api/portfolio/'))),
+  switchMap(() => from(axios.get('/api/portfolio'))),
   map(_res => _res.data),
   map(initializePortfolioList),
 );
@@ -41,7 +44,7 @@ export const setPortfolio = (portfolio: Portfolio): SetPortfolioAction => ({
 });
 
 export const fetchPortfolioData = (
-  id: string| number,
+  id: string,
   params: PortfolioParam,
 ): FetchPortfolioDataAction => ({
   type: PortfolioActionType.FETCH_PORTFOLIO_DATA,
@@ -49,7 +52,7 @@ export const fetchPortfolioData = (
   params,
 });
 
-export const updatePortfolioData = (data: PortfolioData[]): UpdateDataAction => ({
+export const updatePortfolioData = (data: PortfolioData[]): UpdatePortfolioDataAction => ({
   type: PortfolioActionType.UPDATE_PORTFOLIO_DATA,
   data,
 });
@@ -63,9 +66,29 @@ const portfolioDataEpic: Epic = action$ => action$.pipe(
   map(updatePortfolioData),
 );
 
+export const fetchAnalyticsData = (id: string): FetchAnalyticsDataAction => ({
+  type: PortfolioActionType.FETCH_ANALYTICS_DATA,
+  id,
+});
+
+export const updateAnalyticsData = (data: AnalyticsData): UpdateAnalyticsDataAction => ({
+  type: PortfolioActionType.UPDATE_ANALYTICS_DATA,
+  data,
+});
+
+const portfolioAnalyticsEpic: Epic = action$ => action$.pipe(
+  ofType(PortfolioActionType.FETCH_ANALYTICS_DATA),
+  switchMap(({ id }: FetchAnalyticsDataAction) => from(
+    axios.get(`/api/portfolio/analytics/${id}`),
+  )),
+  map(_res => _res.data),
+  map(updateAnalyticsData),
+);
+
 export const portfolioEpic = combineEpics(
   portfolioListEpic,
   portfolioDataEpic,
+  portfolioAnalyticsEpic,
 );
 
 const portfolioReducer: Reducer<PortfolioState, PortfolioAction> = (
@@ -90,6 +113,11 @@ const portfolioReducer: Reducer<PortfolioState, PortfolioAction> = (
       return {
         ...state,
         data: action.data,
+      };
+    case PortfolioActionType.UPDATE_ANALYTICS_DATA:
+      return {
+        ...state,
+        analytics: action.data,
       };
     default:
       return state;
