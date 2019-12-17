@@ -11,7 +11,7 @@ import { extent, bisector } from 'd3-array';
 import { easeLinear } from 'd3-ease';
 import 'd3-transition';
 import moment from 'moment';
-import { convertToCamelCase, convertToMoney, convertToPercent } from '@/shared/util';
+import { convertToCamelCase, convertToMoney, convertToPercent } from '@/utils/util';
 import RollingNumber from '../RollingNumber/RollingNumber';
 import styles from './Graph.scss';
 

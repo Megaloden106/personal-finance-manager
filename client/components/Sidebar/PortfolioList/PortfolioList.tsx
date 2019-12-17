@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { convertToMoney } from '@/shared/util';
+import { convertToMoney } from '@/utils/util';
 import styles from './PortfolioList.scss';
 import RollingNumber from '@/components/RollingNumber/RollingNumber';
 

@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import styles from './Analytics.scss';
 import AnalyticsCard from './Card/Card';
-import { convertToMoney, convertToPercent, convertToCamelCase } from '@/shared/util';
+import { convertToMoney, convertToPercent, convertToCamelCase } from '@/utils/util';
 
 interface StateProps {
   analytics: AnalyticsData;

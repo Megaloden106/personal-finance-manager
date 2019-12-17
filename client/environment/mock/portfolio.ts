@@ -104,15 +104,35 @@ export const PortfolioSenarios: Scenario[] = [
         delay: Math.floor(Math.random() * 150) + 100,
         description: 'Summary Total Card Sucesss',
         response: {
-          body: {
-            total: summaryTotalAnalyticsResponse,
-            annual: summaryAnnaulizeAnalyticsResponse,
-            pastYear: summaryPastYearAnalyticsResponse,
-          },
+          body: summaryTotalAnalyticsResponse,
           status: 200,
         },
       },
     },
-    url: `${api}/analytics/1`,
+    url: `${api}/analytics/total/1`,
+  }, {
+    scenarios: {
+      GET: {
+        delay: Math.floor(Math.random() * 150) + 100,
+        description: 'Summary Total Card Sucesss',
+        response: {
+          body: summaryAnnaulizeAnalyticsResponse,
+          status: 200,
+        },
+      },
+    },
+    url: `${api}/analytics/annualize/1`,
+  }, {
+    scenarios: {
+      GET: {
+        delay: Math.floor(Math.random() * 150) + 100,
+        description: 'Summary Total Card Sucesss',
+        response: {
+          body: summaryPastYearAnalyticsResponse,
+          status: 200,
+        },
+      },
+    },
+    url: `${api}/analytics/past-year/1`,
   },
 ];
