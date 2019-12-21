@@ -14,6 +14,8 @@ import moment from 'moment';
 import { convertToCamelCase, convertToMoney, convertToPercent } from '@/utils/util';
 import RollingNumber from '../RollingNumber/RollingNumber';
 import styles from './Graph.scss';
+import { PortfolioData } from '@/store/models/portfolio';
+import { GraphProps } from './models/Graph';
 
 const d3 = {
   bisector,
@@ -25,15 +27,6 @@ const d3 = {
   scaleLinear,
   scaleTime,
 };
-
-interface GraphProps {
-  data: PortfolioData[];
-  filter: PortfolioFilter;
-  height: number;
-  name: string | null;
-  width: number;
-  filterClick(filter: PortfolioFilter): void;
-}
 
 const Graph: FunctionComponent<GraphProps> = ({
   data,
@@ -67,7 +60,7 @@ const Graph: FunctionComponent<GraphProps> = ({
   useEffect(() => {
     if (data.length) {
       const end: PortfolioData = data[data.length - 1];
-      const selector = convertToCamelCase(filter.data);
+      const selector = convertToCamelCase(filter.data || '');
       setNext(end);
 
       d3.select(current)
@@ -239,8 +232,8 @@ const Graph: FunctionComponent<GraphProps> = ({
             <button
               type="button"
               key={tf}
-              className={tf === filter.time ? styles.selected : undefined}
-              onClick={() => filterClick({ ...filter, time: tf })}
+              className={tf === filter.range ? styles.selected : undefined}
+              onClick={() => filterClick({ ...filter, range: tf })}
             >
               {tf}
             </button>

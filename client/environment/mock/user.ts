@@ -1,3 +1,5 @@
+import { UserState } from '@/store/models/user';
+
 const api = '/api/user';
 
 export const userData: UserState = {

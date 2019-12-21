@@ -29,6 +29,7 @@ module.exports = {
     "@typescript-eslint/explicit-function-return-type": "off", // annoying to force return type with react
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }],
+    "@typescript-eslint/interface-name-prefix": 'off',
 
     // REACT RULES
     "react/jsx-filename-extension": ["warn", {

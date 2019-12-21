@@ -21,22 +21,22 @@ export const initialAnalyticsState: AnalyticsState = {
   },
 };
 
-export const portfolioReducer: Reducer<AnalyticsState, FluxAction<any>> = (
+export const analyticsReducer: Reducer<AnalyticsState, FluxAction<any>> = (
   state = initialAnalyticsState,
   action,
 ) => {
   switch (action.type) {
-    case AnalyticsAction.REQUEST_ANALYTICS_TOTAL:
+    case AnalyticsAction.REQUEST_ANALYTICS_TOTAL_SUCCESS:
       return {
         ...state,
         total: action.payload,
       };
-    case AnalyticsAction.REQUEST_ANALYTICS_ANNUALIZE:
+    case AnalyticsAction.REQUEST_ANALYTICS_ANNUALIZE_SUCCESS:
       return {
         ...state,
         annualize: action.payload,
       };
-    case AnalyticsAction.REQUEST_ANALYTICS_PAST_YEAR:
+    case AnalyticsAction.REQUEST_ANALYTICS_PAST_YEAR_SUCCESS:
       return {
         ...state,
         pastYear: action.payload,

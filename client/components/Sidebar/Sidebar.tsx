@@ -1,74 +1,36 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FC, useState } from 'react';
+import { connect } from 'react-redux';
 import SidebarDropdown from '../Dropdown/Sidebar/SidebarDropdown';
 import PortfolioList from './PortfolioList/PortfolioList';
+import { DropdownMenuItem } from '@/components/Dropdown/Base/models/DropdownMenuItem';
+import { AppState } from '@/store/models/store';
+import { portfolioByTypeSelector } from '@/store/selectors/portfolios/PortfolioSelector';
+import { SidebarProps, StateProps } from './models/Sidebar';
 import styles from './Sidebar.scss';
 
-interface SidebarProps {
-  portfolios: Portfolio[];
-  portfolioClick(portfolio: Portfolio): void;
-}
-
-const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, portfolioClick }) => {
-  const [filter, setFilter] = useState<PortfolioFilter>({
-    data: 'Returns',
-    time: 'Total',
-  });
-
-  const [menu, setMenuItems] = useState<Item[] | null>(null);
-
-  // Set up separation of Portfolios
-  const groups: Portfolio[] = [];
-  const personal: Portfolio[] = [];
-  const retirement: Portfolio[] = [];
-  const savings: Portfolio[] = [];
-  const lists = [
-    { list: groups },
-    { list: personal, title: 'Personal' },
-    { list: retirement, title: 'Retirement' },
-    { list: savings, title: 'Savings' },
-  ];
-
-  portfolios.forEach((portfolio: Portfolio) => {
-    if (portfolio.isGroup) groups.push(portfolio);
-    else if (portfolio.isRetirement) retirement.push(portfolio);
-    else if (portfolio.isSavings) savings.push(portfolio);
-    else personal.push(portfolio);
-  });
+const Sidebar: FC<SidebarProps> = ({ portfoliosByType, portfolioClick }) => {
+  const [selected, setSelected] = useState<string>('Returns');
+  const [menuItems, setMenuItems] = useState<DropdownMenuItem[] | null>(null);
 
   const handleAnchorClick = () => {
-    const items = menu ? null : [
-      { text: 'Returns', value: 'data' },
-      { text: 'Percentage', value: 'data' },
-      {
-        text: 'APR',
-        value: 'data',
-        style: { borderBottom: '1px solid #eee' },
-      },
-      { text: 'Total', value: 'time' },
-      { text: 'YTD', value: 'time' },
-      { text: '90 Days', value: 'time' },
-      { text: '180 Days', value: 'time' },
-      { text: '1 Year', value: 'time' },
-      { text: '5 Years', value: 'time' },
+    const menu = menuItems ? null : [
+      { label: 'Returns' },
+      { label: 'Percentage' },
+      { label: 'APR' },
     ];
-    setMenuItems(items);
+    setMenuItems(menu);
   };
 
-  const handleRowClick = ({ value, text }: Item) => {
-    setFilter({
-      ...filter,
-      [value]: text,
-    });
-  };
+  const handleRowClick = ({ label }: DropdownMenuItem) => setSelected(label);
 
   return (
-    <div className={styles.container}>
+    <div className={styles.sidebar}>
       <div className={styles.header}>
         <h3>Portfolios</h3>
         <button
           type="button"
           id="sidebar-anchor"
-          className={menu ? styles.menuOpen : undefined}
+          className={menuItems ? styles.menuOpen : undefined}
           onClick={handleAnchorClick}
         >
           <span />
@@ -76,20 +38,20 @@ const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, portfolioClick }
           <span />
         </button>
       </div>
-      {lists.map(({ list, title }) => (
-        list.length ? (
+      {portfoliosByType.map(({ portfolios, label, type }) => (
+        portfolios.length ? (
           <PortfolioList
-            key={`${title}-${list.length}`}
-            list={list}
-            title={title}
+            key={type}
+            portfolios={portfolios}
+            title={label}
             portfolioClick={portfolioClick}
           />
         ) : null
       ))}
-      {menu && (
+      {menuItems && (
         <SidebarDropdown
-          filter={filter}
-          menu={menu}
+          selected={selected}
+          menuItems={menuItems}
           close={() => setMenuItems(null)}
           rowClick={handleRowClick}
         />
@@ -98,4 +60,8 @@ const Sidebar: FunctionComponent<SidebarProps> = ({ portfolios, portfolioClick }
   );
 };
 
-export default Sidebar;
+const mapStateToProps = (state: AppState): StateProps => ({
+  portfoliosByType: portfolioByTypeSelector(state.portfolio.list),
+});
+
+export default connect(mapStateToProps)(Sidebar);

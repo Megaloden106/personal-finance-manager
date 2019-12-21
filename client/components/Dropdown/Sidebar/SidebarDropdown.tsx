@@ -1,23 +1,18 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import BaseDropdown from '@/components/Dropdown/Base/BaseDropdown';
+import { PortalRect } from '@/components/Portal/models/Portal';
+import { SidebarDropdownProps } from './models/SidebarDropdown';
 
-interface SidebarDropdownProps {
-  filter: PortfolioFilter;
-  menu: Item[];
-  close(): void;
-  rowClick(item: Item): void;
-}
-
-const SidebarDropdown: FunctionComponent<SidebarDropdownProps> = ({
-  filter,
-  menu,
+const SidebarDropdown: FC<SidebarDropdownProps> = ({
+  selected,
+  menuItems,
   close,
   rowClick,
 }) => {
   const [rect, setRect] = useState<PortalRect>({});
 
-  // Calculate position from body for dropdown
-  const getPortalRect = () => {
+  useEffect(() => {
+    // Calculate position from body for dropdown
     const anchor = (document.getElementById('sidebar-anchor') as HTMLElement)
       .getBoundingClientRect();
     const body = document.body.getBoundingClientRect();
@@ -26,14 +21,12 @@ const SidebarDropdown: FunctionComponent<SidebarDropdownProps> = ({
     const top = anchor.top + 41 - body.top;
 
     setRect({ left, top, width });
-  };
-
-  useEffect(() => getPortalRect(), []);
+  }, []);
 
   return (
     <BaseDropdown
-      filter={filter}
-      menu={menu}
+      selected={selected}
+      menuItems={menuItems}
       rect={rect}
       title="View"
       close={close}

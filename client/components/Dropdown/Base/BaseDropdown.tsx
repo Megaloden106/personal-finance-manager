@@ -1,20 +1,13 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { fromEvent, Subscription, merge } from 'rxjs';
 import Portal from '@/components/Portal/Portal';
 import styles from './BaseDropdown.scss';
+import { DropdownMenuItem } from './models/DropdownMenuItem';
+import { BaseDropdownProps } from './models/BaseDropdown';
 
-interface BaseDropdownProps {
-  filter: PortfolioFilter;
-  menu: Item[];
-  rect: PortalRect;
-  title?: string;
-  close(): void;
-  rowClick(item: Item): void;
-}
-
-const BaseDropdown: FunctionComponent<BaseDropdownProps> = ({
-  filter,
-  menu,
+const BaseDropdown: FC<BaseDropdownProps> = ({
+  selected,
+  menuItems,
   rect,
   title,
   rowClick,
@@ -31,8 +24,8 @@ const BaseDropdown: FunctionComponent<BaseDropdownProps> = ({
   };
 
   // Event handler for row clicks
-  const handleRowClick = (item: Item) => {
-    rowClick(item);
+  const handleRowClick = (menuItem: DropdownMenuItem) => {
+    rowClick(menuItem);
     close();
   };
 
@@ -53,7 +46,7 @@ const BaseDropdown: FunctionComponent<BaseDropdownProps> = ({
   // Button class based on row
   const buttonClass = (value: string) => {
     const className = [styles.item];
-    if (filter.data === value || filter.time === value) {
+    if (selected === value) {
       className.push(styles.itemSelected);
     }
 
@@ -69,16 +62,15 @@ const BaseDropdown: FunctionComponent<BaseDropdownProps> = ({
           </div>
         )}
         <div className={styles.content}>
-          {menu.map(item => (
+          {menuItems.map(menuItem => (
             <button
-              key={item.text}
+              key={menuItem.label}
               type="button"
-              onClick={() => handleRowClick(item)}
-              className={buttonClass(item.text)}
-              style={item.style}
-              value={item.value}
+              onClick={() => handleRowClick(menuItem)}
+              className={buttonClass(menuItem.label)}
+              style={menuItem.style}
             >
-              {item.text}
+              {menuItem.label}
             </button>
           ))}
         </div>

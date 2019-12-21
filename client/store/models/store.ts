@@ -5,5 +5,5 @@ import { AnalyticsState } from './analytics';
 export interface AppState {
   user: UserState;
   portfolio: PortfolioState;
-  anayltics: AnalyticsState;
+  analytics: AnalyticsState;
 }
