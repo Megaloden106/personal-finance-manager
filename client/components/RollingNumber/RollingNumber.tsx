@@ -1,8 +1,8 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { Subscription, interval } from 'rxjs';
 import { interpolateNumber } from 'd3-interpolate';
 import { take } from 'rxjs/operators';
-import { indentyCallback } from '@/shared/util';
+import { indentyCallback } from '@/utils/util';
 
 const d3 = { interpolateNumber };
 
@@ -11,10 +11,7 @@ interface RollingNumberProps {
   formatter?: (value: number) => string;
 }
 
-const RollingNumber: FunctionComponent<RollingNumberProps> = ({
-  nextValue,
-  formatter = indentyCallback,
-}) => {
+const RollingNumber: FC<RollingNumberProps> = ({ nextValue, formatter = indentyCallback }) => {
   const [currentValue, setCurrentValue] = useState<number>(0);
   let subscription: Subscription;
 

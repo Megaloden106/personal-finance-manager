@@ -1,25 +1,18 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import store from '@/store';
-import HeaderBar from '@/components/HeaderBar/HeaderBar';
+import HeaderBar from '@/pages/Header/Header';
 import Portfolio from '@/pages/Portfolio/Portfolio';
 import styles from './App.scss';
 import './globals.scss';
 
-const App: FunctionComponent = () => (
+const App: FC = () => (
   <Provider store={store}>
-    <Router>
-      <div className={styles.container}>
-        <HeaderBar />
-        <Switch>
-          <Route exact path="/" component={Portfolio} />
-          <Route path="/portfolio/" component={Portfolio} />
-          <Route path="/table/" component={Portfolio} />
-        </Switch>
-      </div>
-    </Router>
+    <div className={styles.app}>
+      <HeaderBar />
+      <Portfolio />
+    </div>
   </Provider>
 );
 

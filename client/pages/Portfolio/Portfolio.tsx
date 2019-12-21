@@ -1,56 +1,43 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import React, { FC, useEffect, useState } from 'react';
 import { Dispatch } from 'redux';
-import { fetchUserData } from '@/reducers/user';
-import {
-  fetchPortfolioList,
-  setPortfolio,
-  fetchPortfolioData,
-  fetchAnalyticsData,
-} from '@/reducers/portfolio';
+import { connect } from 'react-redux';
+import { AppState } from '@/store/models/store';
+import { PortfolioParam } from '@/store/models/portfolio';
+import { userDataAction } from '@/store/actions/user';
+import { portfolioListAction, selectedPortfolioAction } from '@/store/actions/portfolio';
+import { analyticsTotalAction, analyticsAnnualizeAction, analyticsPastYearAction } from '@/store/actions/analytics';
+import * as _ from '@/utils/collection-util';
 import Sidebar from '@/components/Sidebar/Sidebar';
 import Graph from '@/components/Graph/PortfolioGraphContainer';
 import Analytics from '@/components/Analytics/Analytics';
 import styles from './Portfolio.scss';
+import { PortfolioProps, StateProps, DispatchProps } from './models/Portfolio';
 
-interface StateProps {
-  portfolios: Portfolio[];
-  id: string | null;
-}
-
-interface DispatchProps {
-  initialize(): void;
-  handlePortfolioClick(portfolio: Portfolio): void;
-  getPortfolioData(id: string | number, params: PortfolioParam): void;
-  getAnalyticsData(id: string): void;
-}
-
-type PortfolioProps = StateProps & DispatchProps;
-
-const Portfolio: FunctionComponent<PortfolioProps> = ({
+const Portfolio: FC<PortfolioProps> = ({
   id,
   portfolios,
-  initialize,
-  handlePortfolioClick,
+  onInit,
   getPortfolioData,
   getAnalyticsData,
 }) => {
-  const [filter, setFilter] = useState<PortfolioFilter>({ time: '180D', data: 'Cumulative Returns' });
+  const [filter, setFilter] = useState<PortfolioParam>({
+    range: '180D',
+    data: 'Cumulative Returns',
+  });
 
-  useEffect(() => initialize(), []);
+  useEffect(onInit, []);
 
   useEffect(() => {
     if (id) {
-      const params = { range: filter.time };
-
-      getPortfolioData(id, params);
+      const portfolio = _.find(portfolios, { id });
+      getPortfolioData(portfolio, { range: filter.range });
       getAnalyticsData(id);
     }
-  }, [id, filter.time]);
+  }, [id, filter.range]);
 
   return (
-    <div className={styles.container}>
-      <Sidebar portfolios={portfolios} portfolioClick={handlePortfolioClick} />
+    <div className={styles.portfolio}>
+      <Sidebar portfolioClick={getPortfolioData} />
       <Graph
         height={340}
         width={1056}
@@ -64,19 +51,20 @@ const Portfolio: FunctionComponent<PortfolioProps> = ({
 
 const mapStateToProps = (state: AppState): StateProps => ({
   portfolios: state.portfolio.list,
-  id: state.portfolio.id,
+  id: state.portfolio.selected.id,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
-  initialize: () => {
-    // TODO: move to Summary or Header page when complete
-    dispatch(fetchUserData());
-    dispatch(fetchPortfolioList());
+  onInit: () => {
+    dispatch(userDataAction());
+    dispatch(portfolioListAction());
   },
-  handlePortfolioClick: (portfolio: Portfolio) => dispatch(setPortfolio(portfolio)),
-  // TODO: move to Summary or Header page when complete
-  getPortfolioData: (id: string, params) => dispatch(fetchPortfolioData(id, params)),
-  getAnalyticsData: (id: string) => dispatch(fetchAnalyticsData(id)),
+  getPortfolioData: (portfolio, params) => dispatch(selectedPortfolioAction(portfolio, params)),
+  getAnalyticsData: (id: string) => {
+    dispatch(analyticsTotalAction(id));
+    dispatch(analyticsAnnualizeAction(id));
+    dispatch(analyticsPastYearAction(id));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Portfolio);

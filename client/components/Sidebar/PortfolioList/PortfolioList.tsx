@@ -1,16 +1,12 @@
-import React, { FunctionComponent } from 'react';
-import { convertToMoney } from '@/shared/util';
-import styles from './PortfolioList.scss';
+import React, { FC } from 'react';
+import { convertToMoney } from '@/utils/util';
 import RollingNumber from '@/components/RollingNumber/RollingNumber';
+import { IPortfolio } from '@/store/models/portfolio';
+import { PortfolioListProps } from './models/PortfolioList';
+import styles from './PortfolioList.scss';
 
-interface PortfolioListProps {
-  list: Portfolio[];
-  title: string | void;
-  portfolioClick(portfolio: Portfolio): void;
-}
-
-const PortfolioList: FunctionComponent<PortfolioListProps> = ({
-  list,
+const PortfolioList: FC<PortfolioListProps> = ({
+  portfolios,
   title,
   portfolioClick,
 }) => (
@@ -20,32 +16,32 @@ const PortfolioList: FunctionComponent<PortfolioListProps> = ({
         <h3>{title}</h3>
       </div>
     )}
-    {list.map((item: Portfolio) => {
-      const colorClass = item.returns > 0
+    {portfolios.map((portfolio: IPortfolio) => {
+      const colorClass = portfolio.returns > 0
         ? styles.subDetailPos
-        : item.returns < 0
+        : portfolio.returns < 0
           ? styles.subDetailNeg
           : styles.subDetailNeutral;
 
       return (
         <button
           type="button"
-          key={item.id}
+          key={portfolio.id}
           className={styles.portfolio}
-          onClick={() => portfolioClick(item)}
+          onClick={() => portfolioClick(portfolio)}
         >
           <div>
-            <div className={styles.detail}>{item.name}</div>
+            <div className={styles.detail}>{portfolio.name}</div>
             {title && (
-              <div className={styles.subDetail}>{item.brokerage.toUpperCase()}</div>
+              <div className={styles.subDetail}>{portfolio.brokerage.toUpperCase()}</div>
             )}
           </div>
           <div className={styles.amount}>
             <div className={styles.detail}>
-              <RollingNumber nextValue={item.balance} formatter={convertToMoney} />
+              <RollingNumber nextValue={portfolio.balance} formatter={convertToMoney} />
             </div>
             <div className={colorClass}>
-              <RollingNumber nextValue={item.returns} formatter={convertToMoney} />
+              <RollingNumber nextValue={portfolio.returns} formatter={convertToMoney} />
             </div>
           </div>
         </button>

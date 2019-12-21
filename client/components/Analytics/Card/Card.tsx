@@ -1,17 +1,8 @@
 import React, { FC } from 'react';
 import RollingNumber from '@/components/RollingNumber/RollingNumber';
 import styles from './Card.scss';
+import { AnalyticsCardProps } from './models/Card';
 
-interface Data {
-  label: string;
-  value: number;
-  formatter?: (value: number) => string;
-}
-
-interface AnalyticsCardProps {
-  title: string;
-  details: Data[];
-}
 
 const AnalyticsCard: FC<AnalyticsCardProps> = ({ title, details }) => (
   <div className={styles.card}>
