@@ -1,6 +1,8 @@
-const portolfioList: Portfolio[] = [
+import { IPortfolio } from '@/store/models/portfolio';
+
+const portolfioList: IPortfolio[] = [
   {
-    id: 1,
+    id: '1',
     name: 'Summary',
     brokerage: 'All',
     balance: 176510.56,
@@ -9,7 +11,7 @@ const portolfioList: Portfolio[] = [
     isRetirement: false,
     isSavings: false,
   }, {
-    id: 2,
+    id: '2',
     name: 'WD ESPP',
     brokerage: 'E*Trade',
     balance: 0,
@@ -18,7 +20,7 @@ const portolfioList: Portfolio[] = [
     isRetirement: false,
     isSavings: false,
   }, {
-    id: 3,
+    id: '3',
     name: 'WD 401(k)',
     brokerage: 'T Rowe Price',
     balance: 46417.66,
@@ -27,7 +29,7 @@ const portolfioList: Portfolio[] = [
     isRetirement: true,
     isSavings: false,
   }, {
-    id: 4,
+    id: '4',
     name: 'Roth 4-Fund',
     brokerage: 'Vanguard',
     balance: 34670.20,
@@ -36,7 +38,7 @@ const portolfioList: Portfolio[] = [
     isRetirement: true,
     isSavings: false,
   }, {
-    id: 5,
+    id: '5',
     name: 'HSA',
     brokerage: 'Health Equity',
     balance: 6918.25,

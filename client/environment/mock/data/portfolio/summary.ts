@@ -1,3 +1,5 @@
+import { PortfolioData } from '@/store/models/portfolio';
+
 const summary: PortfolioData[] = [
   {
     date: new Date('12/31/2018'),

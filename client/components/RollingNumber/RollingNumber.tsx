@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { Subscription, interval } from 'rxjs';
 import { interpolateNumber } from 'd3-interpolate';
 import { take } from 'rxjs/operators';
@@ -11,10 +11,7 @@ interface RollingNumberProps {
   formatter?: (value: number) => string;
 }
 
-const RollingNumber: FunctionComponent<RollingNumberProps> = ({
-  nextValue,
-  formatter = indentyCallback,
-}) => {
+const RollingNumber: FC<RollingNumberProps> = ({ nextValue, formatter = indentyCallback }) => {
   const [currentValue, setCurrentValue] = useState<number>(0);
   let subscription: Subscription;
 

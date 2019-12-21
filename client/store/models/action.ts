@@ -3,7 +3,7 @@ import { Epic } from 'redux-observable';
 import { AxiosPromise, AxiosError } from 'axios';
 
 export interface Metadata {
-  [prop: string]: any;
+  [propName: string]: any;
 }
 
 export interface FluxAction<T> extends Action<string> {

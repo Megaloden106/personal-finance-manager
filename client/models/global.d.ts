@@ -1,5 +1,7 @@
 declare module '*.scss' {
-  const content: {[className: string]: string};
+  const content: {
+    [className: string]: string;
+  };
   export default content;
 }
 
@@ -24,4 +26,8 @@ interface Route {
   endpoint: string;
   level: number;
   className?: string;
+}
+
+interface IObject {
+  [key: string]: any;
 }

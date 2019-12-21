@@ -1,11 +1,11 @@
 import { Reducer, combineReducers } from 'redux';
 import { AppState } from '@/store/models/store';
-import { userReducer as user } from './user';
-import { portfolioReducer as portfolio } from './portfolio';
-import { analyticsReducer as analytics } from './analytics';
+import { userReducer } from './user';
+import { portfolioReducer } from './portfolio';
+import { analyticsReducer } from './analytics';
 
 export const rootReducer: Reducer<AppState> = combineReducers({
-  user,
-  portfolio,
-  analytics,
+  user: userReducer,
+  portfolio: portfolioReducer,
+  analytics: analyticsReducer,
 });

@@ -1,5 +1,5 @@
 export interface PortfolioState {
-  readonly list: Portfolio[];
+  readonly list: IPortfolio[];
   readonly selected: {
     readonly name: string | null;
     readonly id: string | null;
@@ -7,8 +7,8 @@ export interface PortfolioState {
   };
 }
 
-export interface Portfolio {
-  id: number;
+export interface IPortfolio {
+  id: string;
   name: string;
   brokerage: string;
   balance: number;
@@ -29,4 +29,5 @@ export interface PortfolioData {
 
 export interface PortfolioParam {
   range?: string;
+  data?: string;
 }

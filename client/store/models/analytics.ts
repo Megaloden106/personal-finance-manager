@@ -1,22 +1,22 @@
 export interface AnalyticsState {
-  readonly total: TotalAnalytics;
-  readonly annualize: AnnualizeAnalytics;
-  readonly pastYear: PastYearAnalytics;
+  readonly total: TotalAnalytic;
+  readonly annualize: AnnualizeAnalytic;
+  readonly pastYear: PastYearAnalytic;
 }
 
-export interface TotalAnalytics {
+export interface TotalAnalytic {
   balance: number;
   cashFlow: number;
   returns: number;
 }
 
-export interface AnnualizeAnalytics {
+export interface AnnualizeAnalytic {
   returns: number;
   rateOfReturn: number;
   cashFlow: number;
 }
 
-export interface PastYearAnalytics {
+export interface PastYearAnalytic {
   returns: number;
   rateOfReturn: number;
   cashFlow: number;

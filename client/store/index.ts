@@ -18,7 +18,7 @@ const epicMiddleware: EpicMiddleware<FluxAction<any>> = createEpicMiddleware();
 const initialState: AppState = {
   user: initialUserState,
   portfolio: initialPortfolioState,
-  anayltics: initialAnalyticsState,
+  analytics: initialAnalyticsState,
 };
 
 // createStore: Reducer<State>, Action, StoreExt: any, StateExt: any

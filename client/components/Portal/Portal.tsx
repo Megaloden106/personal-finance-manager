@@ -1,9 +1,7 @@
-import {
-  FunctionComponent,
-  useEffect,
-  ReactNode,
-} from 'react';
+import { FC, useEffect, ReactNode } from 'react';
 import ReactDOM from 'react-dom';
+import { PortalRect } from './models/Portal';
+import { convertToStyle } from '@/utils/util';
 
 interface DropdownProps {
   target: string;
@@ -11,17 +9,7 @@ interface DropdownProps {
   rect: PortalRect;
 }
 
-const convertToStyle = (rect: PortalRect): string => {
-  let htmlStyle = 'position: absolute; ';
-  Object.keys(rect).forEach((key: string) => {
-    htmlStyle += `${key}: ${rect[key]}px; `;
-  });
-
-  return htmlStyle;
-};
-
-
-const Portal: FunctionComponent<DropdownProps> = ({ target, children, rect }) => {
+const Portal: FC<DropdownProps> = ({ target, children, rect }) => {
   const portal = document.getElementById(target) as HTMLElement;
 
   // On change update style
