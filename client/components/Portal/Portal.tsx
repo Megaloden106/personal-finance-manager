@@ -10,7 +10,7 @@ interface DropdownProps {
 }
 
 const Portal: FC<DropdownProps> = ({ target, children, rect }) => {
-  const portal = document.getElementById(target) as HTMLElement;
+  const portal = document.getElementById(target);
 
   // On change update style
   useEffect(() => {

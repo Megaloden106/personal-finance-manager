@@ -82,8 +82,8 @@ const Graph: FunctionComponent<GraphProps> = ({
         .x(d => x(d.date))
         .y(d => y(d[selector]));
 
-      x.domain(d3.extent(data, d => d.date) as Date[]);
-      y.domain(d3.extent(data, d => d[selector]) as number[]);
+      x.domain(d3.extent(data, d => d.date));
+      y.domain(d3.extent(data, d => d[selector]));
 
       // set data to appended path
       const drawLine = svg.selectAll('.path')
@@ -103,7 +103,7 @@ const Graph: FunctionComponent<GraphProps> = ({
         .attr('stroke', color)
         .attr('stroke-width', '1px');
 
-      const length = (lineEnter.node() as SVGPathElement)
+      const length = lineEnter.node()
         .getTotalLength();
 
       // stroke transition
@@ -139,7 +139,7 @@ const Graph: FunctionComponent<GraphProps> = ({
       const { left } = d3.bisector((d: PortfolioData) => d.date);
       const bisect = (mx: number) => {
         const dx = d3.scaleTime()
-          .domain(d3.extent(data, (d: PortfolioData) => d.date) as Date[])
+          .domain(d3.extent(data, (d: PortfolioData) => d.date))
           .range([0, width]);
         const hoverDate = dx.invert(mx);
         const index = left(data, hoverDate, 1);

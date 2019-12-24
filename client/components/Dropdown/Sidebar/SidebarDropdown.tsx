@@ -13,7 +13,7 @@ const SidebarDropdown: FC<SidebarDropdownProps> = ({
 
   useEffect(() => {
     // Calculate position from body for dropdown
-    const anchor = (document.getElementById('sidebar-anchor') as HTMLElement)
+    const anchor = document.getElementById('sidebar-anchor')
       .getBoundingClientRect();
     const body = document.body.getBoundingClientRect();
     const width = 180;

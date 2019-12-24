@@ -1,4 +1,4 @@
-export const find = (collection: any[], predicate: IObject): any | null => {
+export const find = (collection: any[], predicate: IObject): any => {
   for (let i = 0; i < collection.length; i += 1) {
     const item = collection[i];
     const keys = Object.keys(predicate);
@@ -17,7 +17,7 @@ export const find = (collection: any[], predicate: IObject): any | null => {
   return null;
 };
 
-export const get = (collection: IObject, predicate: string | string[]): any | null => {
+export const get = (collection: IObject, predicate: string | string[]): any => {
   if (typeof predicate === 'string') {
     return collection[predicate] || null;
   }

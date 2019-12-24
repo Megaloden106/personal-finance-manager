@@ -17,7 +17,7 @@ const BaseDropdown: FC<BaseDropdownProps> = ({
 
   // Event handler for closing dropdown
   const handleCloseEvent = (event: Event) => {
-    const modal = document.getElementById('dropdown') as HTMLElement;
+    const modal = document.getElementById('dropdown');
     if (event.type === 'resize' || !modal.contains(event.target as Node)) {
       close();
     }

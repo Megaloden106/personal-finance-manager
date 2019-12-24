@@ -10,7 +10,7 @@ import styles from './Sidebar.scss';
 
 const Sidebar: FC<SidebarProps> = ({ portfoliosByType, portfolioClick }) => {
   const [selected, setSelected] = useState<string>('Returns');
-  const [menuItems, setMenuItems] = useState<DropdownMenuItem[] | null>(null);
+  const [menuItems, setMenuItems] = useState<DropdownMenuItem[]>(null);
 
   const handleAnchorClick = () => {
     const menu = menuItems ? null : [

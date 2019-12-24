@@ -2,7 +2,7 @@ import { IPortfolio, PortfolioParam } from '@/store/models/portfolio';
 
 export interface StateProps {
   portfolios: IPortfolio[];
-  id: string | null;
+  id: string;
 }
 
 export interface DispatchProps {

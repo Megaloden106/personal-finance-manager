@@ -1,4 +1,4 @@
 export interface UserState {
-  readonly username: string | null;
+  readonly username: string;
   readonly accessLevel: number;
 }
