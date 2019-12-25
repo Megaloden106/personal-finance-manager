@@ -40,7 +40,7 @@ const Portfolio: FC<PortfolioProps> = ({
       <Sidebar portfolioClick={getPortfolioData} />
       <Graph
         height={340}
-        width={1056}
+        width={1064}
         filter={filter}
         filterClick={setFilter}
       />
