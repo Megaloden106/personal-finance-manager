@@ -13,3 +13,11 @@
   width: $app_width;
   margin-top: 24px;
 }
+
+.graph {
+  position: relative;
+  grid-area: graph;
+  height: 496px;
+  padding: 24px;
+  background: #fff;
+}

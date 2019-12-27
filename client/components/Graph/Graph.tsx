@@ -1,9 +1,4 @@
-import React, {
-  FunctionComponent,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import { select, mouse } from 'd3-selection';
 import { scaleLinear, scaleTime } from 'd3-scale';
 import { line } from 'd3-shape';
@@ -11,9 +6,7 @@ import { extent, bisector } from 'd3-array';
 import { easeLinear } from 'd3-ease';
 import 'd3-transition';
 import moment from 'moment';
-import { convertToCamelCase, convertToMoney, convertToPercent } from '@/utils/util';
-import RollingNumber from '../RollingNumber/RollingNumber';
-import styles from './Graph.scss';
+import { convertToCamelCase } from '@/utils/util';
 import { PortfolioData } from '@/store/models/portfolio';
 import { GraphProps } from './models/Graph';
 
@@ -28,33 +21,15 @@ const d3 = {
   scaleTime,
 };
 
-const Graph: FunctionComponent<GraphProps> = ({
+const Graph: FC<GraphProps> = ({
   data,
   filter,
   height,
-  name,
   width,
-  filterClick,
+  setNext,
 }) => {
-  const [balance, setBalance] = useState<number>(0);
-  const [returns, setReturns] = useState<number>(0);
-  const [percentage, setPercentage] = useState<number>(0);
-  const [date, setDate] = useState<string>('');
-
   const d3Graph = useRef(null);
   const { current } = d3Graph;
-
-  const timeFilters = ['30D', '90D', '180D', '1Y', '5Y', '10Y', 'YTD', 'All'];
-  const dataFilters = ['Cumulative Returns'];
-
-  const setNext = (next: PortfolioData, newDate: string = '') => {
-    const start = data[0];
-    const nextReturns = next.cumulativeReturns - start.cumulativeReturns;
-    setBalance(next.balance);
-    setReturns(nextReturns);
-    setPercentage(nextReturns / start.balance * 100);
-    setDate(newDate);
-  };
 
   // update svg based on the filtered data
   useEffect(() => {
@@ -198,61 +173,11 @@ const Graph: FunctionComponent<GraphProps> = ({
   }, [data, current]);
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.name}>{name}</h1>
-      <h1 className={styles.balance}>
-        <RollingNumber nextValue={balance} formatter={convertToMoney} />
-      </h1>
-      <h5 className={
-        [
-          styles.returns,
-          returns > 0 ? styles.returnsPos : undefined,
-          returns < 0 ? styles.returnsNeg : undefined,
-        ].join(' ')}
-      >
-        <RollingNumber nextValue={returns} formatter={convertToMoney} />
-        <span>&nbsp;(</span>
-        <RollingNumber nextValue={percentage} formatter={convertToPercent} />
-        <span>)</span>
-        {date && (
-          <span className={styles.date}>
-            &nbsp;On&nbsp;
-            {date}
-          </span>
-        )}
-      </h5>
-      <svg
-        ref={d3Graph}
-        height={height}
-        width={width}
-      />
-      <div className={styles.filter}>
-        <div className={styles.filterTime}>
-          {timeFilters.map((tf: string) => (
-            <button
-              type="button"
-              key={tf}
-              className={tf === filter.range ? styles.selected : undefined}
-              onClick={() => filterClick({ ...filter, range: tf })}
-            >
-              {tf}
-            </button>
-          ))}
-        </div>
-        <div className={styles.filterData}>
-          {dataFilters.map((df: string) => (
-            <button
-              type="button"
-              key={df}
-              className={df === filter.data ? styles.selected : undefined}
-              onClick={() => filterClick({ ...filter, data: df })}
-            >
-              {df}
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
+    <svg
+      ref={d3Graph}
+      height={height}
+      width={width}
+    />
   );
 };
 

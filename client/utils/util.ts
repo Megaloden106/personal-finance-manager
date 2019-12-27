@@ -6,7 +6,8 @@ export const convertToMoney = (num: number): string => {
   }
   const money = Math.abs(num).toFixed(2);
   let result = num >= 0 ? '$' : '-$';
-  for (let i = 0; i < money.length; i += 1) {
+  result += money[0];
+  for (let i = 1; i < money.length; i += 1) {
     if ((money.length - i) % 3 === 0 && money[i] !== '.') {
       result += ',';
     }
