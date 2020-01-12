@@ -13,8 +13,9 @@ import Analytics from '@/components/Analytics/Analytics';
 import FilterBar from '@/components/FilterBar/FilterBar';
 import { PortfolioProps, StateProps, DispatchProps } from './models/Portfolio';
 import styles from './Portfolio.scss';
-import { convertToMoney, convertToPercent } from '@/utils/util';
 import Overview from './Overview/Overview';
+import { getClassName } from '@/utils/react-util';
+import CircleMenu from '@/components/CircleMenu/CircleMenu';
 
 const Portfolio: FC<PortfolioProps> = ({
   id,
@@ -33,6 +34,19 @@ const Portfolio: FC<PortfolioProps> = ({
   const [returns, setReturns] = useState<number>(0);
   const [percentage, setPercentage] = useState<number>(0);
   const [date, setDate] = useState<string>('');
+  const [isMenuOpen, setMenu] = useState<boolean>(false);
+
+  /* componentDidMount */
+  useEffect(onInit, []);
+
+  /* componentDidUpdate: id, filter.range */
+  useEffect(() => {
+    if (id) {
+      const portfolio = _.find(portfolios, { id });
+      getPortfolioData(portfolio, { range: filter.range });
+      getAnalyticsData(id);
+    }
+  }, [id, filter.range]);
 
   const setNext = (next: PortfolioData, newDate: string = '') => {
     const start = data[0];
@@ -43,27 +57,36 @@ const Portfolio: FC<PortfolioProps> = ({
     setDate(newDate);
   };
 
-  useEffect(onInit, []);
-
-  useEffect(() => {
-    if (id) {
-      const portfolio = _.find(portfolios, { id });
-      getPortfolioData(portfolio, { range: filter.range });
-      getAnalyticsData(id);
-    }
-  }, [id, filter.range]);
-
   return (
     <div className={styles.portfolio}>
       <Sidebar portfolioClick={getPortfolioData} />
       <div className={styles.graph}>
-        <Overview
-          name={name}
-          balance={balance}
-          returns={returns}
-          percentage={percentage}
-          date={date}
-        />
+        <div className={styles.header}>
+          <Overview
+            name={name}
+            balance={balance}
+            returns={returns}
+            percentage={percentage}
+            date={date}
+          />
+          <button
+            type="button"
+            id="circle-menu-anchor"
+            className={getClassName({
+              [styles.menu]: true,
+              [styles.menuOpen]: isMenuOpen,
+            })}
+            onClick={() => setMenu(!isMenuOpen)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+          <CircleMenu
+            anchorId="circle-menu-anchor"
+            isOpen={isMenuOpen}
+          />
+        </div>
         <Graph
           height={340}
           width={1064}

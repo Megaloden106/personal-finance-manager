@@ -11,7 +11,7 @@ const Overview: FC<OverviewProps> = ({
   percentage,
   date,
 }) => (
-  <div className={styles.overview}>
+  <div>
     <h2 className={styles.name}>{name}</h2>
     <p className={styles.balance}>
       <RollingNumber nextValue={balance} formatter={convertToMoney} />

@@ -31,3 +31,7 @@ interface Route {
 interface IObject {
   [key: string]: any;
 }
+
+interface ClassNamePredicate {
+  [className: string]: boolean;
+}

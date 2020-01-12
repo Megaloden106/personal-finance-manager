@@ -1,25 +1,23 @@
 import React, { FC, useState } from 'react';
 import { connect } from 'react-redux';
-import SidebarDropdown from '../Dropdown/Sidebar/SidebarDropdown';
 import PortfolioList from './PortfolioList/PortfolioList';
-import { DropdownMenuItem } from '@/components/Dropdown/Base/models/DropdownMenuItem';
+import { DropdownMenuItem } from '@/components/Dropdown/models/DropdownMenuItem';
 import { AppState } from '@/store/models/store';
 import { portfolioByTypeSelector } from '@/store/selectors/portfolios/PortfolioSelector';
 import { SidebarProps, StateProps } from './models/Sidebar';
+import Dropdown from '@/components/Dropdown/Dropdown';
 import styles from './Sidebar.scss';
+import { getClassName } from '@/utils/react-util';
 
 const Sidebar: FC<SidebarProps> = ({ portfoliosByType, portfolioClick }) => {
   const [selected, setSelected] = useState<string>('Returns');
-  const [menuItems, setMenuItems] = useState<DropdownMenuItem[]>(null);
+  const [isMenuOpen, setMenu] = useState<boolean>(false);
 
-  const handleAnchorClick = () => {
-    const menu = menuItems ? null : [
-      { label: 'Returns' },
-      { label: 'Percentage' },
-      { label: 'APR' },
-    ];
-    setMenuItems(menu);
-  };
+  const menuItems = [
+    { label: 'Returns' },
+    { label: 'Percentage' },
+    { label: 'APR' },
+  ];
 
   const handleRowClick = ({ label }: DropdownMenuItem) => setSelected(label);
 
@@ -30,8 +28,10 @@ const Sidebar: FC<SidebarProps> = ({ portfoliosByType, portfolioClick }) => {
         <button
           type="button"
           id="sidebar-anchor"
-          className={menuItems ? styles.menuOpen : undefined}
-          onClick={handleAnchorClick}
+          className={getClassName({
+            [styles.menuOpen]: isMenuOpen,
+          })}
+          onClick={() => setMenu(!isMenuOpen)}
         >
           <span />
           <span />
@@ -48,11 +48,14 @@ const Sidebar: FC<SidebarProps> = ({ portfoliosByType, portfolioClick }) => {
           />
         ) : null
       ))}
-      {menuItems && (
-        <SidebarDropdown
+      {isMenuOpen && (
+        <Dropdown
+          anchorId="sidebar-anchor"
+          title="View"
+          offset={{ x: 41 }}
           selected={selected}
           menuItems={menuItems}
-          close={() => setMenuItems(null)}
+          close={() => setMenu(false)}
           rowClick={handleRowClick}
         />
       )}
