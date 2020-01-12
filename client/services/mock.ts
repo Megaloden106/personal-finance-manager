@@ -28,7 +28,7 @@ export default class BaseMockService {
     return false;
   }
 
-  public getScenario({ config }: AxiosError): AxiosPromise | null {
+  public getScenario({ config }: AxiosError): AxiosPromise {
     const { method } = config;
     let scenario: ScenarioResponse | undefined;
 
@@ -37,7 +37,7 @@ export default class BaseMockService {
     for (let i = 0; i < matchedRoutes.length && !scenario; i += 1) {
       const { scenarios: _s } = matchedRoutes[i];
       const upperCaseMethod = (method && method.toUpperCase()) as Method;
-      scenario = _s[upperCaseMethod] as ScenarioResponse;
+      scenario = _s[upperCaseMethod];
     }
     if (!scenario) return null;
 

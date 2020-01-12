@@ -1,5 +1,5 @@
 export interface StateProps {
-  username: string | null;
+  username: string;
 }
 
 export type HeaderProps = StateProps;

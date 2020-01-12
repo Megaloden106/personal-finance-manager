@@ -1,8 +1,8 @@
 export interface PortfolioState {
   readonly list: IPortfolio[];
   readonly selected: {
-    readonly name: string | null;
-    readonly id: string | null;
+    readonly name: string;
+    readonly id: string;
     readonly data: PortfolioData[];
   };
 }

@@ -2,10 +2,9 @@
   position: absolute;
   width: 100%;
   max-height: 0;
-  overflow-y: hidden;
   background-color: white;
   box-shadow: 0 0 4px 1px rgba(252, 120, 120, 0.01), 0 3px 24px rgba(0, 0, 0, 0.2);
-  transition: max-height 0.2s ease;
+  transition: max-height 0.3s ease;
 
   &--open {
     max-height: 500px;

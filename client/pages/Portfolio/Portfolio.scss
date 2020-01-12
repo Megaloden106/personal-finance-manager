@@ -2,15 +2,92 @@
 
 .portfolio {
   display: grid;
-  grid-template-columns: 1080px 280px;
-  grid-template-rows: auto 1fr;
   grid-template-areas:
-    "graph sidebar"
-    "analytics sidebar";
-  grid-column-gap: 80px;
-  grid-row-gap: 6px;
+    "sidebar graph"
+    "sidebar analytics";
+  grid-template-columns: 280px 1112px;
+  grid-template-rows: auto 1fr;
+  grid-column-gap: 48px;
+  grid-row-gap: 24px;
   align-items: start;
   width: $app_width;
-  background-color: #fff;
-  margin-top: 6px;
+  margin-top: 24px;
+}
+
+.graph {
+  position: relative;
+  grid-area: graph;
+  height: 496px;
+  padding: 24px;
+  background: #fff;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.menu {
+  width: 48px;
+  height: 48px;
+  background: #fff;
+  border-radius: 100%;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14),
+    0 2px 1px -1px rgba(0, 0, 0, 0.12),
+    0 1px 3px 0 rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+      0 8px 10px 1px rgba(0, 0, 0, 0.14),
+      0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  }
+
+  span {
+    position: relative;
+    display: block;
+    width: 28px;
+    height: 4px;
+    margin: 0 auto;
+    background: #1591b6;
+    border-radius: 10px;
+    transition:
+      bottom 0.075s 0.125s ease,
+      top 0.075s 0.125s ease,
+      opacity 0.075s 0.125s ease,
+      transform 0.075s ease;
+
+    &:first-of-type {
+      bottom: 3px;
+    }
+
+    &:last-of-type {
+      top: 3px;
+    }
+  }
+
+  &--open span {
+    transition:
+      bottom 0.075s ease,
+      top 0.075s ease,
+      opacity 0.075s ease,
+      transform 0.075s 0.125s ease;
+
+    &:first-of-type {
+      bottom: -4px;
+      transform: rotate(45deg);
+    }
+
+    &:nth-of-type(2) {
+      opacity: 0;
+    }
+
+    &:last-of-type {
+      top: -4px;
+      transform: rotate(-45deg);
+    }
+  }
 }

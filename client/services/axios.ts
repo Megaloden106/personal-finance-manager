@@ -15,7 +15,7 @@ const mockAdapter = (_config: AxiosRequestConfig): any => {
   return _config;
 };
 
-const mockResponse = (_error: AxiosError): AxiosPromise | Promise<AxiosError> | null => {
+const mockResponse = (_error: AxiosError): AxiosPromise | Promise<AxiosError> => {
   if (process.env.mock && MockService.isUrlMocked(_error.config)) {
     return MockService.getScenario(_error);
   }
