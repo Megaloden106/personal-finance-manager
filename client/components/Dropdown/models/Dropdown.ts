@@ -1,11 +1,13 @@
 import { DropdownMenuItem } from './DropdownMenuItem';
-import { PortalRect } from '@/components/Portal/models/Portal';
+import { Offset } from './Offset';
 
-export interface BaseDropdownProps {
-  selected: string;
+export interface DropdownProps {
+  anchorId: string;
   menuItems: DropdownMenuItem[];
-  rect: PortalRect;
+  offset?: Offset;
+  selected: string;
   title?: string;
+  width?: number;
   close(): void;
   rowClick(item: DropdownMenuItem): void;
 }
