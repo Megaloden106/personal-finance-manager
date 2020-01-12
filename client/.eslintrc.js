@@ -35,7 +35,7 @@ module.exports = {
     "react/jsx-filename-extension": ["warn", {
       "extensions": [".jsx", ".tsx"]
     }],
-    "react/prop-types": false,
+    "react/prop-types": 0,
     "react-hooks/rules-of-hooks": "error",
     "jsx-a11y/label-has-for": [ 2, {
       "components": [ "Label" ],
