@@ -1,9 +1,8 @@
-export interface PortalRect {
-  top?: number | string;
-  right?: number | string;
-  bottom?: number | string;
-  left?: number | string;
-  width?: number | string;
-  height?: number | string;
-  [key: string]: number | string | undefined;
+import { ReactNode } from 'react';
+import { PortalRect } from './PortalRect';
+
+export interface PortalProps {
+  target: string;
+  children: ReactNode;
+  rect: PortalRect;
 }

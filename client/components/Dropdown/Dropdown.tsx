@@ -5,7 +5,7 @@ import styles from './Dropdown.scss';
 import { DropdownMenuItem } from './models/DropdownMenuItem';
 import { DropdownProps } from './models/Dropdown';
 import { getClassName } from '@/utils/react-util';
-import { PortalRect } from '@/components/Portal/models/Portal';
+import { PortalRect } from '@/components/Portal/models/PortalRect';
 
 const Dropdown: FC<DropdownProps> = ({
   selected,

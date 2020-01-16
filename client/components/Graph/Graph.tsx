@@ -26,6 +26,9 @@ const Graph: FC<GraphProps> = ({
   filter,
   height,
   width,
+  interactive,
+  lineColor,
+  lineWidth,
   setNext,
 }) => {
   const d3Graph = useRef(null);
@@ -33,7 +36,7 @@ const Graph: FC<GraphProps> = ({
 
   // update svg based on the filtered data
   useEffect(() => {
-    if (data.length) {
+    if (data.length && current) {
       const end: PortfolioData = data[data.length - 1];
       const selector = convertToCamelCase(filter.data || '');
       setNext(end);
@@ -67,16 +70,16 @@ const Graph: FC<GraphProps> = ({
       // set color for line
       const first = data[0][selector];
       const last = data[data.length - 1][selector];
-      const color = first > last
+      const color = lineColor || (first > last
         ? '#f45431' : last > first
-          ? '#21ce99' : '#888';
+          ? '#21ce99' : '#888');
 
       const lineEnter = drawLine.enter()
         .append('path')
         .attr('d', valueLine)
         .attr('fill', 'none')
         .attr('stroke', color)
-        .attr('stroke-width', '1px');
+        .attr('stroke-width', lineWidth ? `${lineWidth}px` : '1px');
 
       const length = lineEnter.node()
         .getTotalLength();
@@ -86,7 +89,7 @@ const Graph: FC<GraphProps> = ({
         .attr('stroke-dashoffset', length)
         .raise()
         .transition()
-        .duration(500)
+        .duration(interactive ? 500 : 0)
         .ease(d3.easeLinear)
         .attr('stroke-dashoffset', 0);
 
@@ -94,81 +97,83 @@ const Graph: FC<GraphProps> = ({
         .remove();
 
       // append dotted zero line
-      const zeroLine = svg.selectAll('.zero-line')
-        .data([data]);
+      if (interactive) {
+        const zeroLine = svg.selectAll('.zero-line')
+          .data([data]);
 
-      const zeroLineEnter = zeroLine.enter()
-        .append('g');
+        const zeroLineEnter = zeroLine.enter()
+          .append('g');
 
-      const startValue = data[0][selector];
+        const startValue = data[0][selector];
 
-      zeroLineEnter.append('line')
-        .attr('stroke', '#888')
-        .attr('stroke-width', 1)
-        .attr('stroke-dasharray', '1, 5')
-        .attr('x1', 0)
-        .attr('x2', width)
-        .attr('transform', `translate(0, ${y(startValue)})`);
+        zeroLineEnter.append('line')
+          .attr('stroke', '#888')
+          .attr('stroke-width', 1)
+          .attr('stroke-dasharray', '1, 5')
+          .attr('x1', 0)
+          .attr('x2', width)
+          .attr('transform', `translate(0, ${y(startValue)})`);
 
-      // helper func to determine dot snapping
-      const { left } = d3.bisector((d: PortfolioData) => d.date);
-      const bisect = (mx: number) => {
-        const dx = d3.scaleTime()
-          .domain(d3.extent(data, (d: PortfolioData) => d.date))
-          .range([0, width]);
-        const hoverDate = dx.invert(mx);
-        const index = left(data, hoverDate, 1);
-        const a: PortfolioData = data[index - 1];
-        const b: PortfolioData = data[index];
-        return moment(hoverDate).diff(a.date) > moment(b.date).diff(hoverDate) ? b : a;
-      };
+        // helper func to determine dot snapping
+        const { left } = d3.bisector((d: PortfolioData) => d.date);
+        const bisect = (mx: number) => {
+          const dx = d3.scaleTime()
+            .domain(d3.extent(data, (d: PortfolioData) => d.date))
+            .range([0, width]);
+          const hoverDate = dx.invert(mx);
+          const index = left(data, hoverDate, 1);
+          const a: PortfolioData = data[index - 1];
+          const b: PortfolioData = data[index];
+          return moment(hoverDate).diff(a.date) > moment(b.date).diff(hoverDate) ? b : a;
+        };
 
-      const focus = svg.selectAll('.focus')
-        .data([data]);
+        const focus = svg.selectAll('.focus')
+          .data([data]);
 
-      const focusEnter = focus.enter()
-        .append('g')
-        .style('display', 'none');
+        const focusEnter = focus.enter()
+          .append('g')
+          .style('display', 'none');
 
-      // append dotted line
-      focusEnter.append('line')
-        .attr('stroke', color)
-        .attr('stroke-width', 1)
-        .attr('stroke-dasharray', '3, 3')
-        .attr('y1', 0)
-        .attr('y2', height);
+        // append dotted line
+        focusEnter.append('line')
+          .attr('stroke', color)
+          .attr('stroke-width', 1)
+          .attr('stroke-dasharray', '3, 3')
+          .attr('y1', 0)
+          .attr('y2', height);
 
-      // append dot
-      focusEnter.append('circle')
-        .attr('fill', color)
-        .attr('stroke', '#fff')
-        .attr('stroke-width', 2)
-        .attr('r', 5);
+        // append dot
+        focusEnter.append('circle')
+          .attr('fill', color)
+          .attr('stroke', '#fff')
+          .attr('stroke-width', 2)
+          .attr('r', 5);
 
-      // append hover layer
-      svg.append('rect')
-        .attr('fill', 'none')
-        .attr('pointer-events', 'all')
-        .attr('width', width)
-        .attr('height', height)
-        .on('mouseover', () => focusEnter.style('display', null))
-        .on('mouseout', () => {
-          focusEnter.style('display', 'none');
-          setNext(end);
-        })
-        .on('mousemove', function mousemove() {
-          // get datapoint
-          const dp = bisect(d3.mouse(this)[0]);
-          const dy = dp[selector];
+        // append hover layer
+        svg.append('rect')
+          .attr('fill', 'none')
+          .attr('pointer-events', 'all')
+          .attr('width', width)
+          .attr('height', height)
+          .on('mouseover', () => focusEnter.style('display', null))
+          .on('mouseout', () => {
+            focusEnter.style('display', 'none');
+            setNext(end);
+          })
+          .on('mousemove', function mousemove() {
+            // get datapoint
+            const dp = bisect(d3.mouse(this)[0]);
+            const dy = dp[selector];
 
-          // move focus to snapping location
-          focusEnter.attr('transform', `translate(${x(dp.date)}, 0)`);
-          focusEnter.select('circle')
-            .attr('transform', `translate(0, ${y(dy)})`);
+            // move focus to snapping location
+            focusEnter.attr('transform', `translate(${x(dp.date)}, 0)`);
+            focusEnter.select('circle')
+              .attr('transform', `translate(0, ${y(dy)})`);
 
-          // recalc balance
-          setNext(dp, moment(dp.date).format('MMM D, YYYY'));
-        });
+            // recalc balance
+            setNext(dp, moment(dp.date).format('MMM D, YYYY'));
+          });
+      }
     }
   }, [data, current]);
 

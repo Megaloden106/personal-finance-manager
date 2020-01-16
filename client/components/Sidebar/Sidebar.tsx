@@ -28,9 +28,7 @@ const Sidebar: FC<SidebarProps> = ({ portfoliosByType, portfolioClick }) => {
         <button
           type="button"
           id="sidebar-anchor"
-          className={getClassName({
-            [styles.menuOpen]: isMenuOpen,
-          })}
+          className={getClassName({ [styles.menuOpen]: isMenuOpen })}
           onClick={() => setMenu(!isMenuOpen)}
         >
           <span />

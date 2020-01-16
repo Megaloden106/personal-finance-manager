@@ -85,6 +85,7 @@ const Portfolio: FC<PortfolioProps> = ({
           <CircleMenu
             anchorId="circle-menu-anchor"
             isOpen={isMenuOpen}
+            setMenu={setMenu}
           />
         </div>
         <Graph
@@ -92,6 +93,7 @@ const Portfolio: FC<PortfolioProps> = ({
           width={1064}
           filter={filter}
           data={data}
+          interactive
           setNext={setNext}
         />
         <FilterBar filter={filter} filterClick={setFilter} />

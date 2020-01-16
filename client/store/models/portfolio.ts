@@ -20,10 +20,10 @@ export interface IPortfolio {
 
 export interface PortfolioData {
   date: Date;
-  balance: number;
-  transfers: number;
-  returns: number;
-  cumulativeReturns: number;
+  balance?: number;
+  transfers?: number;
+  returns?: number;
+  cumulativeReturns?: number;
   [propName: string]: number | Date;
 }
 

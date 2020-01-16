@@ -1,4 +1,4 @@
-import { PortalRect } from '@/components/Portal/models/Portal';
+import { PortalRect } from '@/components/Portal/models/PortalRect';
 
 export const convertToMoney = (num: number): string => {
   if (num === 0) {
@@ -37,5 +37,5 @@ export const convertToStyle = (rect: PortalRect): string => {
     htmlStyle += `${key}: ${rect[key]}px; `;
   });
 
-  return htmlStyle;
+  return htmlStyle.trimEnd();
 };

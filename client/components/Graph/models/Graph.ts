@@ -5,6 +5,9 @@ export interface GraphProps {
   filter: PortfolioParam;
   height: number;
   width: number;
+  interactive?: boolean;
+  lineColor?: string;
+  lineWidth?: number;
   setNext(next: PortfolioData, newDate?: string): void;
 }
 

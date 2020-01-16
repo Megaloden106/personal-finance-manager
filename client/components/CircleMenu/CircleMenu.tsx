@@ -1,11 +1,22 @@
 import React, { FC, useState, useEffect } from 'react';
-import { PortalRect } from '@/components/Portal/models/Portal';
+import { Subscription, merge, fromEvent } from 'rxjs';
+import { PortalRect } from '@/components/Portal/models/PortalRect';
 import Portal from '@/components/Portal/Portal';
+import Graph from '@/components/Graph/Graph';
 import { CircleMenuProps } from './models/CircleMenu';
 import styles from './CircleMenu.scss';
 import { getClassName } from '@/utils/react-util';
 
-const CircleMenu: FC<CircleMenuProps> = ({ anchorId, isOpen }) => {
+const graphData = [
+  { date: new Date(2020, 0, 1), returns: 0 },
+  { date: new Date(2020, 0, 5), returns: 15 },
+  { date: new Date(2020, 0, 10), returns: 7 },
+  { date: new Date(2020, 0, 15), returns: 25 },
+];
+
+const graphFilter = { data: 'returns' };
+
+const CircleMenu: FC<CircleMenuProps> = ({ anchorId, isOpen, setMenu }) => {
   const [rect, setRect] = useState<PortalRect>({});
 
   useEffect(() => {
@@ -19,34 +30,63 @@ const CircleMenu: FC<CircleMenuProps> = ({ anchorId, isOpen }) => {
     const top = anchor.top - body.top;
 
     setRect({ left, top });
+
+    // Close event on clicks and resize
+    const subscription: Subscription = merge(
+      fromEvent(document, 'click'),
+      fromEvent(window, 'resize'),
+    ).subscribe((event: Event) => {
+      const modal = document.getElementById('circle-menu');
+      const anchorEl = document.getElementById(anchorId);
+      if (event.type === 'resize' || (
+        !modal.contains(event.target as Node)
+        && !anchorEl.contains(event.target as Node)
+      )) {
+        setMenu(false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   return (
+    // TODO: Move into map for menu creation
     <Portal rect={rect} target="circle-menu">
-      <div
+      <button
+        type="button"
         className={getClassName({
           [styles.menuItem]: true,
           [styles.menuItemOpen]: isOpen,
         })}
       >
-        Graph
-      </div>
-      <div
+        <Graph
+          height={32}
+          width={32}
+          filter={graphFilter}
+          data={graphData}
+          lineColor="#1591b6"
+          lineWidth={2}
+          setNext={() => {}}
+        />
+      </button>
+      <button
+        type="button"
         className={getClassName({
           [styles.menuItem]: true,
           [styles.menuItemOpen]: isOpen,
         })}
       >
         List
-      </div>
-      <div
+      </button>
+      <button
+        type="button"
         className={getClassName({
           [styles.menuItem]: true,
           [styles.menuItemOpen]: isOpen,
         })}
       >
         Add
-      </div>
+      </button>
     </Portal>
   );
 };
