@@ -1,6 +1,6 @@
 import { convertToMoney, convertToPercent, convertToCamelCase } from '@/utils/util';
 import { AnalyticsCardDetail } from './models/AnalyticsCardDetail';
-import { AnalyticsState } from '@/store/models/analytics';
+import { AppState } from '@/store/models/store';
 import * as _ from '@/utils/collection-util';
 
 const cards: AnalyticsCardDetail[] = [
@@ -30,8 +30,10 @@ const cards: AnalyticsCardDetail[] = [
   },
 ];
 
-export const AnalyticsCardSelector = (analytics: AnalyticsState): AnalyticsCardDetail[] => cards
-  .map(({ title, details }) => {
+export const AnalyticsCardSelector = (state: AppState): AnalyticsCardDetail[] => {
+  const { analytics } = state;
+
+  return cards.map(({ title, details }) => {
     const analyticsType = convertToCamelCase(title);
 
     const newDetails = details.map(({ label, formatter }) => {
@@ -43,3 +45,4 @@ export const AnalyticsCardSelector = (analytics: AnalyticsState): AnalyticsCardD
 
     return { title, details: newDetails };
   });
+};

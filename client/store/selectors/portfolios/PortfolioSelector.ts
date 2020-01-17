@@ -1,7 +1,9 @@
 import { PortfolioByType } from './models/PortfolioByType';
 import { IPortfolio } from '@/store/models/portfolio';
+import { AppState } from '@/store/models/store';
 
-export const portfolioByTypeSelector = (portfolioList: IPortfolio[]): PortfolioByType[] => {
+export const portfolioByTypeSelector = (state: AppState): PortfolioByType[] => {
+  const portfolioList: IPortfolio[] = state.portfolio.list;
   const groups: IPortfolio[] = [];
   const personal: IPortfolio[] = [];
   const retirement: IPortfolio[] = [];

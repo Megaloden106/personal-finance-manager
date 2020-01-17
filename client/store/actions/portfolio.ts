@@ -7,6 +7,15 @@ export const REQUEST_PORTFOLIO_LIST_ERROR = '[Portfolio] Request Portfolio List 
 
 export const portfolioListAction = () => createAction(REQUEST_PORTFOLIO_LIST);
 
+export const UPDATE_SELECTED_PORTFOLIO = '[Portfolio] Update Selected Portfolio';
+
+export const updateSelectedPortfolioAction = (
+  portfolio: IPortfolio,
+) => createAction(
+  UPDATE_SELECTED_PORTFOLIO,
+  portfolio,
+);
+
 export const REQUEST_SELECTED_PORTFOLIO = '[Portfolio] Request Selected Portfolio';
 export const REQUEST_SELECTED_PORTFOLIO_SUCCESS = '[Portfolio] Request Selected Portfolio Success';
 export const REQUEST_SELECTED_PORTFOLIO_ERROR = '[Portfolio] Request Selected Portfolio Error';

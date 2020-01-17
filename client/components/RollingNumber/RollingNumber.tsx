@@ -3,13 +3,9 @@ import { Subscription, interval } from 'rxjs';
 import { interpolateNumber } from 'd3-interpolate';
 import { take } from 'rxjs/operators';
 import { indentyCallback } from '@/utils/util';
+import { RollingNumberProps } from './models/RollingNumber';
 
 const d3 = { interpolateNumber };
-
-interface RollingNumberProps {
-  nextValue: number;
-  formatter?: (value: number) => string;
-}
 
 const RollingNumber: FC<RollingNumberProps> = ({ nextValue, formatter = indentyCallback }) => {
   const [currentValue, setCurrentValue] = useState<number>(0);

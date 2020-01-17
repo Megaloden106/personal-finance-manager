@@ -19,7 +19,7 @@ const graphFilter = { data: 'returns' };
 const CircleMenu: FC<CircleMenuProps> = ({ anchorId, isOpen, setMenu }) => {
   const [rect, setRect] = useState<PortalRect>({});
 
-  useEffect(() => {
+  const setPosition = () => {
     // Calculate position from body for circle menu
     const anchor = document.getElementById(anchorId)
       .getBoundingClientRect();
@@ -30,6 +30,10 @@ const CircleMenu: FC<CircleMenuProps> = ({ anchorId, isOpen, setMenu }) => {
     const top = anchor.top - body.top;
 
     setRect({ left, top });
+  };
+
+  useEffect(() => {
+    setPosition();
 
     // Close event on clicks and resize
     const subscription: Subscription = merge(
@@ -42,6 +46,9 @@ const CircleMenu: FC<CircleMenuProps> = ({ anchorId, isOpen, setMenu }) => {
         !modal.contains(event.target as Node)
         && !anchorEl.contains(event.target as Node)
       )) {
+        if (event.type === 'resize') {
+          setPosition();
+        }
         setMenu(false);
       }
     });
