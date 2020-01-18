@@ -5,7 +5,6 @@ import styles from './Dropdown.scss';
 import { DropdownMenuItem } from './models/DropdownMenuItem';
 import { DropdownProps } from './models/Dropdown';
 import { getClassName } from '@/utils/react-util';
-import { PortalRect } from '@/components/Portal/models/PortalRect';
 
 const Dropdown: FC<DropdownProps> = ({
   selected,
@@ -17,7 +16,7 @@ const Dropdown: FC<DropdownProps> = ({
   width = 180,
   offset = {},
 }) => {
-  const [rect, setRect] = useState<PortalRect>({});
+  const [rect, setRect] = useState<HTMLRect>({});
 
   useEffect(() => {
     // Calculate position from body for dropdown
@@ -52,8 +51,10 @@ const Dropdown: FC<DropdownProps> = ({
   };
 
   return (
-    <Portal rect={rect} target="dropdown">
+    <Portal>
       <div
+        id="dropdown"
+        style={rect}
         className={getClassName({
           [styles.dropdown]: true,
           [styles.dropdownOpen]: !!rect.width,

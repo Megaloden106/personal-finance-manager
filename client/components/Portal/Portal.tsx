@@ -1,19 +1,9 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import ReactDOM from 'react-dom';
 import { PortalProps } from './models/Portal';
-import { convertToStyle } from '@/utils/util';
 
-const Portal: FC<PortalProps> = ({ target, children, rect }) => {
-  const portal = document.getElementById(target);
+const portal = document.getElementById('portal');
 
-  // On change update style
-  useEffect(() => {
-    portal.setAttribute('style', convertToStyle(rect));
-
-    return () => portal.removeAttribute('style');
-  }, [rect]);
-
-  return ReactDOM.createPortal(children, portal);
-};
+const Portal: FC<PortalProps> = ({ children }) => ReactDOM.createPortal(children, portal);
 
 export default Portal;

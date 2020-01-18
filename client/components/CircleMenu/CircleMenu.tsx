@@ -1,6 +1,5 @@
 import React, { FC, useState, useEffect } from 'react';
 import { Subscription, merge, fromEvent } from 'rxjs';
-import { PortalRect } from '@/components/Portal/models/PortalRect';
 import Portal from '@/components/Portal/Portal';
 import Graph from '@/components/Graph/Graph';
 import { CircleMenuProps } from './models/CircleMenu';
@@ -17,7 +16,7 @@ const graphData = [
 const graphFilter = { data: 'returns' };
 
 const CircleMenu: FC<CircleMenuProps> = ({ anchorId, isOpen, setMenu }) => {
-  const [rect, setRect] = useState<PortalRect>({});
+  const [rect, setRect] = useState<HTMLRect>({});
 
   const setPosition = () => {
     // Calculate position from body for circle menu
@@ -58,42 +57,48 @@ const CircleMenu: FC<CircleMenuProps> = ({ anchorId, isOpen, setMenu }) => {
 
   return (
     // TODO: Move into map for menu creation
-    <Portal rect={rect} target="circle-menu">
-      <button
-        type="button"
-        className={getClassName({
-          [styles.menuItem]: true,
-          [styles.menuItemOpen]: isOpen,
-        })}
+    <Portal>
+      <div
+        id="circle-menu"
+        style={rect}
+        className={styles.circleMenu}
       >
-        <Graph
-          height={32}
-          width={32}
-          filter={graphFilter}
-          data={graphData}
-          lineColor="#1591b6"
-          lineWidth={2}
-          setNext={() => {}}
-        />
-      </button>
-      <button
-        type="button"
-        className={getClassName({
-          [styles.menuItem]: true,
-          [styles.menuItemOpen]: isOpen,
-        })}
-      >
-        List
-      </button>
-      <button
-        type="button"
-        className={getClassName({
-          [styles.menuItem]: true,
-          [styles.menuItemOpen]: isOpen,
-        })}
-      >
-        Add
-      </button>
+        <button
+          type="button"
+          className={getClassName({
+            [styles.menuItem]: true,
+            [styles.menuItemOpen]: isOpen,
+          })}
+        >
+          <Graph
+            height={32}
+            width={32}
+            filter={graphFilter}
+            data={graphData}
+            lineColor="#1591b6"
+            lineWidth={2}
+            setNext={() => {}}
+          />
+        </button>
+        <button
+          type="button"
+          className={getClassName({
+            [styles.menuItem]: true,
+            [styles.menuItemOpen]: isOpen,
+          })}
+        >
+          List
+        </button>
+        <button
+          type="button"
+          className={getClassName({
+            [styles.menuItem]: true,
+            [styles.menuItemOpen]: isOpen,
+          })}
+        >
+          Add
+        </button>
+      </div>
     </Portal>
   );
 };

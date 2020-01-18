@@ -2,12 +2,11 @@ import React, { FC, useState, useEffect } from 'react';
 import { Subscription, interval } from 'rxjs';
 import { interpolateNumber } from 'd3-interpolate';
 import { take } from 'rxjs/operators';
-import { indentyCallback } from '@/utils/util';
 import { RollingNumberProps } from './models/RollingNumber';
 
 const d3 = { interpolateNumber };
 
-const RollingNumber: FC<RollingNumberProps> = ({ nextValue, formatter = indentyCallback }) => {
+const RollingNumber: FC<RollingNumberProps> = ({ nextValue, formatter }) => {
   const [currentValue, setCurrentValue] = useState<number>(0);
   let subscription: Subscription;
 
@@ -22,7 +21,7 @@ const RollingNumber: FC<RollingNumberProps> = ({ nextValue, formatter = indentyC
     return () => subscription.unsubscribe();
   }, [nextValue]);
 
-  return <>{formatter(currentValue)}</>;
+  return <>{formatter ? formatter(currentValue) : currentValue}</>;
 };
 
 export default RollingNumber;
