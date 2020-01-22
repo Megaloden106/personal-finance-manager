@@ -12,6 +12,7 @@ import { rootEpic } from './epics';
 import { initialUserState } from './reducers/user';
 import { initialPortfolioState } from './reducers/portfolio';
 import { initialAnalyticsState } from './reducers/analytics';
+import { initialSidepanelState } from './reducers/sidepanel';
 
 const epicMiddleware: EpicMiddleware<FluxAction<any>> = createEpicMiddleware();
 
@@ -19,6 +20,7 @@ const initialState: AppState = {
   user: initialUserState,
   portfolio: initialPortfolioState,
   analytics: initialAnalyticsState,
+  sidepanel: initialSidepanelState,
 };
 
 // createStore: Reducer<State>, Action, StoreExt: any, StateExt: any

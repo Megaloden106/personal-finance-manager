@@ -1,15 +1,15 @@
 import React, { FC, useState } from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PortfolioList from './PortfolioList/PortfolioList';
 import { DropdownMenuItem } from '@/components/Dropdown/models/DropdownMenuItem';
-import { AppState } from '@/store/models/store';
 import { portfolioByTypeSelector } from '@/store/selectors/portfolios/PortfolioSelector';
-import { SidebarProps, StateProps } from './models/Sidebar';
 import Dropdown from '@/components/Dropdown/Dropdown';
 import styles from './Sidebar.scss';
 import { getClassName } from '@/utils/react-util';
 
-const Sidebar: FC<SidebarProps> = ({ portfoliosByType, portfolioClick }) => {
+const Sidebar: FC = () => {
+  const portfoliosByType = useSelector(portfolioByTypeSelector);
+
   const [selected, setSelected] = useState<string>('Returns');
   const [isMenuOpen, setMenu] = useState<boolean>(false);
 
@@ -28,9 +28,7 @@ const Sidebar: FC<SidebarProps> = ({ portfoliosByType, portfolioClick }) => {
         <button
           type="button"
           id="sidebar-anchor"
-          className={getClassName({
-            [styles.menuOpen]: isMenuOpen,
-          })}
+          className={getClassName({ [styles.menuOpen]: isMenuOpen })}
           onClick={() => setMenu(!isMenuOpen)}
         >
           <span />
@@ -44,7 +42,6 @@ const Sidebar: FC<SidebarProps> = ({ portfoliosByType, portfolioClick }) => {
             key={type}
             portfolios={portfolios}
             title={label}
-            portfolioClick={portfolioClick}
           />
         ) : null
       ))}
@@ -63,8 +60,4 @@ const Sidebar: FC<SidebarProps> = ({ portfoliosByType, portfolioClick }) => {
   );
 };
 
-const mapStateToProps = (state: AppState): StateProps => ({
-  portfoliosByType: portfolioByTypeSelector(state.portfolio.list),
-});
-
-export default connect(mapStateToProps)(Sidebar);
+export default Sidebar;

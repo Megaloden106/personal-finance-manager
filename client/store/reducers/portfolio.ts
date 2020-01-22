@@ -28,7 +28,7 @@ export const portfolioReducer: Reducer<PortfolioState, FluxAction<any>> = (
             data: [],
           },
       };
-    case PortfolioAction.REQUEST_SELECTED_PORTFOLIO:
+    case PortfolioAction.UPDATE_SELECTED_PORTFOLIO:
       return {
         ...state,
         selected: {

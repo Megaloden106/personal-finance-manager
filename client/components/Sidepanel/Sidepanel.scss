@@ -1,0 +1,16 @@
+.sidepanel {
+  position: fixed;
+  top: 86px;
+  bottom: 0;
+  right: 0;
+  width: 590px;
+  background: #fff;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.27);
+  overflow: hidden;
+  transform: translateX(590px);
+  transition: transform 0.3s ease;
+
+  &--open {
+    transform: translateX(0);
+  }
+}
