@@ -9,9 +9,7 @@ export const portfolioListAction = () => createAction(REQUEST_PORTFOLIO_LIST);
 
 export const UPDATE_SELECTED_PORTFOLIO = '[Portfolio] Update Selected Portfolio';
 
-export const updateSelectedPortfolioAction = (
-  portfolio: IPortfolio,
-) => createAction(
+export const updateSelectedPortfolioAction = (portfolio: IPortfolio) => createAction(
   UPDATE_SELECTED_PORTFOLIO,
   portfolio,
 );

@@ -14,6 +14,7 @@ import styles from './Portfolio.scss';
 import Overview from './Overview/Overview';
 import { getClassName } from '@/utils/react-util';
 import CircleMenu from '@/components/CircleMenu/CircleMenu';
+import Sidepanel from '@/components/Sidepanel/Sidepanel';
 
 const initialFilter = {
   range: '180D',
@@ -103,6 +104,7 @@ const Portfolio: FC = () => {
         <FilterBar filter={filter} filterClick={setFilter} />
       </div>
       <Analytics />
+      <Sidepanel />
     </div>
   );
 };

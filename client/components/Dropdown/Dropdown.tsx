@@ -35,8 +35,8 @@ const Dropdown: FC<DropdownProps> = ({
       fromEvent(document, 'click'),
       fromEvent(window, 'resize'),
     ).subscribe((event: Event) => {
-      const modal = document.getElementById('dropdown');
-      if (event.type === 'resize' || !modal.contains(event.target as Node)) {
+      const dropdownEl = document.getElementById('dropdown');
+      if (event.type === 'resize' || !dropdownEl.contains(event.target as Node)) {
         close();
       }
     });
