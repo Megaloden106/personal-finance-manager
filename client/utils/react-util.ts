@@ -1,3 +1,5 @@
+import { ClassNamePredicate } from '@/models/style';
+
 export const getClassName = (predicate: ClassNamePredicate): string => {
   const classNames: string[] = [];
 

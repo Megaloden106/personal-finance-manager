@@ -1,4 +1,4 @@
-import { Offset } from './Offset';
+import { Offset } from '@/models/style';
 
 export interface CircleMenuProps {
   anchorId: string;

@@ -1,11 +1,11 @@
 import React, { FC, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PortfolioList from './PortfolioList/PortfolioList';
-import { DropdownMenuItem } from '@/components/Dropdown/models/DropdownMenuItem';
 import { portfolioByTypeSelector } from '@/store/selectors/portfolios/PortfolioSelector';
 import Dropdown from '@/components/Dropdown/Dropdown';
 import styles from './Sidebar.scss';
 import { getClassName } from '@/utils/react-util';
+import { DropdownMenuItem } from '@/components/Dropdown/models/Dropdown';
 
 const Sidebar: FC = () => {
   const portfoliosByType = useSelector(portfolioByTypeSelector);

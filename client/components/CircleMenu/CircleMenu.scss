@@ -4,6 +4,7 @@
 
 .menu-item {
   position: absolute;
+  z-index: 200;
   display: flex;
   justify-content: center;
   align-items: center;
