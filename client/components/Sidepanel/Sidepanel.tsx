@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fromEvent, Subscription } from 'rxjs';
 import Portal from '../Portal/Portal';
@@ -11,12 +11,13 @@ const Sidepanel: FC = () => {
   const isPanelOpen = useSelector((state: AppState) => state.sidepanel.isOpen);
   const dispatch = useDispatch();
 
+  const sidepanel = useRef(null);
+
   useEffect(() => {
     const subscription: Subscription = new Subscription();
     if (isPanelOpen) {
       const onClickSub = fromEvent(document, 'click').subscribe((event: Event) => {
-        const sidepanelEl = document.getElementById('sidepanel');
-        if (!sidepanelEl.contains(event.target as Node)) {
+        if (!sidepanel.current.contains(event.target as Node)) {
           dispatch(updateSidepanelStatusAction(false));
         }
       });
@@ -29,7 +30,7 @@ const Sidepanel: FC = () => {
   return (
     <Portal>
       <div
-        id="sidepanel"
+        ref={sidepanel}
         className={getClassName({
           [styles.sidepanel]: true,
           [styles.sidepanelOpen]: isPanelOpen,

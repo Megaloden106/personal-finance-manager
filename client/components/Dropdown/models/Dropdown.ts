@@ -1,3 +1,4 @@
+import { MutableRefObject } from 'react';
 import { Offset, Style } from '@/models/style';
 
 export interface DropdownMenuItem {
@@ -6,7 +7,7 @@ export interface DropdownMenuItem {
 }
 
 export interface DropdownProps {
-  anchorId: string;
+  anchor: MutableRefObject<HTMLButtonElement>;
   menuItems: DropdownMenuItem[];
   offset?: Offset;
   selected: string;

@@ -1,4 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, {
+  FC,
+  useEffect,
+  useState,
+  useRef,
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '@/store/models/store';
 import { PortfolioParam, PortfolioData } from '@/store/models/portfolio';
@@ -35,6 +40,7 @@ const Portfolio: FC = () => {
   const [date, setDate] = useState<string>('');
   const [isMenuOpen, setMenu] = useState<boolean>(false);
 
+  const circleMenuAnchor = useRef(null);
 
   /* componentDidMount */
   useEffect(() => {
@@ -76,7 +82,7 @@ const Portfolio: FC = () => {
           />
           <button
             type="button"
-            id="circle-menu-anchor"
+            ref={circleMenuAnchor}
             className={getClassName({
               [styles.menu]: true,
               [styles.menuOpen]: isMenuOpen,
@@ -88,7 +94,7 @@ const Portfolio: FC = () => {
             <span />
           </button>
           <CircleMenu
-            anchorId="circle-menu-anchor"
+            anchor={circleMenuAnchor}
             isOpen={isMenuOpen}
             setMenu={setMenu}
           />
