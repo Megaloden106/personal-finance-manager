@@ -1,5 +1,9 @@
-import { DropdownMenuItem } from './DropdownMenuItem';
-import { Offset } from './Offset';
+import { Offset, Style } from '@/models/style';
+
+export interface DropdownMenuItem {
+  label: string;
+  style?: Style;
+}
 
 export interface DropdownProps {
   anchorId: string;

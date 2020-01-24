@@ -7,6 +7,7 @@ import { CircleMenuProps } from './models/CircleMenu';
 import styles from './CircleMenu.scss';
 import { getClassName } from '@/utils/react-util';
 import { updateSidepanelStatusAction } from '@/store/actions/sidepanel';
+import { HTMLRect } from '@/models/style';
 
 const graphData = [
   { date: new Date(2020, 0, 1), returns: 0 },

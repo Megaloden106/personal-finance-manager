@@ -2,9 +2,9 @@ import React, { FC, useEffect, useState } from 'react';
 import { fromEvent, Subscription, merge } from 'rxjs';
 import Portal from '@/components/Portal/Portal';
 import styles from './Dropdown.scss';
-import { DropdownMenuItem } from './models/DropdownMenuItem';
-import { DropdownProps } from './models/Dropdown';
+import { DropdownProps, DropdownMenuItem } from './models/Dropdown';
 import { getClassName } from '@/utils/react-util';
+import { HTMLRect } from '@/models/style';
 
 const Dropdown: FC<DropdownProps> = ({
   selected,
