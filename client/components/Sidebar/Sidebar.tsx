@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import PortfolioList from './PortfolioList/PortfolioList';
 import { portfolioByTypeSelector } from '@/store/selectors/portfolios/PortfolioSelector';
@@ -19,7 +19,7 @@ const Sidebar: FC = () => {
     { label: 'APR' },
   ];
 
-  const handleRowClick = ({ label }: DropdownMenuItem) => setSelected(label);
+  const onRowClick = useCallback(({ label }: DropdownMenuItem) => setSelected(label), []);
 
   return (
     <div className={styles.sidebar}>
@@ -53,7 +53,7 @@ const Sidebar: FC = () => {
           selected={selected}
           menuItems={menuItems}
           close={() => setMenu(false)}
-          rowClick={handleRowClick}
+          rowClick={onRowClick}
         />
       )}
     </div>

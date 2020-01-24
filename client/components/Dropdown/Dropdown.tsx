@@ -1,4 +1,9 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, {
+  FC,
+  useEffect,
+  useState,
+  useCallback,
+} from 'react';
 import { fromEvent, Subscription, merge } from 'rxjs';
 import Portal from '@/components/Portal/Portal';
 import styles from './Dropdown.scss';
@@ -45,10 +50,10 @@ const Dropdown: FC<DropdownProps> = ({
   }, []);
 
   // Event handler for row clicks
-  const handleRowClick = (menuItem: DropdownMenuItem) => {
+  const onRowClick = useCallback((menuItem: DropdownMenuItem) => {
     rowClick(menuItem);
     close();
-  };
+  }, []);
 
   return (
     <Portal>
@@ -69,7 +74,7 @@ const Dropdown: FC<DropdownProps> = ({
           <button
             key={menuItem.label}
             type="button"
-            onClick={() => handleRowClick(menuItem)}
+            onClick={() => onRowClick(menuItem)}
             className={getClassName({
               [styles.item]: true,
               [styles.itemSelected]: selected === menuItem.label,
