@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
-import { AppState } from '@/store/models/store';
+import { AppState } from 'store/models/store';
 import styles from './Header.scss';
 
 const HeaderBar: FC = () => {

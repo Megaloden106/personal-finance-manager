@@ -39,24 +39,23 @@
   &.selected ,
   &:hover {
     color: #fff;
-    background-color: #315c8b;
+    background: #315c8b;
     border: 1px solid transparent;
   }
 }
 
 .filter-time button {
+  height: 32px;
   margin-right: 20px;
   padding: 0;
   color: #666;
   font-size: 20px;
-  line-height: 32px;
   text-align: center;
   cursor: pointer;
 
   &.selected,
   &:hover {
     color: #1591b6;
-    line-height: 30px;
     border-bottom: 2px solid #1591b6;
   }
 }

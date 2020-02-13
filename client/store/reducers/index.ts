@@ -1,5 +1,5 @@
 import { Reducer, combineReducers } from 'redux';
-import { AppState } from '@/store/models/store';
+import { AppState } from 'store/models/store';
 import { userReducer } from './user';
 import { portfolioReducer } from './portfolio';
 import { analyticsReducer } from './analytics';

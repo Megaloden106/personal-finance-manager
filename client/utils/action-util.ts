@@ -1,7 +1,7 @@
 import { Epic, ofType } from 'redux-observable';
 import { from } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
-import { ActionCreator, EpicCreator } from '@/store/models/action';
+import { ActionCreator, EpicCreator } from 'store/models/action';
 
 /**
  * Action generator function

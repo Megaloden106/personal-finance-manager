@@ -1,13 +1,13 @@
 import React, { FC, useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Subscription, merge, fromEvent } from 'rxjs';
-import Portal from '@/components/Portal/Portal';
-import Graph from '@/components/Graph/Graph';
-import { CircleMenuProps } from './models/CircleMenu';
+import Portal from 'components/Portal/Portal';
+import Graph from 'components/Graph/Graph';
+import { HTMLRect } from 'models/style';
+import { updateSidepanelStatusAction } from 'store/actions/sidepanel';
+import { getClassName } from 'utils/react-util';
+import { CircleMenuProps } from './CircleMenu.models';
 import styles from './CircleMenu.scss';
-import { getClassName } from '@/utils/react-util';
-import { updateSidepanelStatusAction } from '@/store/actions/sidepanel';
-import { HTMLRect } from '@/models/style';
 
 const graphData = [
   { date: new Date(2020, 0, 1), returns: 0 },
@@ -18,20 +18,20 @@ const graphData = [
 
 const graphFilter = { data: 'returns' };
 
-const CircleMenu: FC<CircleMenuProps> = ({ anchorId, isOpen, setMenu }) => {
+const CircleMenu: FC<CircleMenuProps> = ({ anchor, isOpen, setMenu }) => {
   const dispatch = useDispatch();
 
   const [rect, setRect] = useState<HTMLRect>({});
 
+
   const setPosition = () => {
     // Calculate position from body for circle menu
-    const anchor = document.getElementById(anchorId)
-      .getBoundingClientRect();
+    const anchorRect = anchor.current.getBoundingClientRect();
     const body = document.body.getBoundingClientRect();
 
     // Logic for repositioning
-    const left = anchor.left - body.left;
-    const top = anchor.top - body.top;
+    const left = anchorRect.left - body.left;
+    const top = anchorRect.top - body.top;
 
     setRect({ left, top });
   };
@@ -44,8 +44,7 @@ const CircleMenu: FC<CircleMenuProps> = ({ anchorId, isOpen, setMenu }) => {
       fromEvent(document, 'click'),
       fromEvent(window, 'resize'),
     ).subscribe((event: Event) => {
-      const anchorEl = document.getElementById(anchorId);
-      if (event.type === 'resize' || !anchorEl.contains(event.target as Node)) {
+      if (event.type === 'resize' || !anchor.current.contains(event.target as Node)) {
         if (event.type === 'resize') {
           setPosition();
         }
@@ -59,7 +58,6 @@ const CircleMenu: FC<CircleMenuProps> = ({ anchorId, isOpen, setMenu }) => {
   return (
     <Portal>
       <div
-        id="circle-menu"
         style={rect}
         className={styles.circleMenu}
       >
@@ -91,7 +89,6 @@ const CircleMenu: FC<CircleMenuProps> = ({ anchorId, isOpen, setMenu }) => {
         </button>
         <button
           type="button"
-          id="sidepanel-button"
           className={getClassName({
             [styles.menuItem]: true,
             [styles.menuItemOpen]: isOpen,

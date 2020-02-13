@@ -1,5 +1,5 @@
-import { createAction } from '@/utils/action-util';
-import { PortfolioParam, IPortfolio } from '@/store/models/portfolio';
+import { createAction } from 'utils/action-util';
+import { PortfolioParam, IPortfolio } from 'store/models/portfolio';
 
 export const REQUEST_PORTFOLIO_LIST = '[Portfolio] Request Portfolio List';
 export const REQUEST_PORTFOLIO_LIST_SUCCESS = '[Portfolio] Request Portfolio List Success';

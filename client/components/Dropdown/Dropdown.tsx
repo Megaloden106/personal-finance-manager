@@ -1,16 +1,21 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, {
+  FC,
+  useEffect,
+  useState,
+  useCallback,
+} from 'react';
 import { fromEvent, Subscription, merge } from 'rxjs';
-import Portal from '@/components/Portal/Portal';
+import Portal from 'components/Portal/Portal';
+import { HTMLRect } from 'models/style';
+import { getClassName } from 'utils/react-util';
+import { DropdownProps, DropdownMenuItem } from './Dropdown.models';
 import styles from './Dropdown.scss';
-import { DropdownProps, DropdownMenuItem } from './models/Dropdown';
-import { getClassName } from '@/utils/react-util';
-import { HTMLRect } from '@/models/style';
 
 const Dropdown: FC<DropdownProps> = ({
   selected,
   menuItems,
   title,
-  anchorId,
+  anchor,
   rowClick,
   close,
   width = 180,
@@ -20,13 +25,12 @@ const Dropdown: FC<DropdownProps> = ({
 
   useEffect(() => {
     // Calculate position from body for dropdown
-    const anchor = document.getElementById(anchorId)
-      .getBoundingClientRect();
+    const anchorRect = anchor.current.getBoundingClientRect();
     const body = document.body.getBoundingClientRect();
 
     // Logic for repositioning
-    const left = anchor.left - width / 2 + (offset.y || 0) - body.left;
-    const top = anchor.top + (offset.x || 0) - body.top;
+    const left = anchorRect.left - width / 2 + (offset.y || 0) - body.left;
+    const top = anchorRect.top + (offset.x || 0) - body.top;
 
     setRect({ left, top, width });
 
@@ -35,8 +39,7 @@ const Dropdown: FC<DropdownProps> = ({
       fromEvent(document, 'click'),
       fromEvent(window, 'resize'),
     ).subscribe((event: Event) => {
-      const dropdownEl = document.getElementById('dropdown');
-      if (event.type === 'resize' || !dropdownEl.contains(event.target as Node)) {
+      if (event.type === 'resize' || !anchor.current.contains(event.target as Node)) {
         close();
       }
     });
@@ -45,15 +48,14 @@ const Dropdown: FC<DropdownProps> = ({
   }, []);
 
   // Event handler for row clicks
-  const handleRowClick = (menuItem: DropdownMenuItem) => {
+  const onRowClick = useCallback((menuItem: DropdownMenuItem) => {
     rowClick(menuItem);
     close();
-  };
+  }, []);
 
   return (
     <Portal>
       <div
-        id="dropdown"
         style={rect}
         className={getClassName({
           [styles.dropdown]: true,
@@ -69,7 +71,7 @@ const Dropdown: FC<DropdownProps> = ({
           <button
             key={menuItem.label}
             type="button"
-            onClick={() => handleRowClick(menuItem)}
+            onClick={() => onRowClick(menuItem)}
             className={getClassName({
               [styles.item]: true,
               [styles.itemSelected]: selected === menuItem.label,

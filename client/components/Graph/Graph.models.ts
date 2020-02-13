@@ -1,4 +1,4 @@
-import { PortfolioData, PortfolioParam } from '@/store/models/portfolio';
+import { PortfolioData, PortfolioParam } from 'store/models/portfolio';
 
 export interface GraphProps {
   data: PortfolioData[];

@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import RollingNumber from '@/components/RollingNumber/RollingNumber';
+import RollingNumber from 'components/RollingNumber/RollingNumber';
+import { convertToMoney, convertToPercent } from 'utils/util';
 import styles from './Overview.scss';
-import { convertToMoney, convertToPercent } from '@/utils/util';
-import { OverviewProps } from './models/Overview';
+import { OverviewProps } from './Overview.models';
 
 const Overview: FC<OverviewProps> = ({
   name,

@@ -1,4 +1,4 @@
-import { createAction } from '@/utils/action-util';
+import { createAction } from 'utils/action-util';
 
 export const REQUEST_ANALYTICS_TOTAL = '[Analytics] Request Analytics Total';
 export const REQUEST_ANALYTICS_TOTAL_SUCCESS = '[Analytics] Request Analytics Total Success';

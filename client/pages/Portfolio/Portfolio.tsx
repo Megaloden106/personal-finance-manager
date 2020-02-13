@@ -1,20 +1,25 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, {
+  FC,
+  useEffect,
+  useState,
+  useRef,
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { AppState } from '@/store/models/store';
-import { PortfolioParam, PortfolioData } from '@/store/models/portfolio';
-import { userDataAction } from '@/store/actions/user';
-import { portfolioListAction, selectedPortfolioAction } from '@/store/actions/portfolio';
-import { analyticsTotalAction, analyticsAnnualizeAction, analyticsPastYearAction } from '@/store/actions/analytics';
-import * as _ from '@/utils/collection-util';
-import Sidebar from '@/components/Sidebar/Sidebar';
-import Graph from '@/components/Graph/Graph';
-import Analytics from '@/components/Analytics/Analytics';
-import FilterBar from '@/components/FilterBar/FilterBar';
-import styles from './Portfolio.scss';
+import { AppState } from 'store/models/store';
+import { PortfolioParam, PortfolioData } from 'store/models/portfolio';
+import { userDataAction } from 'store/actions/user';
+import { portfolioListAction, selectedPortfolioAction } from 'store/actions/portfolio';
+import { analyticsTotalAction, analyticsAnnualizeAction, analyticsPastYearAction } from 'store/actions/analytics';
+import * as _ from 'utils/collection-util';
+import Analytics from 'components/Analytics/Analytics';
+import CircleMenu from 'components/CircleMenu/CircleMenu';
+import FilterBar from 'components/FilterBar/FilterBar';
+import Graph from 'components/Graph/Graph';
+import Sidebar from 'components/Sidebar/Sidebar';
+import Sidepanel from 'components/Sidepanel/Sidepanel';
+import { getClassName } from 'utils/react-util';
 import Overview from './Overview/Overview';
-import { getClassName } from '@/utils/react-util';
-import CircleMenu from '@/components/CircleMenu/CircleMenu';
-import Sidepanel from '@/components/Sidepanel/Sidepanel';
+import styles from './Portfolio.scss';
 
 const initialFilter = {
   range: '180D',
@@ -29,12 +34,13 @@ const Portfolio: FC = () => {
   const dispatch = useDispatch();
 
   const [filter, setFilter] = useState<PortfolioParam>(initialFilter);
-  const [balance, setBalance] = useState<number>(0);
-  const [returns, setReturns] = useState<number>(0);
-  const [percentage, setPercentage] = useState<number>(0);
-  const [date, setDate] = useState<string>('');
-  const [isMenuOpen, setMenu] = useState<boolean>(false);
+  const [balance, setBalance] = useState(0);
+  const [returns, setReturns] = useState(0);
+  const [percentage, setPercentage] = useState(0);
+  const [date, setDate] = useState('');
+  const [isMenuOpen, setMenu] = useState(false);
 
+  const circleMenuAnchor = useRef(null);
 
   /* componentDidMount */
   useEffect(() => {
@@ -76,7 +82,7 @@ const Portfolio: FC = () => {
           />
           <button
             type="button"
-            id="circle-menu-anchor"
+            ref={circleMenuAnchor}
             className={getClassName({
               [styles.menu]: true,
               [styles.menuOpen]: isMenuOpen,
@@ -88,7 +94,7 @@ const Portfolio: FC = () => {
             <span />
           </button>
           <CircleMenu
-            anchorId="circle-menu-anchor"
+            anchor={circleMenuAnchor}
             isOpen={isMenuOpen}
             setMenu={setMenu}
           />

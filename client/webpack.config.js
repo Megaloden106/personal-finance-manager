@@ -9,6 +9,7 @@ const Dotenv = require('dotenv-webpack');
 
 const rootDIR = path.resolve(__dirname, '..');
 const clientDIR = path.resolve(__dirname);
+const pathFromClientDIR = (...paths) => path.resolve(__dirname, ...paths);
 
 const appDIR = path.resolve(__dirname, 'App.tsx');
 const publicDIR = path.resolve(__dirname, '..', 'public');
@@ -29,6 +30,12 @@ const config = {
     alias: {
       '~': rootDIR,
       '@': clientDIR,
+      store: pathFromClientDIR('store'),
+      pages: pathFromClientDIR('pages'),
+      components: pathFromClientDIR('components'),
+      utils: pathFromClientDIR('utils'),
+      models: pathFromClientDIR('models'),
+      services: pathFromClientDIR('services'),
     },
     mainFiles: ['index'],
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.scss', '.css'],

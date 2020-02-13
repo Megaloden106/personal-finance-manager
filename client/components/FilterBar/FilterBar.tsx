@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { FilterBarProps } from './models/FilterBar';
+import { FilterBarProps } from './FilterBar.models';
 import styles from './FilterBar.scss';
 
 const FilterBar: FC<FilterBarProps> = ({ filter, filterClick }) => {

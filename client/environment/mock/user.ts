@@ -1,4 +1,4 @@
-import { UserState } from '@/store/models/user';
+import { UserState } from 'store/models/user';
 
 const api = '/api/user';
 

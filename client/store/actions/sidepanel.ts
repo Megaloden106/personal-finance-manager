@@ -1,4 +1,4 @@
-import { createAction } from '@/utils/action-util';
+import { createAction } from 'utils/action-util';
 
 export const UPDATE_SIDEPANEL_STATUS = '[Sidepanel] Update Open Status';
 

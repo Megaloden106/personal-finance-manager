@@ -1,4 +1,4 @@
-import { IPortfolio } from '@/store/models/portfolio';
+import { IPortfolio } from 'store/models/portfolio';
 
 export interface PortfolioListProps {
   portfolios: IPortfolio[];

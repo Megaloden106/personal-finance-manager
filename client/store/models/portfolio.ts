@@ -31,3 +31,9 @@ export interface PortfolioParam {
   range?: string;
   data?: string;
 }
+
+export interface PortfolioByType {
+  type: string;
+  portfolios: IPortfolio[];
+  label?: string;
+}

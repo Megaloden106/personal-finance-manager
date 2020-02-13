@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
-import RollingNumber from '@/components/RollingNumber/RollingNumber';
+import RollingNumber from 'components/RollingNumber/RollingNumber';
+import { AnalyticsCardDetail } from 'store/models/analytics';
 import styles from './Card.scss';
-import { AnalyticsCardProps } from './models/Card';
 
 
-const AnalyticsCard: FC<AnalyticsCardProps> = ({ title, details }) => (
+const AnalyticsCard: FC<AnalyticsCardDetail> = ({ title, details }) => (
   <div className={styles.card}>
     <h2>{title}</h2>
     {details.map(({ label, value, formatter }) => (

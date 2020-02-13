@@ -6,9 +6,9 @@ import { extent, bisector } from 'd3-array';
 import { easeLinear } from 'd3-ease';
 import 'd3-transition';
 import moment from 'moment';
-import { convertToCamelCase } from '@/utils/util';
-import { PortfolioData } from '@/store/models/portfolio';
-import { GraphProps } from './models/Graph';
+import { convertToCamelCase } from 'utils/util';
+import { PortfolioData } from 'store/models/portfolio';
+import { GraphProps } from './Graph.models';
 
 const d3 = {
   bisector,

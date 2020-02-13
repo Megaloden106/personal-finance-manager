@@ -1,4 +1,4 @@
-import { createAction } from '@/utils/action-util';
+import { createAction } from 'utils/action-util';
 
 export const REQUEST_USER_DATA = '[User] Request User Data';
 export const REQUEST_USER_DATA_SUCCESS = '[User] Request User Data Success';

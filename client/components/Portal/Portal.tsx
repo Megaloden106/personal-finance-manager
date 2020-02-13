@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import ReactDOM from 'react-dom';
-import { PortalProps } from './models/Portal';
+import { PortalProps } from './Portal.models';
 
 const portal = document.getElementById('portal');
 

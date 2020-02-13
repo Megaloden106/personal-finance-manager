@@ -1,7 +1,7 @@
-import { convertToMoney, convertToPercent, convertToCamelCase } from '@/utils/util';
-import { AnalyticsCardDetail } from './models/AnalyticsCardDetail';
-import { AppState } from '@/store/models/store';
-import * as _ from '@/utils/collection-util';
+import { convertToMoney, convertToPercent, convertToCamelCase } from 'utils/util';
+import { AppState } from 'store/models/store';
+import { AnalyticsCardDetail } from 'store/models/analytics';
+import * as _ from 'utils/collection-util';
 
 const cards: AnalyticsCardDetail[] = [
   {

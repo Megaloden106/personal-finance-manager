@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
-import { convertToMoney } from '@/utils/util';
-import RollingNumber from '@/components/RollingNumber/RollingNumber';
-import { IPortfolio } from '@/store/models/portfolio';
-import { PortfolioListProps } from './models/PortfolioList';
+import RollingNumber from 'components/RollingNumber/RollingNumber';
+import { updateSelectedPortfolioAction } from 'store/actions/portfolio';
+import { IPortfolio } from 'store/models/portfolio';
+import { convertToMoney } from 'utils/util';
+import { PortfolioListProps } from './PortfolioList.models';
 import styles from './PortfolioList.scss';
-import { updateSelectedPortfolioAction } from '@/store/actions/portfolio';
 
 const PortfolioList: FC<PortfolioListProps> = ({ portfolios, title }) => {
   const dispatch = useDispatch();

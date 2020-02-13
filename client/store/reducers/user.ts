@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
-import { UserState } from '@/store/models/user';
-import { FluxAction } from '@/store/models/action';
-import * as UserAction from '@/store/actions/user';
+import { UserState } from 'store/models/user';
+import { FluxAction } from 'store/models/action';
+import * as UserAction from 'store/actions/user';
 
 export const initialUserState: UserState = {
   username: null,

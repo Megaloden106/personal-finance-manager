@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
-import { AnalyticsState } from '@/store/models/analytics';
-import { FluxAction } from '@/store/models/action';
-import * as AnalyticsAction from '@/store/actions/analytics';
+import { AnalyticsState } from 'store/models/analytics';
+import { FluxAction } from 'store/models/action';
+import * as AnalyticsAction from 'store/actions/analytics';
 
 export const initialAnalyticsState: AnalyticsState = {
   total: {

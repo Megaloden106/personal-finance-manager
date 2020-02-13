@@ -2,7 +2,7 @@
   position: absolute;
   width: 100%;
   max-height: 0;
-  background-color: white;
+  background: white;
   overflow: hidden;
   transition: max-height 0.3s ease;
   box-shadow: 0 0 4px 1px rgba(252, 120, 120, 0.01), 0 3px 24px rgba(0, 0, 0, 0.2);
@@ -31,7 +31,7 @@
   width: 100%;
   padding: 12px 24px;
   color: #666;
-  background-color: transparent;
+  background: transparent;
   font-size: 16px;
   line-height: 22px;
   text-align: left;
@@ -54,6 +54,6 @@
   }
 
   &:hover {
-    background-color: #fafafa;
+    background: #10c3f11f;
   }
 }
