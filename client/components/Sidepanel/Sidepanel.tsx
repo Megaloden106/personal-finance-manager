@@ -1,17 +1,28 @@
 import React, { FC, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fromEvent, Subscription } from 'rxjs';
+import { getClassName } from 'utils/react-util';
+import { AppState } from 'store/models/store';
+import { updateSidepanelStatusAction } from 'store/actions/sidepanel';
+import { useFormControl } from 'store/hooks/form/useFormControl';
+import { portfolioListByNameSelector } from 'store/selectors/portfolios/PortfolioSelector';
+import TextInput from 'components/Form/TextInput/TextInput';
+import Select from 'components/Form/Select/Select';
+import DatePicker from 'components/Form/DatePicker/DatePicker';
 import Portal from '../Portal/Portal';
 import styles from './Sidepanel.scss';
-import { getClassName } from '@/utils/react-util';
-import { AppState } from '@/store/models/store';
-import { updateSidepanelStatusAction } from '@/store/actions/sidepanel';
 
 const Sidepanel: FC = () => {
   const isPanelOpen = useSelector((state: AppState) => state.sidepanel.isOpen);
+  const portfolioListByName = useSelector(portfolioListByNameSelector);
   const dispatch = useDispatch();
-
   const sidepanel = useRef(null);
+
+  const portfolio = useFormControl('Select');
+  const date = useFormControl('Select');
+  const balance = useFormControl('');
+  const deposit = useFormControl('');
+  const withdrawal = useFormControl('');
 
   useEffect(() => {
     const subscription: Subscription = new Subscription();
@@ -36,7 +47,13 @@ const Sidepanel: FC = () => {
           [styles.sidepanelOpen]: isPanelOpen,
         })}
       >
-        Hello World
+        <form className={styles.form} onSubmit={e => e.preventDefault()}>
+          <DatePicker label="Date" control={date} />
+          <Select label="Portfolio" control={portfolio} menuItems={portfolioListByName} />
+          <TextInput label="Balance" control={balance} />
+          <TextInput label="Deposit" control={deposit} />
+          <TextInput label="Withdrawal" control={withdrawal} />
+        </form>
       </div>
     </Portal>
   );
