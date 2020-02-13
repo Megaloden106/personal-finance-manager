@@ -1,4 +1,4 @@
-import axios from '@/services/axios';
+import axios from 'services/axios';
 import { ServiceCreator } from '../models/action';
 
 export const requestPortfolioList: ServiceCreator = () => axios.get('/api/portfolio');

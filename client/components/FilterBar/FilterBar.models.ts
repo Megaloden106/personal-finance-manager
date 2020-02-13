@@ -1,4 +1,4 @@
-import { PortfolioParam } from '@/store/models/portfolio';
+import { PortfolioParam } from 'store/models/portfolio';
 
 export interface FilterBarProps {
   filter: PortfolioParam;

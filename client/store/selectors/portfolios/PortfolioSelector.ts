@@ -1,6 +1,5 @@
-import { PortfolioByType } from './models/PortfolioByType';
-import { IPortfolio } from '@/store/models/portfolio';
-import { AppState } from '@/store/models/store';
+import { IPortfolio, PortfolioByType } from 'store/models/portfolio';
+import { AppState } from 'store/models/store';
 
 export const portfolioByTypeSelector = (state: AppState): PortfolioByType[] => {
   const portfolioList: IPortfolio[] = state.portfolio.list;
@@ -24,3 +23,7 @@ export const portfolioByTypeSelector = (state: AppState): PortfolioByType[] => {
 
   return portfoliosByType;
 };
+
+export const portfolioListByNameSelector = (state: AppState): string[] => state.portfolio.list
+  .filter(portfolio => !portfolio.isGroup)
+  .map(portfolio => portfolio.name);

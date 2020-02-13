@@ -1,11 +1,16 @@
-import React, { FC, useState, useCallback, useRef } from 'react';
+import React, {
+  FC,
+  useState,
+  useCallback,
+  useRef,
+} from 'react';
 import { useSelector } from 'react-redux';
+import { portfolioByTypeSelector } from 'store/selectors/portfolios/PortfolioSelector';
+import Dropdown from 'components/Dropdown/Dropdown';
+import { DropdownMenuItem } from 'components/Dropdown/Dropdown.models';
+import { getClassName } from 'utils/react-util';
 import PortfolioList from './PortfolioList/PortfolioList';
-import { portfolioByTypeSelector } from '@/store/selectors/portfolios/PortfolioSelector';
-import Dropdown from '@/components/Dropdown/Dropdown';
 import styles from './Sidebar.scss';
-import { getClassName } from '@/utils/react-util';
-import { DropdownMenuItem } from '@/components/Dropdown/models/Dropdown';
 
 const menuItems = [
   { label: 'Returns' },
@@ -16,8 +21,8 @@ const menuItems = [
 const Sidebar: FC = () => {
   const portfoliosByType = useSelector(portfolioByTypeSelector);
 
-  const [selected, setSelected] = useState<string>('Returns');
-  const [isMenuOpen, setMenu] = useState<boolean>(false);
+  const [selected, setSelected] = useState('Returns');
+  const [isMenuOpen, setMenu] = useState(false);
 
   const sidebarAnchor = useRef(null);
 

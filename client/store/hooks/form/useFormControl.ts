@@ -4,28 +4,28 @@ import {
   FormOption,
   Validator,
   ValidationError,
-} from './models/Form';
+} from './Form.models';
 
 export const useFormControl = (
   defaultValue: string,
   defualtValidators: Validator[] = [],
 ): FormControl => {
-  const [value, setValue] = useState<string>(defaultValue);
-  const [validators, _setValidators] = useState<Validator[]>(defualtValidators);
+  const [value, setValue] = useState(defaultValue);
+  const [validators, _setValidators] = useState(defualtValidators);
   const [errors, _setErrors] = useState<ValidationError[]>([]);
-  const [valid, setValid] = useState<boolean>(false);
-  const [dirty, setDirty] = useState<boolean>(false);
-  const [touched, setTouched] = useState<boolean>(false);
+  const [valid, setValid] = useState(false);
+  const [dirty, setDirty] = useState(false);
+  const [touched, setTouched] = useState(false);
 
   useEffect(() => {
     if (dirty && touched) {
-      const validationErrors = [];
-      for (let i = 0; i < validators.length; i += 1) {
-        const error = validators[i](value);
+      const validationErrors: ValidationError[] = [];
+      validators.forEach((validator) => {
+        const error = validator(value);
         if (error) {
           validationErrors.push(error);
         }
-      }
+      });
       _setErrors(validationErrors);
       setValid(!validationErrors.length);
     }

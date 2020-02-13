@@ -30,8 +30,8 @@
 
   &--disabled {
     background: #666;
-    pointer-events: none;
     border-radius: unset;
+    pointer-events: none;
   }
 }
 
@@ -90,6 +90,10 @@
   .display {
     font-size: 18px;
     cursor: pointer;
+
+    &--disabled {
+      cursor: default;
+    }
   }
 }
 

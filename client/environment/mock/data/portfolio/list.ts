@@ -1,4 +1,4 @@
-import { IPortfolio } from '@/store/models/portfolio';
+import { IPortfolio } from 'store/models/portfolio';
 
 const portolfioList: IPortfolio[] = [
   {

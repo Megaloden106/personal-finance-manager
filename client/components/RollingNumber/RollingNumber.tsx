@@ -2,12 +2,12 @@ import React, { FC, useState, useEffect } from 'react';
 import { interval } from 'rxjs';
 import { interpolateNumber } from 'd3-interpolate';
 import { take } from 'rxjs/operators';
-import { RollingNumberProps } from './models/RollingNumber';
+import { RollingNumberProps } from './RollingNumber.models';
 
 const d3 = { interpolateNumber };
 
 const RollingNumber: FC<RollingNumberProps> = ({ nextValue, formatter }) => {
-  const [currentValue, setCurrentValue] = useState<number>(0);
+  const [currentValue, setCurrentValue] = useState(0);
 
   useEffect(() => {
     const interpolatedValues = d3.interpolateNumber(currentValue, nextValue);

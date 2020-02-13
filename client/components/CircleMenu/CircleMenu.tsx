@@ -1,13 +1,13 @@
 import React, { FC, useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Subscription, merge, fromEvent } from 'rxjs';
-import Portal from '@/components/Portal/Portal';
-import Graph from '@/components/Graph/Graph';
-import { CircleMenuProps } from './models/CircleMenu';
+import Portal from 'components/Portal/Portal';
+import Graph from 'components/Graph/Graph';
+import { HTMLRect } from 'models/style';
+import { updateSidepanelStatusAction } from 'store/actions/sidepanel';
+import { getClassName } from 'utils/react-util';
+import { CircleMenuProps } from './CircleMenu.models';
 import styles from './CircleMenu.scss';
-import { getClassName } from '@/utils/react-util';
-import { updateSidepanelStatusAction } from '@/store/actions/sidepanel';
-import { HTMLRect } from '@/models/style';
 
 const graphData = [
   { date: new Date(2020, 0, 1), returns: 0 },

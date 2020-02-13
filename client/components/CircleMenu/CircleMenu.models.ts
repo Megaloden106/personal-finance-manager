@@ -1,5 +1,5 @@
 import { MutableRefObject } from 'react';
-import { Offset } from '@/models/style';
+import { Offset } from 'models/style';
 
 export interface CircleMenuProps {
   anchor: MutableRefObject<HTMLButtonElement>;

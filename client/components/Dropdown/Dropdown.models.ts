@@ -1,5 +1,5 @@
 import { MutableRefObject } from 'react';
-import { Offset, Style } from '@/models/style';
+import { Offset, Style } from 'models/style';
 
 export interface DropdownMenuItem {
   label: string;

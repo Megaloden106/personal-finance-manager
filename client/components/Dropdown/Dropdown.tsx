@@ -5,11 +5,11 @@ import React, {
   useCallback,
 } from 'react';
 import { fromEvent, Subscription, merge } from 'rxjs';
-import Portal from '@/components/Portal/Portal';
+import Portal from 'components/Portal/Portal';
+import { HTMLRect } from 'models/style';
+import { getClassName } from 'utils/react-util';
+import { DropdownProps, DropdownMenuItem } from './Dropdown.models';
 import styles from './Dropdown.scss';
-import { DropdownProps, DropdownMenuItem } from './models/Dropdown';
-import { getClassName } from '@/utils/react-util';
-import { HTMLRect } from '@/models/style';
 
 const Dropdown: FC<DropdownProps> = ({
   selected,

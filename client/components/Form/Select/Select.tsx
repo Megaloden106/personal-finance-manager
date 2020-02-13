@@ -7,7 +7,7 @@ import React, {
   useCallback,
 } from 'react';
 import { Subscription, fromEvent, timer } from 'rxjs';
-import { SelectProps } from './models/Select';
+import { SelectProps } from './Select.models';
 import styles from './Select.scss';
 import { getClassName } from '@/utils/react-util';
 

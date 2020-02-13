@@ -1,6 +1,6 @@
 .sidebar {
   grid-area: sidebar;
-  background-color: white;
+  background: white;
   box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.01), 0 3px 24px rgba(48, 51, 51, 0.2);
 }
 
@@ -29,14 +29,14 @@
 
     &.menu--open span,
     &:hover span {
-      background-color: #1591b6;
+      background: #1591b6;
     }
 
     span {
       display: block;
       height: 4px;
       width: 4px;
-      background-color: #666;
+      background: #666;
       border-radius: 100%;
     }
   }

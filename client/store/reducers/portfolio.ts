@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
-import { PortfolioState } from '@/store/models/portfolio';
-import { FluxAction } from '@/store/models/action';
-import * as PortfolioAction from '@/store/actions/portfolio';
+import { PortfolioState } from 'store/models/portfolio';
+import { FluxAction } from 'store/models/action';
+import * as PortfolioAction from 'store/actions/portfolio';
 
 export const initialPortfolioState: PortfolioState = {
   list: [],

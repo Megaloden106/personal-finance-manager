@@ -7,7 +7,7 @@ import React, {
   useCallback,
 } from 'react';
 import { Subscription, fromEvent, timer } from 'rxjs';
-import { DatePickerProps, Cell } from './models/DatePicker';
+import { DatePickerProps, Cell } from './DatePicker.models';
 import styles from './DatePicker.scss';
 import { getClassName } from '@/utils/react-util';
 
@@ -178,7 +178,10 @@ const Select: FC<DatePickerProps> = ({ label, control }) => {
             </button>
             <button
               type="button"
-              className={styles.display}
+              className={getClassName({
+                [styles.display]: true,
+                [styles.displayDisabled]: view === 'month',
+              })}
               onClick={onDisplayClick}
             >
               { view === 'day'

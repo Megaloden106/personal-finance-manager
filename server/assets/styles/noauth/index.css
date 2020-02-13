@@ -2,7 +2,7 @@ body {
   margin: 0;
   font-family: 'HelveticaNeue-Light';
   color: #333;
-  background-color: #c4d7d755;
+  background: #c4d7d755;
 }
 
 a {
@@ -12,7 +12,7 @@ a {
 }
 
 .join {
-  background-color: #c4d7d7;
+  background: #c4d7d7;
 }
 
 .hidden {
@@ -23,7 +23,7 @@ a {
   width: 1600px;
   margin-right: auto;
   margin-left: auto;
-  background-color: white;
+  background: white;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
@@ -61,7 +61,7 @@ a {
 }
 .header__join:hover {
   color: #333;
-  background-color: #999;
+  background: #999;
 }
 .header__join:active {
   color: #222;
@@ -70,19 +70,19 @@ a {
 .header__login {
   margin-right: 20px;
   color: #1591b6;
-  background-color: white;
+  background: white;
   border: 1px solid #445671;
   line-height: 38px;
 }
 .header__login:hover {
   color: #1579a6;
-  background-color: #1591b633;
+  background: #1591b633;
   border: 2px solid #1e7ba4;
   line-height: 36px;
 }
 .header__login:active {
   color: #156196;
-  background-color: #1591b644;
+  background: #1591b644;
 }
 
 .banner {
@@ -101,7 +101,7 @@ a {
   margin-right: auto;
   margin-left: auto;
   padding-top: 80px;
-  background-color: white;
+  background: white;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
   text-align: center;
 }
@@ -150,7 +150,7 @@ a {
 .pr__form__input:valid + .pr__form__label,
 .pr__form__input:focus + .pr__form__label {
   padding-top: 0;
-  background-color: white;
+  background: white;
   font-size: 14px;
   transform: translateY(-8px);
 }
@@ -174,7 +174,7 @@ a {
   right: 195px;
   z-index: 0;
   color: #1591b6;
-  background-color: transparent;
+  background: transparent;
   border: none;
   font-size: 14px;
   font-weight: bold;
@@ -213,17 +213,17 @@ a {
   width: 360px;
   margin-top: 8px;
   color: white;
-  background-color: #1e7ba4;
+  background: #1e7ba4;
   border-radius: 2px;
   font-size: 18px;
   outline: none;
   cursor: pointer;
 }
 .form__submit:hover {
-  background-color:#1e6994;
+  background:#1e6994;
 }
 .form__submit:active {
-  background-color:#1e5374;
+  background:#1e5374;
 }
 
 .form__forgot-pass {
@@ -243,13 +243,13 @@ a {
 .form__password-visibility--join:hover,
 .form__forgot-pass:hover {
   color: #1579a6;
-  background-color: #1591b633;
+  background: #1591b633;
 }
 .form__password-visibility--login:active,
 .form__password-visibility--join:active,
 .form__forgot-pass:active {
   color: #156196;
-  background-color: #1591b644;
+  background: #1591b644;
 }
 
 .form__join {
@@ -282,7 +282,7 @@ a {
   width: 1600px;
   margin-right: auto;
   margin-left: auto;
-  background-color: white;
+  background: white;
   border-top: 1px solid #999;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
 }
@@ -317,7 +317,7 @@ a {
   margin-bottom: 0;
   margin-left: auto;
   padding-top: 80px;
-  background-color: white;
+  background: white;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
@@ -355,7 +355,7 @@ a {
 .prfs__cancel {
   margin-right: 20px;
   color: #1591b6;
-  background-color: white;
+  background: white;
   border: 1px solid #445671;
   font-weight: bold;
   line-height: 38px;
@@ -363,22 +363,22 @@ a {
 .prfs__cancel:hover {
   width: 198px;
   color: #1579a6;
-  background-color: #1591b633;
+  background: #1591b633;
   border: 2px solid #1e7ba4;
   line-height: 36px;
 }
 .prfs__cancel:active {
   color: #156196;
-  background-color: #1591b644;
+  background: #1591b644;
 }
 
 .prfs__submit {
   color: white;
-  background-color: #1e7ba4;
+  background: #1e7ba4;
 }
 .prfs__submit:hover {
-  background-color:#1e6994;
+  background:#1e6994;
 }
 .prfs__submit:active {
-  background-color:#1e5374;
+  background:#1e5374;
 }

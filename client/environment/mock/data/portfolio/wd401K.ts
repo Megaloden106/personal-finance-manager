@@ -1,4 +1,4 @@
-import { PortfolioData } from '@/store/models/portfolio';
+import { PortfolioData } from 'store/models/portfolio';
 
 const wd401K: PortfolioData[] = [
   {

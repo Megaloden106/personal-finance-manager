@@ -1,4 +1,4 @@
-import { TotalAnalytic, AnnualizeAnalytic, PastYearAnalytic } from '@/store/models/analytics';
+import { TotalAnalytic, AnnualizeAnalytic, PastYearAnalytic } from 'store/models/analytics';
 
 const api = '/api/analytics';
 

@@ -1,7 +1,7 @@
 import { Reducer } from 'redux';
-import { SidepanelState } from '@/store/models/sidepanel';
-import { FluxAction } from '@/store/models/action';
-import * as SidepanelAction from '@/store/actions/sidepanel';
+import { SidepanelState } from 'store/models/sidepanel';
+import { FluxAction } from 'store/models/action';
+import * as SidepanelAction from 'store/actions/sidepanel';
 
 export const initialSidepanelState: SidepanelState = {
   isOpen: false,

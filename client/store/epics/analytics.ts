@@ -1,7 +1,7 @@
 import { Epic, combineEpics } from 'redux-observable';
-import { createEpic } from '@/utils/action-util';
-import * as AnalyticsAction from '@/store/actions/analytics';
-import * as AnalyticsService from '@/store/services/analytics';
+import { createEpic } from 'utils/action-util';
+import * as AnalyticsAction from 'store/actions/analytics';
+import * as AnalyticsService from 'store/services/analytics';
 
 const requestAnalyticsTotalEpic = createEpic(
   AnalyticsAction.REQUEST_ANALYTICS_TOTAL,

@@ -1,5 +1,5 @@
 import React, { FC, ChangeEvent, useCallback } from 'react';
-import { TextInputProps } from './models/TextInput';
+import { TextInputProps } from './TextInput.models';
 import styles from './TextInput.scss';
 
 const TextInput: FC<TextInputProps> = ({ label, control }) => {

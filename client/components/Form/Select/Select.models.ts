@@ -1,4 +1,4 @@
-import { FormControl } from 'store/hooks/form/models/Form';
+import { FormControl } from 'store/hooks/form/Form.models';
 
 export interface SelectProps {
   label: string;
