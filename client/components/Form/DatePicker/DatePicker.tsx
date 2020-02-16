@@ -7,9 +7,9 @@ import React, {
   useCallback,
 } from 'react';
 import { Subscription, fromEvent, timer } from 'rxjs';
+import { getClassName } from 'utils/react-util';
 import { DatePickerProps, Cell } from './DatePicker.models';
 import styles from './DatePicker.scss';
-import { getClassName } from '@/utils/react-util';
 
 const valueDateOptions = {
   year: 'numeric',
@@ -119,13 +119,11 @@ const Select: FC<DatePickerProps> = ({ label, control }) => {
   }, [isMenuOpen]);
 
   const onInputClick = useCallback((event: MouseEvent) => {
-    event.preventDefault();
     markAsTouched();
     setMenuOpen(!isMenuOpen);
   }, []);
 
   const onCellClick = useCallback((event: MouseEvent, cell: Cell) => {
-    event.preventDefault();
     if (view === 'day') {
       setMonthIndex(0);
       setYearIndex(0);
@@ -147,7 +145,6 @@ const Select: FC<DatePickerProps> = ({ label, control }) => {
   }, [view]);
 
   const onNextOrPrevClick = useCallback((event: MouseEvent, direction: 'next' | 'prev') => {
-    event.preventDefault();
     const change = direction === 'next' ? 1 : -1;
     if (view === 'day') {
       setMonthIndex(monthIndex + change);
@@ -157,76 +154,86 @@ const Select: FC<DatePickerProps> = ({ label, control }) => {
   }, [view, monthIndex, yearIndex]);
 
   return (
-    <label htmlFor={label} className={styles.datePicker}>
-      {`${label}`}
-      <p className={styles.downArrow}>&#x25be;</p>
-      <input
-        type="text"
-        value={value}
-        onClick={onInputClick}
-        readOnly
-      />
-      {isMenuOpen && (
-        <div ref={calendar} className={styles.calendar}>
-          <div className={styles.nav}>
-            <button
-              type="button"
-              className={styles.navLeft}
-              onClick={e => onNextOrPrevClick(e, 'prev')}
-            >
-              &#x3c;
-            </button>
-            <button
-              type="button"
-              className={getClassName({
-                [styles.display]: true,
-                [styles.displayDisabled]: view === 'month',
-              })}
-              onClick={onDisplayClick}
-            >
-              { view === 'day'
-                ? selectedDate.toLocaleString('en-US', dayViewDateOptions)
-                : selectedDate.toLocaleString('en-US', monthViewDateOptions)
-              }
-            </button>
-            <button
-              type="button"
-              className={styles.navLeft}
-              onClick={e => onNextOrPrevClick(e, 'next')}
-            >
-              &#x3e;
-            </button>
-          </div>
-          <div
-            className={getClassName({
-              [styles.grid]: view === 'day',
-              [styles.gridMonth]: view === 'month',
-            })}
-          >
-            {view === 'day' && weekdays.map(day => (
-              <p key={day} className={styles.weekCell}>{ day }</p>
-            ))}
-            {cells.map(cell => (
+    <>
+      <label
+        htmlFor={`${label}-date-picker`}
+        className={getClassName({
+          [styles.datePicker]: true,
+          [styles.datePickerError]: !!errors.length,
+        })}
+      >
+        {label}
+        <p className={styles.downArrow}>&#x25be;</p>
+        <input
+          id={`${label}-date-picker`}
+          type="text"
+          value={value}
+          onClick={onInputClick}
+          readOnly
+        />
+        {isMenuOpen && (
+          <div ref={calendar} className={styles.calendar}>
+            <div className={styles.nav}>
               <button
                 type="button"
-                key={cell.date.toLocaleString()}
-                className={getClassName({
-                  [styles.dayCell]: view === 'day',
-                  [styles.monthCell]: view === 'month',
-                  [styles.dayCellSelected]: cell.isSelected,
-                  [styles.dayCellBlank]: cell.isBlankCell,
-                  [styles.dayCellDisabled]: cell.isFuture,
-                })}
-                onClick={e => onCellClick(e, cell)}
+                className={styles.navLeft}
+                onClick={e => onNextOrPrevClick(e, 'prev')}
               >
-                { view === 'day' ? cell.dayOfMonth : cell.monthOfYear }
+                &#x3c;
               </button>
-            ))}
+              <button
+                type="button"
+                className={getClassName({
+                  [styles.display]: true,
+                  [styles.displayDisabled]: view === 'month',
+                })}
+                onClick={onDisplayClick}
+              >
+                {
+                  view === 'day'
+                    ? selectedDate.toLocaleString('en-US', dayViewDateOptions)
+                    : selectedDate.toLocaleString('en-US', monthViewDateOptions)
+                }
+              </button>
+              <button
+                type="button"
+                className={styles.navLeft}
+                onClick={e => onNextOrPrevClick(e, 'next')}
+              >
+                &#x3e;
+              </button>
+            </div>
+            <div
+              className={getClassName({
+                [styles.grid]: view === 'day',
+                [styles.gridMonth]: view === 'month',
+              })}
+            >
+              {view === 'day' && weekdays.map(day => (
+                <p key={day} className={styles.weekCell}>{ day }</p>
+              ))}
+              {cells.map(cell => (
+                <button
+                  type="button"
+                  key={cell.date.toLocaleString()}
+                  className={getClassName({
+                    [styles.dayCell]: view === 'day',
+                    [styles.monthCell]: view === 'month',
+                    [styles.dayCellSelected]: cell.isSelected,
+                    [styles.dayCellBlank]: cell.isBlankCell,
+                    [styles.dayCellDisabled]: cell.isFuture,
+                  })}
+                  onClick={e => onCellClick(e, cell)}
+                >
+                  { view === 'day' ? cell.dayOfMonth : cell.monthOfYear }
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </label>
       {errors.length ? <p className={styles.errorMessage}>{errors[0].message}</p> : null}
-    </label>
+    </>
   );
 };
 

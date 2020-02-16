@@ -1,6 +1,6 @@
 import { FormControl } from 'store/hooks/form/Form.models';
 
-export interface TextInputProps {
+export interface CheckboxProps {
   label: string;
-  control: FormControl<string>;
+  control: FormControl<boolean>;
 }

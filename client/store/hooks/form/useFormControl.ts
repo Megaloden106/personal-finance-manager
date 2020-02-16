@@ -6,10 +6,10 @@ import {
   ValidationError,
 } from './Form.models';
 
-export const useFormControl = (
-  defaultValue: string,
-  defualtValidators: Validator[] = [],
-): FormControl => {
+export const useFormControl = <T>(
+  defaultValue: T,
+  defualtValidators: Validator<T>[] = [],
+): FormControl<T> => {
   const [value, setValue] = useState(defaultValue);
   const [validators, _setValidators] = useState(defualtValidators);
   const [errors, _setErrors] = useState<ValidationError[]>([]);
@@ -34,7 +34,7 @@ export const useFormControl = (
   const markAsTouched = () => setTouched(true);
   const markAsDirty = () => setDirty(true);
 
-  const patchValue = (newValue: string, { emitEvent }: FormOption = {}) => {
+  const patchValue = (newValue: T, { emitEvent }: FormOption = {}) => {
     setValue(newValue);
     if (emitEvent || emitEvent === undefined) {
       markAsTouched();
@@ -42,7 +42,7 @@ export const useFormControl = (
     }
   };
 
-  const setValidators = (newValidators: Validator | Validator[]) => {
+  const setValidators = (newValidators: Validator<T> | Validator<T>[]) => {
     if (Array.isArray(newValidators)) _setValidators(newValidators);
     else _setValidators([newValidators]);
   };

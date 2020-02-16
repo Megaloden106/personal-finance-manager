@@ -11,6 +11,7 @@ import Select from 'components/Form/Select/Select';
 import DatePicker from 'components/Form/DatePicker/DatePicker';
 import Portal from '../Portal/Portal';
 import styles from './Sidepanel.scss';
+import Checkbox from '../Form/Checkbox/Checkbox';
 
 const Sidepanel: FC = () => {
   const isPanelOpen = useSelector((state: AppState) => state.sidepanel.isOpen);
@@ -23,6 +24,7 @@ const Sidepanel: FC = () => {
   const balance = useFormControl('');
   const deposit = useFormControl('');
   const withdrawal = useFormControl('');
+  const group = useFormControl(false);
 
   useEffect(() => {
     const subscription: Subscription = new Subscription();
@@ -53,6 +55,7 @@ const Sidepanel: FC = () => {
           <TextInput label="Balance" control={balance} />
           <TextInput label="Deposit" control={deposit} />
           <TextInput label="Withdrawal" control={withdrawal} />
+          <Checkbox label="Group" control={group} />
         </form>
       </div>
     </Portal>

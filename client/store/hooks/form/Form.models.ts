@@ -3,33 +3,20 @@ export interface ValidationError {
   message: string;
 }
 
-export type Validator = (value: string | FormObject) => ValidationError | null;
+export type Validator<T> = (value: T) => ValidationError;
 
-interface AbstractControl<T> {
-}
-
-export interface FormControl extends AbstractControl<string> {
-  value: string;
+export interface FormControl<T> {
+  value: T;
   valid: boolean;
   dirty: boolean;
   touched: boolean;
   errors: ValidationError[];
-  patchValue: (value: string, options?: FormOption) => void;
-  setValidators: (validators: Validator | Validator[]) => void;
+  patchValue: (value: T, options?: FormOption) => void;
+  setValidators: (validators: Validator<T> | Validator<T>[]) => void;
   clearValidators: () => void;
   markAsTouched: (options?: FormOption) => void;
   markAsDirty: (options?: FormOption) => void;
   setErrors: (errors: ValidationError | ValidationError[]) => void;
-}
-
-export type FormGroup = AbstractControl<FormObject>;
-
-export interface FormObject {
-  [key: string]: string;
-}
-
-export interface Control {
-  [key: string]: FormControl;
 }
 
 export interface FormOption {

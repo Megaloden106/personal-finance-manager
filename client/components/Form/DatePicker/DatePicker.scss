@@ -100,7 +100,6 @@
 .date-picker {
   position: relative;
   width: 100%;
-  max-width: 280px;
   margin-bottom: 10px;
   color: #555;
   font-size: 14px;
@@ -129,15 +128,19 @@
     cursor: pointer;
   }
 
-  .error-message {
-    display: block;
-    width: inherit;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    color: #f45431;
-    font-size: 13px;
-    font-weight: normal;
-    line-height: 12px;
-    text-align: right;
+  &--error input {
+    border: 1px solid #f45431;
   }
+}
+
+.error-message {
+  display: block;
+  width: inherit;
+  margin-top: -5px;
+  margin-bottom: 10px;
+  color: #f45431;
+  font-size: 13px;
+  font-weight: normal;
+  line-height: 12px;
+  text-align: right;
 }

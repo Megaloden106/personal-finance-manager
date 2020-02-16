@@ -2,7 +2,7 @@ import { FormControl } from 'store/hooks/form/Form.models';
 
 export interface DatePickerProps {
   label: string;
-  control: FormControl;
+  control: FormControl<string>;
 }
 
 export interface Cell {
