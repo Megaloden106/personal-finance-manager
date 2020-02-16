@@ -7,9 +7,9 @@ import React, {
   useCallback,
 } from 'react';
 import { Subscription, fromEvent, timer } from 'rxjs';
+import { getClassName } from 'utils/react-util';
 import { SelectProps } from './Select.models';
 import styles from './Select.scss';
-import { getClassName } from '@/utils/react-util';
 
 const Select: FC<SelectProps> = ({ label, control, menuItems }) => {
   const {
@@ -50,33 +50,42 @@ const Select: FC<SelectProps> = ({ label, control, menuItems }) => {
   }, []);
 
   return (
-    <label htmlFor={label} className={styles.select}>
-      {`${label}`}
-      <p className={styles.downArrow}>&#x25be;</p>
-      <input
-        type="text"
-        value={value}
-        onClick={onInputClick}
-        readOnly
-      />
-      {isMenuOpen && (
-        <div ref={dropdown} className={styles.menu}>
-          {menuItems.map(menuItem => (
-            <button
-              className={getClassName({
-                [styles.menuSelected]: menuItem === value,
-              })}
-              key={menuItem}
-              type="button"
-              onClick={onMenuItemClick}
-            >
-              {menuItem}
-            </button>
-          ))}
-        </div>
-      )}
+    <>
+      <label
+        htmlFor={`${label}-select`}
+        className={getClassName({
+          [styles.select]: true,
+          [styles.selectError]: !!errors.length,
+        })}
+      >
+        {label}
+        <p className={styles.downArrow}>&#x25be;</p>
+        <input
+          id={`${label}-select`}
+          type="text"
+          value={value}
+          onClick={onInputClick}
+          readOnly
+        />
+        {isMenuOpen && (
+          <div ref={dropdown} className={styles.menu}>
+            {menuItems.map(menuItem => (
+              <button
+                className={getClassName({
+                  [styles.menuSelected]: menuItem === value,
+                })}
+                key={menuItem}
+                type="button"
+                onClick={onMenuItemClick}
+              >
+                {menuItem}
+              </button>
+            ))}
+          </div>
+        )}
+      </label>
       {errors.length ? <p className={styles.errorMessage}>{errors[0].message}</p> : null}
-    </label>
+    </>
   );
 };
 
