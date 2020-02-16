@@ -1,6 +1,5 @@
 import React, {
   FC,
-  MouseEvent,
   useState,
   useEffect,
   useRef,
@@ -118,12 +117,12 @@ const Select: FC<DatePickerProps> = ({ label, control }) => {
     return () => subscription.unsubscribe();
   }, [isMenuOpen]);
 
-  const onInputClick = useCallback((event: MouseEvent) => {
+  const onInputClick = useCallback(() => {
     markAsTouched();
     setMenuOpen(!isMenuOpen);
   }, []);
 
-  const onCellClick = useCallback((event: MouseEvent, cell: Cell) => {
+  const onCellClick = useCallback((cell: Cell) => {
     if (view === 'day') {
       setMonthIndex(0);
       setYearIndex(0);
@@ -144,7 +143,7 @@ const Select: FC<DatePickerProps> = ({ label, control }) => {
     }
   }, [view]);
 
-  const onNextOrPrevClick = useCallback((event: MouseEvent, direction: 'next' | 'prev') => {
+  const onNextOrPrevClick = useCallback((direction: 'next' | 'prev') => {
     const change = direction === 'next' ? 1 : -1;
     if (view === 'day') {
       setMonthIndex(monthIndex + change);
@@ -177,7 +176,7 @@ const Select: FC<DatePickerProps> = ({ label, control }) => {
               <button
                 type="button"
                 className={styles.navLeft}
-                onClick={e => onNextOrPrevClick(e, 'prev')}
+                onClick={() => onNextOrPrevClick('prev')}
               >
                 &#x3c;
               </button>
@@ -198,7 +197,7 @@ const Select: FC<DatePickerProps> = ({ label, control }) => {
               <button
                 type="button"
                 className={styles.navLeft}
-                onClick={e => onNextOrPrevClick(e, 'next')}
+                onClick={() => onNextOrPrevClick('next')}
               >
                 &#x3e;
               </button>
@@ -223,7 +222,7 @@ const Select: FC<DatePickerProps> = ({ label, control }) => {
                     [styles.dayCellBlank]: cell.isBlankCell,
                     [styles.dayCellDisabled]: cell.isFuture,
                   })}
-                  onClick={e => onCellClick(e, cell)}
+                  onClick={() => onCellClick(cell)}
                 >
                   { view === 'day' ? cell.dayOfMonth : cell.monthOfYear }
                 </button>

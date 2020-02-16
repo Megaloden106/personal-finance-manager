@@ -6,7 +6,9 @@ import {
   ValidationError,
 } from './Form.models';
 
-export const useFormControl = <T>(
+export const useFormControl = <T = string | boolean>(
+  // typescript non-issue. Parens are added already, but Generic type causing confusion
+  // eslint-disable-next-line arrow-parens
   defaultValue: T,
   defualtValidators: Validator<T>[] = [],
 ): FormControl<T> => {

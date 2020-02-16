@@ -1,4 +1,4 @@
-import React, { FC, ChangeEvent, useCallback, KeyboardEvent } from 'react';
+import React, { FC, ChangeEvent, useCallback } from 'react';
 import { getClassName } from 'utils/react-util';
 import { TextInputProps } from './TextInput.models';
 import styles from './TextInput.scss';
