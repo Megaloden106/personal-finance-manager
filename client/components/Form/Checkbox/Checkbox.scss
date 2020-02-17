@@ -4,16 +4,15 @@
   visibility: hidden;
 
   &:checked + .checkbox .checkbox-button {
-    color: #333;
-    user-select: unset;
+    color: #1e7ba4;
   }
 }
 
 .checkbox {
-  width: 100%;
+  width: fit-content;
   margin-bottom: 10px;
   color: #555;
-  font-size: 14px;
+  font-size: 16px;
   cursor: pointer;
 
   &:active .checkbox-button {
@@ -28,9 +27,10 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     margin-right: 5px;
+    padding: unset;
     color: transparent;
     border: 1px solid #333;
     font-size: 14px;
