@@ -1,4 +1,10 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, {
+  FC,
+  useEffect,
+  useRef,
+  useCallback,
+  MouseEvent,
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fromEvent, Subscription } from 'rxjs';
 import { getClassName } from 'utils/react-util';
@@ -9,9 +15,9 @@ import { portfolioListByNameSelector } from 'store/selectors/portfolios/Portfoli
 import TextInput from 'components/Form/TextInput/TextInput';
 import Select from 'components/Form/Select/Select';
 import DatePicker from 'components/Form/DatePicker/DatePicker';
-import Portal from '../Portal/Portal';
+import Portal from 'components/Portal/Portal';
+import Checkbox from 'components/Form/Checkbox/Checkbox';
 import styles from './Sidepanel.scss';
-import Checkbox from '../Form/Checkbox/Checkbox';
 
 const Sidepanel: FC = () => {
   const isPanelOpen = useSelector((state: AppState) => state.sidepanel.isOpen);
@@ -40,24 +46,65 @@ const Sidepanel: FC = () => {
     return () => subscription.unsubscribe();
   }, [isPanelOpen]);
 
+  const onDelete = useCallback(() => {
+    dispatch(updateSidepanelStatusAction(false));
+    portfolio.reset();
+    date.reset();
+    balance.reset();
+    deposit.reset();
+    withdrawal.reset();
+  }, []);
+
+  const onAdd = useCallback((event: MouseEvent) => {
+    event.preventDefault();
+  }, []);
+
   return (
     <Portal>
-      <div
+      <article
         ref={sidepanel}
         className={getClassName({
           [styles.sidepanel]: true,
           [styles.sidepanelOpen]: isPanelOpen,
         })}
       >
-        <form className={styles.form} onSubmit={e => e.preventDefault()}>
-          <DatePicker label="Date" control={date} />
-          <Select label="Portfolio" control={portfolio} menuItems={portfolioListByName} />
-          <TextInput label="Balance" control={balance} />
-          <TextInput label="Deposit" control={deposit} />
-          <TextInput label="Withdrawal" control={withdrawal} />
-          <Checkbox label="Group" control={group} />
-        </form>
-      </div>
+        <header className={styles.header}>
+          <h1>Add New...</h1>
+          <button
+            type="button"
+            className={styles.closeBtn}
+            onClick={() => dispatch(updateSidepanelStatusAction(false))}
+          >
+            x
+          </button>
+        </header>
+        <section className={styles.content}>
+          <form className={styles.form}>
+            <DatePicker label="Date" control={date} />
+            <Select label="Portfolio" control={portfolio} menuItems={portfolioListByName} />
+            <TextInput label="Balance" control={balance} />
+            <TextInput label="Deposit" control={deposit} />
+            <TextInput label="Withdrawal" control={withdrawal} />
+            <Checkbox label="Group" control={group} />
+            <section className={styles.overlay}>
+              <button
+                type="button"
+                className={styles.deleteBtn}
+                onClick={onDelete}
+              >
+                Delete
+              </button>
+              <button
+                type="submit"
+                className={styles.addBtn}
+                onClick={onAdd}
+              >
+                Add
+              </button>
+            </section>
+          </form>
+        </section>
+      </article>
     </Portal>
   );
 };

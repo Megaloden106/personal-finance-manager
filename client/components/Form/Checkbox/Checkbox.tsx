@@ -25,7 +25,7 @@ const Checkbox: FC<CheckboxProps> = ({ label, control }) => {
         onClick={() => markAsTouched()}
       />
       <label htmlFor={`${label}-checkbox`} className={styles.checkbox}>
-        <div className={styles.checkboxButton}>&#x2714;</div>
+        <button type="button" className={styles.checkboxButton}>&#x2714;</button>
         {label}
       </label>
       {errors.length ? <p className={styles.errorMessage}>{errors[0].message}</p> : null}

@@ -15,7 +15,7 @@ export const useFormControl = <T = string | boolean>(
   const [value, setValue] = useState(defaultValue);
   const [validators, _setValidators] = useState(defualtValidators);
   const [errors, _setErrors] = useState<ValidationError[]>([]);
-  const [valid, setValid] = useState(false);
+  const [valid, setValid] = useState(true);
   const [dirty, setDirty] = useState(false);
   const [touched, setTouched] = useState(false);
 
@@ -30,6 +30,9 @@ export const useFormControl = <T = string | boolean>(
       });
       _setErrors(validationErrors);
       setValid(!validationErrors.length);
+    } else {
+      _setErrors([]);
+      setValid(true);
     }
   }, [value, validators]);
 
@@ -55,6 +58,12 @@ export const useFormControl = <T = string | boolean>(
     else _setErrors([newErrors]);
   };
 
+  const reset = () => {
+    setTouched(false);
+    setDirty(false);
+    setValue(defaultValue);
+  };
+
   return {
     value,
     valid,
@@ -67,5 +76,6 @@ export const useFormControl = <T = string | boolean>(
     markAsTouched,
     markAsDirty,
     setErrors,
+    reset,
   };
 };
