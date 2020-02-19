@@ -1,4 +1,4 @@
-import { FormControl } from 'store/hooks/form/Form.models';
+import { FormControl } from 'store/models/form';
 
 export interface CheckboxProps {
   label: string;

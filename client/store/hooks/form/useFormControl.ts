@@ -4,7 +4,7 @@ import {
   FormOption,
   Validator,
   ValidationError,
-} from './Form.models';
+} from 'store/models/form';
 
 export const useFormControl = <T = string | boolean>(
   // typescript non-issue. Parens are added already, but Generic type causing confusion
@@ -58,10 +58,10 @@ export const useFormControl = <T = string | boolean>(
     else _setErrors([newErrors]);
   };
 
-  const reset = () => {
+  const reset = (newValue?: T) => {
     setTouched(false);
     setDirty(false);
-    setValue(defaultValue);
+    setValue(newValue || defaultValue);
   };
 
   return {

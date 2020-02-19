@@ -32,11 +32,13 @@
   .menu {
     position: absolute;
     z-index: 10;
+    max-height: 210px;
     width: inherit;
     padding: 10px 0;
     background: #fff;
     border: 1px solid #ccc;
     box-shadow: 0 0 4px 1px rgba(252, 120, 120, 0.01), 0 3px 24px rgba(0, 0, 0, 0.2);
+    overflow: auto;
 
     button {
       height: 40px;

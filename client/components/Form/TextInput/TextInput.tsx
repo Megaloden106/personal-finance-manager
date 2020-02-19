@@ -3,7 +3,7 @@ import { getClassName } from 'utils/react-util';
 import { TextInputProps } from './TextInput.models';
 import styles from './TextInput.scss';
 
-const TextInput: FC<TextInputProps> = ({ label, control }) => {
+const TextInput: FC<TextInputProps> = ({ label, control, children }) => {
   const {
     value,
     patchValue,
@@ -25,7 +25,7 @@ const TextInput: FC<TextInputProps> = ({ label, control }) => {
         })}
       >
         {label}
-        <p className={styles.icon}>$</p>
+        {children}
         <input
           id={`${label}-text-input`}
           type="text"
