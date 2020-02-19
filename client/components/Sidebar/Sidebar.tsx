@@ -50,7 +50,9 @@ const Sidebar: FC = () => {
             portfolios={portfolios}
             title={label}
           />
-        ) : null
+        ) : (
+          null
+        )
       ))}
       {isMenuOpen && (
         <Dropdown

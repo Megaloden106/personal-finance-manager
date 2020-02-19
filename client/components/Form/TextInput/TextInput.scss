@@ -6,7 +6,7 @@
   font-size: 14px;
   line-height: 19px;
 
-  .icon {
+  > span:first-child {
     position: absolute;
     top: 29px;
     left: 10px;
@@ -14,13 +14,17 @@
     margin: unset;
     color: #999;
     user-select: none;
+
+    & + input {
+      padding-left: 25px;
+    }
   }
 
   input {
     display: block;
     height: 40px;
     width: inherit;
-    padding: 10px 10px 10px 25px;
+    padding: 10px;
     font-size: 14px;
     font-weight: 300;
     border: 1px solid #ccc;

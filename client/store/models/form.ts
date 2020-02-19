@@ -17,7 +17,7 @@ export interface FormControl<T> {
   markAsTouched: (options?: FormOption) => void;
   markAsDirty: (options?: FormOption) => void;
   setErrors: (errors: ValidationError | ValidationError[]) => void;
-  reset: () => void;
+  reset: (newValue?: T) => void;
 }
 
 export interface FormOption {

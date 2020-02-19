@@ -3,7 +3,7 @@
   width: 0;
   visibility: hidden;
 
-  &:checked + .checkbox .checkbox-button {
+  &:checked + .checkbox .checkbox-btn {
     color: #1e7ba4;
   }
 }
@@ -15,15 +15,15 @@
   font-size: 16px;
   cursor: pointer;
 
-  &:active .checkbox-button {
+  &:active .checkbox-btn {
     box-shadow: inset 0 0 0 2px #1e7ba48f;
   }
 
-  &:hover .checkbox-button {
+  &:hover .checkbox-btn {
     border: 1px solid #1e7ba4;
   }
 
-  .checkbox-button {
+  .checkbox-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;

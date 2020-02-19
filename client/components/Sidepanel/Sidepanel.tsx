@@ -9,28 +9,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import { fromEvent, Subscription } from 'rxjs';
 import { getClassName } from 'utils/react-util';
 import { AppState } from 'store/models/store';
-import { updateSidepanelStatusAction } from 'store/actions/sidepanel';
-import { useFormControl } from 'store/hooks/form/useFormControl';
-import { portfolioListByNameSelector } from 'store/selectors/portfolios/PortfolioSelector';
-import TextInput from 'components/Form/TextInput/TextInput';
-import Select from 'components/Form/Select/Select';
-import DatePicker from 'components/Form/DatePicker/DatePicker';
+import { SidepanelTab } from 'store/models/sidepanel';
+import { updateSidepanelStatusAction, updateSidepanelTabAction } from 'store/actions/sidepanel';
 import Portal from 'components/Portal/Portal';
-import Checkbox from 'components/Form/Checkbox/Checkbox';
+import DataPointForm from './DataPointForm/DataPointForm';
+import PortfolioForm from './PortfolioForm/PortfolioForm';
 import styles from './Sidepanel.scss';
 
 const Sidepanel: FC = () => {
   const isPanelOpen = useSelector((state: AppState) => state.sidepanel.isOpen);
-  const portfolioListByName = useSelector(portfolioListByNameSelector);
+  const selectedTab = useSelector((state: AppState) => state.sidepanel.selectedTab);
   const dispatch = useDispatch();
   const sidepanel = useRef(null);
-
-  const portfolio = useFormControl('Select');
-  const date = useFormControl('Select');
-  const balance = useFormControl('');
-  const deposit = useFormControl('');
-  const withdrawal = useFormControl('');
-  const group = useFormControl(false);
 
   useEffect(() => {
     const subscription: Subscription = new Subscription();
@@ -48,11 +38,6 @@ const Sidepanel: FC = () => {
 
   const onDelete = useCallback(() => {
     dispatch(updateSidepanelStatusAction(false));
-    portfolio.reset();
-    date.reset();
-    balance.reset();
-    deposit.reset();
-    withdrawal.reset();
   }, []);
 
   const onAdd = useCallback((event: MouseEvent) => {
@@ -77,15 +62,32 @@ const Sidepanel: FC = () => {
           >
             x
           </button>
+          <nav className={styles.nav}>
+            <ul>
+              {Object.values(SidepanelTab).map(tab => (
+                <li key={tab}>
+                  <button
+                    type="button"
+                    onClick={() => dispatch(updateSidepanelTabAction(tab))}
+                    className={getClassName({
+                      [styles.tab]: true,
+                      [styles.tabSelected]: tab === selectedTab,
+                    })}
+                  >
+                    {tab}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </header>
         <section className={styles.content}>
           <form className={styles.form}>
-            <DatePicker label="Date" control={date} />
-            <Select label="Portfolio" control={portfolio} menuItems={portfolioListByName} />
-            <TextInput label="Balance" control={balance} />
-            <TextInput label="Deposit" control={deposit} />
-            <TextInput label="Withdrawal" control={withdrawal} />
-            <Checkbox label="Group" control={group} />
+            {selectedTab === SidepanelTab.DataPoint ? (
+              <DataPointForm />
+            ) : (
+              <PortfolioForm />
+            )}
             <section className={styles.overlay}>
               <button
                 type="button"
