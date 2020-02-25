@@ -1,6 +1,6 @@
 import { convertToMoney, convertToPercent, convertToCamelCase } from 'utils/util';
 import { AppState } from 'store/models/store';
-import { AnalyticsCardDetail } from 'store/models/analytics';
+import { AnalyticsCardDetail, AnalyticsState } from 'store/models/analytics';
 import * as _ from 'utils/collection-util';
 
 const cards: AnalyticsCardDetail[] = [
@@ -34,11 +34,13 @@ export const AnalyticsCardSelector = (state: AppState): AnalyticsCardDetail[] =>
   const { analytics } = state;
 
   return cards.map(({ title, details }) => {
-    const analyticsType = convertToCamelCase(title);
+    const analyticsType = convertToCamelCase(title) as keyof AnalyticsState;
 
     const newDetails = details.map(({ label, formatter }) => {
       const detailType = convertToCamelCase(label);
-      const value = _.get(analytics, [analyticsType, detailType]);
+      const analyticsValue = _.get(analytics, analyticsType);
+      // TODO: Fix type for getter
+      const value = _.get(analyticsValue, detailType as any);
 
       return { label, value, formatter };
     });

@@ -1,37 +1,35 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
-import { AppState } from 'store/models/store';
-import { useFormControl } from 'store/hooks/form/useFormControl';
 import { portfolioListByNameSelector } from 'store/selectors/portfolios/PortfolioSelector';
 import TextInput from 'components/Form/TextInput/TextInput';
 import Select from 'components/Form/Select/Select';
 import DatePicker from 'components/Form/DatePicker/DatePicker';
+import { FormControl } from 'store/models/form';
 
-const defaultDropdown = 'Select';
-const defaultText = '';
+interface DataPointFormProps {
+  controls: {
+    portfolio: FormControl<string>;
+    date: FormControl<string>;
+    balance: FormControl<string>;
+    deposit: FormControl<string>;
+    withdrawal: FormControl<string>;
+  };
+}
 
-const DataPointForm: FC = () => {
+const DataPointForm: FC<DataPointFormProps> = ({ controls }) => {
+  const {
+    portfolio,
+    date,
+    balance,
+    deposit,
+    withdrawal,
+  } = controls;
   const portfolioListByName = useSelector(portfolioListByNameSelector);
-  const dataPoint = useSelector((state: AppState) => state.sidepanel.dataPoint);
-
-  const date = useFormControl(defaultDropdown);
-  const portfolio = useFormControl(defaultDropdown);
-  const balance = useFormControl<number | string>(defaultText);
-  const deposit = useFormControl<number | string>(defaultText);
-  const withdrawal = useFormControl<number | string>(defaultText);
-
-  useEffect(() => {
-    date.reset(dataPoint.date || defaultDropdown);
-    portfolio.reset(dataPoint.portfolio || defaultDropdown);
-    balance.reset(dataPoint.balance || defaultText);
-    deposit.reset(dataPoint.deposit || defaultText);
-    withdrawal.reset(dataPoint.withdrawal || defaultText);
-  }, [dataPoint]);
 
   return (
     <>
-      <DatePicker label="Date" control={date} />
       <Select label="Portfolio" control={portfolio} menuItems={portfolioListByName} />
+      <DatePicker label="Date" control={date} />
       <TextInput label="Balance" control={balance}>
         <span>$</span>
       </TextInput>
