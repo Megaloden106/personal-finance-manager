@@ -17,16 +17,11 @@ export const find = (collection: any[], predicate: IObject): any => {
   return null;
 };
 
-export const get = (collection: IObject, predicate: string | string[]): any => {
-  if (typeof predicate === 'string') {
-    return collection[predicate] || null;
-  }
-  let result = collection;
-  predicate.forEach((key) => {
-    if (result) {
-      result = result[key] || null;
-    }
-  });
+export function get<T, K extends keyof T>(collection: T, predicate: K): T[K] {
+  return collection[predicate];
+}
 
-  return result;
-};
+export function set<T, K extends keyof T>(collection: T, predicate: K, value: any): void {
+  const object = collection;
+  object[predicate] = value;
+}

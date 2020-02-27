@@ -1,7 +1,18 @@
-import React, { FC, ChangeEvent, useCallback } from 'react';
+import React, {
+  FC,
+  ChangeEvent,
+  useCallback,
+  ReactNode,
+} from 'react';
 import { getClassName } from 'utils/react-util';
-import { TextInputProps } from './TextInput.models';
 import styles from './TextInput.scss';
+import { FormControl } from '@/store/models/form';
+
+interface TextInputProps {
+  label: string;
+  control: FormControl<string>;
+  children?: ReactNode;
+}
 
 const TextInput: FC<TextInputProps> = ({ label, control, children }) => {
   const {

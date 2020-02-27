@@ -19,25 +19,33 @@ export const useFormControl = <T = string | boolean>(
   const [dirty, setDirty] = useState(false);
   const [touched, setTouched] = useState(false);
 
+  const markAsTouched = () => setTouched(true);
+  const markAsDirty = () => setDirty(true);
+
+  const validate = ({ emitEvent }: FormOption = {}) => {
+    if (emitEvent || emitEvent === undefined) {
+      markAsTouched();
+      markAsDirty();
+    }
+    const validationErrors: ValidationError[] = [];
+    validators.forEach((validator) => {
+      const error = validator(value);
+      if (error) {
+        validationErrors.push(error);
+      }
+    });
+    _setErrors(validationErrors);
+    setValid(!validationErrors.length);
+  };
+
   useEffect(() => {
     if (dirty && touched) {
-      const validationErrors: ValidationError[] = [];
-      validators.forEach((validator) => {
-        const error = validator(value);
-        if (error) {
-          validationErrors.push(error);
-        }
-      });
-      _setErrors(validationErrors);
-      setValid(!validationErrors.length);
+      validate();
     } else {
       _setErrors([]);
       setValid(true);
     }
   }, [value, validators]);
-
-  const markAsTouched = () => setTouched(true);
-  const markAsDirty = () => setDirty(true);
 
   const patchValue = (newValue: T, { emitEvent }: FormOption = {}) => {
     setValue(newValue);
@@ -77,5 +85,6 @@ export const useFormControl = <T = string | boolean>(
     markAsDirty,
     setErrors,
     reset,
+    validate,
   };
 };

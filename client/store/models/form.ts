@@ -1,25 +1,33 @@
 export interface ValidationError {
-  value: string;
+  value: string | boolean;
   message: string;
 }
 
 export type Validator<T> = (value: T) => ValidationError;
 
-export interface FormControl<T> {
-  value: T;
+export interface FormOption {
+  emitEvent?: boolean;
+}
+
+interface AbstractControl<T> {
   valid: boolean;
   dirty: boolean;
   touched: boolean;
-  errors: ValidationError[];
-  patchValue: (value: T, options?: FormOption) => void;
-  setValidators: (validators: Validator<T> | Validator<T>[]) => void;
-  clearValidators: () => void;
   markAsTouched: (options?: FormOption) => void;
   markAsDirty: (options?: FormOption) => void;
+  validate: (options?: FormOption) => void;
+}
+
+export interface FormControl<T> extends AbstractControl<T> {
+  value: T;
+  errors: ValidationError[];
+  patchValue: (newValue: T, options?: FormOption) => void;
   setErrors: (errors: ValidationError | ValidationError[]) => void;
+  setValidators: (validators: Validator<T> | Validator<T>[]) => void;
+  clearValidators: () => void;
   reset: (newValue?: T) => void;
 }
 
-export interface FormOption {
-  emitEvent?: boolean;
+export interface FormGroup {
+  [key: string]: FormControl<string> | FormControl<boolean>;
 }

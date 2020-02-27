@@ -7,8 +7,14 @@ import React, {
 } from 'react';
 import { Subscription, fromEvent, timer } from 'rxjs';
 import { getClassName } from 'utils/react-util';
-import { DatePickerProps, Cell } from './DatePicker.models';
+import { FormControl } from 'store/models/form';
+import { Cell } from './DatePicker.models';
 import styles from './DatePicker.scss';
+
+export interface DatePickerProps {
+  label: string;
+  control: FormControl<string>;
+}
 
 const valueDateOptions = {
   year: 'numeric',

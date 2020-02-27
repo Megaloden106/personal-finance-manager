@@ -8,8 +8,14 @@ import React, {
 } from 'react';
 import { Subscription, fromEvent, timer } from 'rxjs';
 import { getClassName } from 'utils/react-util';
-import { SelectProps } from './Select.models';
+import { FormControl } from 'store/models/form';
 import styles from './Select.scss';
+
+interface SelectProps {
+  label: string;
+  control: FormControl<string>;
+  menuItems: string[];
+}
 
 const Select: FC<SelectProps> = ({ label, control, menuItems }) => {
   const {

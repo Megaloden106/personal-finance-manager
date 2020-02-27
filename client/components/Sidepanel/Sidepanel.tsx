@@ -11,16 +11,69 @@ import { getClassName } from 'utils/react-util';
 import { AppState } from 'store/models/store';
 import { SidepanelTab } from 'store/models/sidepanel';
 import { updateSidepanelStatusAction, updateSidepanelTabAction } from 'store/actions/sidepanel';
+import { useFormControl } from 'store/hooks/form/useFormControl';
 import Portal from 'components/Portal/Portal';
+import { Validation } from 'utils/validation';
 import DataPointForm from './DataPointForm/DataPointForm';
 import PortfolioForm from './PortfolioForm/PortfolioForm';
 import styles from './Sidepanel.scss';
+import { FormGroup } from '@/store/models/form';
+
+const defaultDropdown = 'Select';
+const defaultText = '';
+
+const reset = (form: FormGroup) => {
+  Object.values(form).forEach((control) => {
+    control.reset();
+  });
+};
+
+const validate = (form: FormGroup) => {
+  Object.values(form).forEach((control) => {
+    control.validate();
+  });
+};
 
 const Sidepanel: FC = () => {
   const isPanelOpen = useSelector((state: AppState) => state.sidepanel.isOpen);
   const selectedTab = useSelector((state: AppState) => state.sidepanel.selectedTab);
   const dispatch = useDispatch();
   const sidepanel = useRef(null);
+
+  // const dataPointState = useSelector((state: AppState) => state.sidepanel.dataPoint);
+  const date = useFormControl<string>(defaultDropdown, [Validation.RequiredDropdown]);
+  const portfolio = useFormControl<string>(defaultDropdown, [Validation.RequiredDropdown]);
+  const balance = useFormControl<string>(defaultText, [
+    Validation.Currency,
+    Validation.MaxLength(75),
+  ]);
+  const deposit = useFormControl<string>(defaultText, [
+    Validation.Currency,
+    Validation.MaxLength(75),
+  ]);
+  const withdrawal = useFormControl<string>(defaultText, [
+    Validation.Currency,
+    Validation.MaxLength(75),
+  ]);
+  const dataPointForm = {
+    date,
+    portfolio,
+    balance,
+    deposit,
+    withdrawal,
+  };
+
+  // const portfolioState = useSelector((state: AppState) => state.sidepanel.portfolio);
+  const name = useFormControl<string>(defaultText, [Validation.Required, Validation.MaxLength(75)]);
+  const brokerage = useFormControl<string>(defaultDropdown, [Validation.RequiredDropdown]);
+  const retirement = useFormControl(false);
+  const savings = useFormControl(false);
+  const portfolioForm = {
+    name,
+    brokerage,
+    retirement,
+    savings,
+  };
 
   useEffect(() => {
     const subscription: Subscription = new Subscription();
@@ -37,12 +90,16 @@ const Sidepanel: FC = () => {
   }, [isPanelOpen]);
 
   const onDelete = useCallback(() => {
+    const form = selectedTab === SidepanelTab.DataPoint ? dataPointForm : portfolioForm;
+    reset(form);
     dispatch(updateSidepanelStatusAction(false));
-  }, []);
+  }, [selectedTab]);
 
   const onAdd = useCallback((event: MouseEvent) => {
+    const form = selectedTab === SidepanelTab.DataPoint ? dataPointForm : portfolioForm;
+    validate(form);
     event.preventDefault();
-  }, []);
+  }, [selectedTab]);
 
   return (
     <Portal>
@@ -84,9 +141,9 @@ const Sidepanel: FC = () => {
         <section className={styles.content}>
           <form className={styles.form}>
             {selectedTab === SidepanelTab.DataPoint ? (
-              <DataPointForm />
+              <DataPointForm controls={dataPointForm} />
             ) : (
-              <PortfolioForm />
+              <PortfolioForm controls={portfolioForm} />
             )}
             <section className={styles.overlay}>
               <button

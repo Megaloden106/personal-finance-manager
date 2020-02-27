@@ -13,9 +13,9 @@ export interface SidepanelState {
 export interface PortfolioDataForm {
   date: string;
   portfolio: string;
-  balance?: number;
-  deposit?: number;
-  withdrawal?: number;
+  balance?: string;
+  deposit?: string;
+  withdrawal?: string;
 }
 
 export interface IPortfolioForm {

@@ -1,6 +1,11 @@
 import React, { FC, ChangeEvent, useCallback } from 'react';
-import { CheckboxProps } from './Checkbox.models';
+import { FormControl } from 'store/models/form';
 import styles from './Checkbox.scss';
+
+interface CheckboxProps {
+  label: string;
+  control: FormControl<boolean>;
+}
 
 const Checkbox: FC<CheckboxProps> = ({ label, control }) => {
   const {
