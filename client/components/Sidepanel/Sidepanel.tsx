@@ -14,10 +14,10 @@ import { updateSidepanelStatusAction, updateSidepanelTabAction } from 'store/act
 import { useFormControl } from 'store/hooks/form/useFormControl';
 import Portal from 'components/Portal/Portal';
 import { Validation } from 'utils/validation';
+import { FormGroup } from 'store/models/form';
 import DataPointForm from './DataPointForm/DataPointForm';
 import PortfolioForm from './PortfolioForm/PortfolioForm';
 import styles from './Sidepanel.scss';
-import { FormGroup } from '@/store/models/form';
 
 const defaultDropdown = 'Select';
 const defaultText = '';
@@ -44,14 +44,17 @@ const Sidepanel: FC = () => {
   const date = useFormControl<string>(defaultDropdown, [Validation.RequiredDropdown]);
   const portfolio = useFormControl<string>(defaultDropdown, [Validation.RequiredDropdown]);
   const balance = useFormControl<string>(defaultText, [
+    Validation.Required,
     Validation.Currency,
     Validation.MaxLength(75),
   ]);
   const deposit = useFormControl<string>(defaultText, [
+    Validation.Required,
     Validation.Currency,
     Validation.MaxLength(75),
   ]);
   const withdrawal = useFormControl<string>(defaultText, [
+    Validation.Required,
     Validation.Currency,
     Validation.MaxLength(75),
   ]);
