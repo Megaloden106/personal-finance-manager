@@ -5,8 +5,8 @@ import React, {
   ReactNode,
 } from 'react';
 import { getClassName } from 'utils/react-util';
+import { FormControl } from 'store/models/form';
 import styles from './TextInput.scss';
-import { FormControl } from '@/store/models/form';
 
 interface TextInputProps {
   label: string;

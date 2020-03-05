@@ -12,16 +12,7 @@
     "sourceMap": true,
     "baseUrl": ".",
     "skipLibCheck": true,
-    "paths": {
-      "@/*": ["*"],
-    },
-    "types": [
-      "d3",
-      "node",
-    ],
+    "types": ["d3", "node"]
   },
-  "exclude": [
-    "build",
-    "node_modules",
-  ],
+  "exclude": ["build", "node_modules"]
 }

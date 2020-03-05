@@ -1,6 +1,6 @@
 const path = require('path');
 
-const config = path.resolve(__dirname, 'webpack.config.js');
+const config = path.resolve(__dirname, 'environment', 'webpack.config.js');
 const tsconfig = path.resolve(__dirname, 'tsconfig.json');
 
 module.exports = {

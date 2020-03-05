@@ -44,17 +44,14 @@ const Sidepanel: FC = () => {
   const date = useFormControl<string>(defaultDropdown, [Validation.RequiredDropdown]);
   const portfolio = useFormControl<string>(defaultDropdown, [Validation.RequiredDropdown]);
   const balance = useFormControl<string>(defaultText, [
-    Validation.Required,
     Validation.Currency,
     Validation.MaxLength(75),
   ]);
   const deposit = useFormControl<string>(defaultText, [
-    Validation.Required,
     Validation.Currency,
     Validation.MaxLength(75),
   ]);
   const withdrawal = useFormControl<string>(defaultText, [
-    Validation.Required,
     Validation.Currency,
     Validation.MaxLength(75),
   ]);
