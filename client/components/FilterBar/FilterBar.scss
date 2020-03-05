@@ -23,25 +23,14 @@
 }
 
 .filter-data button {
+  height: 31px;
   padding: 0 14px;
-  color: #666;
-  border: 1px solid #666;
-  border-left: none;
+  color: #fff;
+  background: #315c8b;
   font-size: 18px;
-  line-height: 31px;
+  line-height: 100%;
   text-align: center;
   cursor: pointer;
-
-  &:first-of-type {
-    border-left: 1px solid #666;
-  }
-
-  &.selected ,
-  &:hover {
-    color: #fff;
-    background: #315c8b;
-    border: 1px solid transparent;
-  }
 }
 
 .filter-time button {

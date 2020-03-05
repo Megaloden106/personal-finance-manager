@@ -11,7 +11,6 @@ import { userDataAction } from 'store/actions/user';
 import { portfolioListAction, selectedPortfolioAction } from 'store/actions/portfolio';
 import { analyticsTotalAction, analyticsAnnualizeAction, analyticsPastYearAction } from 'store/actions/analytics';
 import * as _ from 'utils/collection-util';
-import Analytics from 'components/Analytics/Analytics';
 import CircleMenu from 'components/CircleMenu/CircleMenu';
 import FilterBar from 'components/FilterBar/FilterBar';
 import Graph from 'components/Graph/Graph';
@@ -101,7 +100,7 @@ const Portfolio: FC = () => {
         </div>
         <Graph
           height={340}
-          width={1064}
+          width={824}
           filter={filter}
           data={data}
           interactive
@@ -109,7 +108,6 @@ const Portfolio: FC = () => {
         />
         <FilterBar filter={filter} filterClick={setFilter} />
       </div>
-      <Analytics />
       <Sidepanel />
     </div>
   );

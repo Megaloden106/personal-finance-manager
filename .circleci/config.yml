@@ -39,12 +39,12 @@ jobs:
 
       # install only if package-lock has changed
       - run: "if [[ ! -e node_modules ]]; then npm ci; fi"
-      - run: "if [[ ! -e client/node_modules ]]; then npm run install-client; fi"
-      - run: "if [[ ! -e server/node_modules ]]; then npm run install-server; fi"
+      - run: "if [[ ! -e client/node_modules ]]; then npm run install:client; fi"
+      - run: "if [[ ! -e server/node_modules ]]; then npm run install:server; fi"
       # - run: "if [[ ! -e database/node_modules ]]; then npm run install-db"
 
       # builds only if the dis dir is not restored
-      - run: "if [[ ! -e public/main.bundle.js ]]; then npm run react-prod; fi"
+      - run: "if [[ ! -e public/main.bundle.js ]]; then npm run build; fi"
 
       - save_cache:
           paths:

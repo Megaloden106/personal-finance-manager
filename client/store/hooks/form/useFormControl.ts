@@ -41,9 +41,6 @@ export const useFormControl = <T = string | boolean>(
   useEffect(() => {
     if (dirty && touched) {
       validate();
-    } else {
-      _setErrors([]);
-      setValid(true);
     }
   }, [value, validators]);
 
@@ -69,6 +66,8 @@ export const useFormControl = <T = string | boolean>(
   const reset = (newValue?: T) => {
     setTouched(false);
     setDirty(false);
+    _setErrors([]);
+    setValid(true);
     setValue(newValue || defaultValue);
   };
 

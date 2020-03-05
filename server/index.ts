@@ -10,21 +10,15 @@ app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 
-// static file
+app.use(express.static('../public'));
 app.use('/static', express.static('assets'));
+app.use('/api', router);
 
 // no auth
 const noAuthRoutes = ['/login', '/join', '/password-reset'];
 app.get(noAuthRoutes, express.static('views/pages/noauth'));
 
-// auth required
-const authRoutes = ['/', '/portfolio/:id', '/table', '/allocation'];
-authRoutes.forEach((route): void => {
-  app.use(route, express.static('../public'));
-});
-
-// api routes
-app.use('/api', router);
+app.use('*', express.static('../public'));
 
 app.set('port', process.env.PORT || 8080);
 

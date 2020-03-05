@@ -1,9 +1,9 @@
 .sidepanel {
   position: fixed;
   z-index: 1000;
-  top: 86px;
+  top: 50px;
   right: 0;
-  height: calc(100vh - 86px);
+  height: calc(100vh - 50px);
   width: 550px;
   margin-bottom: 24px;
   background: #fff;
@@ -106,7 +106,7 @@
 
 .tab {
   height: 28px;
-  margin-right: 20px;
+  margin-right: 40px;
   padding: 0;
   color: #666;
   font-size: 18px;

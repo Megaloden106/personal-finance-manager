@@ -7,29 +7,32 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const Dotenv = require('dotenv-webpack');
 
-const rootDIR = path.resolve(__dirname, '..');
-const clientDIR = path.resolve(__dirname);
-const pathFromClientDIR = (...paths) => path.resolve(__dirname, ...paths);
+const clientDIR = path.resolve(__dirname, '..');
+const pathFromClientDIR = (...paths) => path.resolve(clientDIR, ...paths);
 
-const appDIR = path.resolve(__dirname, 'App.tsx');
-const publicDIR = path.resolve(__dirname, '..', 'public');
+const appDIR = path.resolve(__dirname, '..', 'App.tsx');
+const publicDIR = path.resolve(__dirname, '..', '..', 'public');
+const templateDIR = path.resolve(__dirname, '..', '..', 'public', 'index.html');
+const template = path.resolve(__dirname, '..', '..', 'public', 'index.template.html');
+const dotenvPath = path.resolve(__dirname, '.env.production');
 
-const template = path.resolve(__dirname, '..', 'public', 'index.template.html');
-
-const config = {
+module.exports = {
   entry: appDIR,
   output: {
-    // filename: '[name].[contenthash].js',
-    filename: '[name].bundle.js',
+    filename: '[name].[contenthash].js',
     path: publicDIR,
+    publicPath: '/',
   },
   // Enable sourcemaps for debugging webpack's output.
   // devtool: 'source-map',
   devtool: false,
+  stats: {
+    children: false,
+    entrypoints: false,
+    modules: false,
+  },
   resolve: {
     alias: {
-      '~': rootDIR,
-      '@': clientDIR,
       store: pathFromClientDIR('store'),
       pages: pathFromClientDIR('pages'),
       components: pathFromClientDIR('components'),
@@ -72,14 +75,6 @@ const config = {
       { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
     ],
   },
-  // When importing a module whose path matches one of the following, just
-  // assume a corresponding global variable exists and use that instead.
-  // This is important because it allows us to avoid bundling all of our
-  // dependencies, which allows browsers to cache those libraries between builds.
-  // externals: {
-  //   react: 'React',
-  //   'react-dom': 'ReactDOM',
-  // },
   optimization: {
     nodeEnv: 'production',
     runtimeChunk: 'single',
@@ -88,16 +83,6 @@ const config = {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendor',
-          // name(module, chunks, cacheGroupKey) {
-          //   const moduleFileName = module.identifier();
-          //   if (moduleFileName.match(/react|redux/g)) {
-          //     return 'react';
-          //   }
-          //   if (moduleFileName.match(/d3/g)) {
-          //     return 'd3';
-          //   }
-          //   return cacheGroupKey;
-          // },
           chunks: 'all',
           maxInitialRequests: 10,
         },
@@ -108,15 +93,12 @@ const config = {
     // new BundleAnalyzerPlugin(),
     // new CompressionPlugin(),
     new UglifyJsPlugin(),
-    new HtmlWebpackPlugin({ template }),
+    new HtmlWebpackPlugin({
+      template,
+      filename: templateDIR,
+    }),
     // Ignore all locale files of moment.js
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new Dotenv({ path: dotenvPath }),
   ],
-};
-
-module.exports = (_, { mode }) => {
-  const dotenvPath = path.resolve(__dirname, 'environment', `.env.${mode}`);
-  config.plugins.push(new Dotenv({ path: dotenvPath }));
-
-  return config;
 };

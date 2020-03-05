@@ -6,10 +6,7 @@
     "lib": ["esnext", "dom"],
     "esModuleInterop": true,
     "sourceMap": true,
-    "types": [
-      "d3",
-      "node"
-    ]
+    "types": ["node"]
   },
   "exclude": ["node_modules"]
 }

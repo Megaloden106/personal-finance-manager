@@ -8,7 +8,7 @@ const HeaderBar: FC = () => {
 
   return (
     <div className={styles.header}>
-      <h1 className={styles.headerLogo}>Personal Finance MS</h1>
+      <h1 className={styles.headerTitle}>Personal Finance MS</h1>
       <h3 className={styles.headerUsername}>{ username }</h3>
     </div>
   );
