@@ -23,7 +23,7 @@ a {
   width: 1600px;
   margin-right: auto;
   margin-left: auto;
-  background: white;
+  background: #fff;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
@@ -70,7 +70,7 @@ a {
 .header__login {
   margin-right: 20px;
   color: #1591b6;
-  background: white;
+  background: #fff;
   border: 1px solid #445671;
   line-height: 38px;
 }
@@ -101,7 +101,7 @@ a {
   margin-right: auto;
   margin-left: auto;
   padding-top: 80px;
-  background: white;
+  background: #fff;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
   text-align: center;
 }
@@ -150,7 +150,7 @@ a {
 .pr__form__input:valid + .pr__form__label,
 .pr__form__input:focus + .pr__form__label {
   padding-top: 0;
-  background: white;
+  background: #fff;
   font-size: 14px;
   transform: translateY(-8px);
 }
@@ -212,7 +212,7 @@ a {
   height: 52px;
   width: 360px;
   margin-top: 8px;
-  color: white;
+  color: #fff;
   background: #1e7ba4;
   border-radius: 2px;
   font-size: 18px;
@@ -282,7 +282,7 @@ a {
   width: 1600px;
   margin-right: auto;
   margin-left: auto;
-  background: white;
+  background: #fff;
   border-top: 1px solid #999;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
 }
@@ -317,7 +317,7 @@ a {
   margin-bottom: 0;
   margin-left: auto;
   padding-top: 80px;
-  background: white;
+  background: #fff;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
@@ -355,7 +355,7 @@ a {
 .prfs__cancel {
   margin-right: 20px;
   color: #1591b6;
-  background: white;
+  background: #fff;
   border: 1px solid #445671;
   font-weight: bold;
   line-height: 38px;
@@ -373,7 +373,7 @@ a {
 }
 
 .prfs__submit {
-  color: white;
+  color: #fff;
   background: #1e7ba4;
 }
 .prfs__submit:hover {

@@ -4,10 +4,10 @@ export enum SidepanelTab {
 }
 
 export interface SidepanelState {
-  isOpen: boolean;
-  selectedTab: SidepanelTab;
-  dataPoint: PortfolioDataForm;
-  portfolio: IPortfolioForm;
+  readonly isOpen: boolean;
+  readonly selectedTab: SidepanelTab;
+  readonly dataPoint: PortfolioDataForm;
+  readonly portfolio: IPortfolioForm;
 }
 
 export interface PortfolioDataForm {

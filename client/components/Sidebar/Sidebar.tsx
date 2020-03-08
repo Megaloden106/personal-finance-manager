@@ -20,11 +20,9 @@ const menuItems = [
 
 const Sidebar: FC = () => {
   const portfoliosByType = useSelector(portfolioByTypeSelector);
-
   const [selected, setSelected] = useState('Returns');
   const [isMenuOpen, setMenu] = useState(false);
-
-  const sidebarAnchor = useRef(null);
+  const dropdownAnchor = useRef(null);
 
   const onRowClick = useCallback(({ label }: DropdownMenuItem) => setSelected(label), []);
 
@@ -33,7 +31,7 @@ const Sidebar: FC = () => {
       <div className={styles.header}>
         <h3>Portfolios</h3>
         <button
-          ref={sidebarAnchor}
+          ref={dropdownAnchor}
           type="button"
           className={getClassName({ [styles.menuOpen]: isMenuOpen })}
           onClick={() => setMenu(!isMenuOpen)}
@@ -56,9 +54,9 @@ const Sidebar: FC = () => {
       ))}
       {isMenuOpen && (
         <Dropdown
-          anchor={sidebarAnchor}
+          anchor={dropdownAnchor}
           title="View"
-          offset={{ x: 41 }}
+          offset={{ y: 41 }}
           selected={selected}
           menuItems={menuItems}
           close={() => setMenu(false)}

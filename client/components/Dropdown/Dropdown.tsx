@@ -29,8 +29,8 @@ const Dropdown: FC<DropdownProps> = ({
     const body = document.body.getBoundingClientRect();
 
     // Logic for repositioning
-    const left = anchorRect.left - width / 2 + (offset.y || 0) - body.left;
-    const top = anchorRect.top + (offset.x || 0) - body.top;
+    const left = anchorRect.left - width / 2 + (offset.x || 0) - body.left;
+    const top = anchorRect.top + (offset.y || 0) - body.top;
 
     setRect({ left, top, width });
 

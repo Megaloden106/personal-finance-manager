@@ -10,7 +10,7 @@ export interface DropdownProps {
   anchor: MutableRefObject<HTMLButtonElement>;
   menuItems: DropdownMenuItem[];
   offset?: Offset;
-  selected: string;
+  selected?: string;
   title?: string;
   width?: number;
   close(): void;

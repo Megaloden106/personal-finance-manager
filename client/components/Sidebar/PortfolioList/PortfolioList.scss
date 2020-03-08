@@ -1,3 +1,5 @@
+@import '../../../globals.scss';
+
 .header {
   padding: 16px 24px;
   border-top: 1px solid #eee;
@@ -28,7 +30,7 @@
   cursor: pointer;
 
   &:hover {
-    background: #10c3f11f;
+    background: $color-primary-05;
   }
 
   .amount {

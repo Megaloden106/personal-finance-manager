@@ -1,23 +1,84 @@
+@import '../../globals.scss';
+
 .header {
   display: flex;
-  height: 50px;
+  height: $header_height;
   width: 100%;
-  padding: 0 calc(50% - 600px);
-  background: white;
-  border-bottom: 1px solid #999;
+  padding: 0 calc(50% - #{$app_width} / 2);
+  background: $dark-blue;
   align-items: center;
   justify-content: space-between;
 }
 
-.header-title {
+.title {
   margin: 0;
-  color: #1591b6;
+  color: #fff;
   font-size: 28px;
 }
 
-.header-username {
+.user {
   padding: 0;
-  color: #1591b6;
+  color: #fff;
   font-size: 20px;
   font-weight: bold;
+}
+
+.nav-bar {
+  display: flex;
+  align-items: center;;
+  justify-content: space-between;
+  height: $nav_height;
+  width: 100%;
+  padding: 0 calc(50% - #{$app_width} / 2);
+  background: $teal-op55;
+  border-bottom: 1px solid #999;
+}
+
+.nav {
+  position: relative;
+  right: 10px;
+
+  ul {
+    margin: unset;
+    padding: unset;
+  }
+
+  li {
+    display: inline-block;
+    list-style-type: none;
+  }
+
+  .tab {
+    display: flex;
+    height: $nav_height;
+    margin-right: 20px;
+    padding: 0 10px;
+    color: $dark-gray;
+    font-size: 16px;
+    text-decoration: none;
+    align-items: center;
+  }
+
+  .tab--selected {
+    color: $text-color-primary;
+    border-bottom: 2px solid $text-color-primary;
+  }
+}
+
+.create-btn {
+  height: 30px;
+  font-size: 16px;
+  line-height: 100%;
+  cursor: pointer;
+  padding: 0 10px;
+  color: $text-color-primary;
+  border-radius: 5px;
+
+  &:hover {
+    background: $color-primary-05;
+  }
+
+  span {
+    font-size: 24px;
+  }
 }

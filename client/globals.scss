@@ -24,7 +24,6 @@ $black: #333;
 $dark-gray: #666;
 $gray: #999;
 $light-gray: #d9d9d9;
-$white: #fff;
 $dark-blue: #445671;
 $blue: #10c3f1;
 $light-blue: #bdd8e3;
@@ -33,7 +32,9 @@ $teal-op55: #c4d7d755;
 
 
 $text-color-default: $black;
-$text-color-primary: $light-blue;
+$text-color-primary: #1591b6;
+$color-primary-05: #1591b60c;
+$color-primary-10: #1591b619;
 $bg-color-primary: $teal-op55;
 $bg-color-secondary: $dark-blue;
 $border-color: $light-gray;
@@ -45,7 +46,11 @@ $border-color: $light-gray;
  *
  * * * * * * * * * */
 
-$app_width: 1440px;
+$app_width: 1200px;
+$header_height: 50px;
+$nav_height: 50px;
+$sidebar_width: 280px;
+
 
 
 /* * * * * * * * * *
@@ -68,20 +73,6 @@ $app_width: 1440px;
  *
  * * * * * * * * * */
 
-%flex {
-  display: flex;
-}
-
-%flex-center {
-  @extend %flex;
-  justify-content: center;
-  align-items: center;
-}
-
-%flex-column {
-  @extend %flex;
-  flex-direction: column;
-}
 
 /* * * * * * * * * *
  *
