@@ -12,9 +12,13 @@ app.use(bodyParser.json());
 
 app.use(express.static('../public'));
 app.use('/static', express.static('assets'));
+app.get('/favicon.ico', (req, res): void => {
+  res.sendStatus(204);
+});
+
 app.use('/api', router);
 
-// no auth
+// TODO: Move to react
 const noAuthRoutes = ['/login', '/join', '/password-reset'];
 app.get(noAuthRoutes, express.static('views/pages/noauth'));
 

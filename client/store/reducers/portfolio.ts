@@ -5,6 +5,10 @@ import * as PortfolioAction from 'store/actions/portfolio';
 
 export const initialPortfolioState: PortfolioState = {
   list: [],
+  filter: {
+    range: '180D',
+    data: 'Cumulative Returns',
+  },
   selected: {
     name: null,
     id: null,
@@ -19,6 +23,7 @@ export const portfolioReducer: Reducer<PortfolioState, FluxAction<any>> = (
   switch (action.type) {
     case PortfolioAction.REQUEST_PORTFOLIO_LIST_SUCCESS:
       return {
+        ...state,
         list: action.payload,
         selected: state.selected.name
           ? state.selected
@@ -44,6 +49,11 @@ export const portfolioReducer: Reducer<PortfolioState, FluxAction<any>> = (
           ...state.selected,
           data: action.payload,
         },
+      };
+    case PortfolioAction.UPDATE_PORTFOLIO_FILTER:
+      return {
+        ...state,
+        filter: action.payload,
       };
     default:
       return state;

@@ -1,5 +1,6 @@
 export interface PortfolioState {
   readonly list: IPortfolio[];
+  readonly filter: PortfolioParam;
   readonly selected: {
     readonly name: string;
     readonly id: string;
@@ -27,6 +28,7 @@ export interface PortfolioData {
   [propName: string]: number | Date;
 }
 
+// TODO: switch to enum
 export interface PortfolioParam {
   range?: string;
   data?: string;

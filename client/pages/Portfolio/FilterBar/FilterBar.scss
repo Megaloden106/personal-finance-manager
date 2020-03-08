@@ -23,21 +23,21 @@
 }
 
 .filter-data button {
-  height: 31px;
+  height: 100%;
   padding: 0 14px;
   color: #fff;
   background: #315c8b;
   font-size: 18px;
-  line-height: 100%;
   text-align: center;
   cursor: pointer;
 }
 
 .filter-time button {
-  height: 32px;
+  height: 100%;
   margin-right: 20px;
   padding: 0;
   color: #666;
+  border-bottom: 2px solid transparent;
   font-size: 20px;
   text-align: center;
   cursor: pointer;

@@ -1,9 +1,13 @@
+@import '../../globals.scss';
+
+$overlay_height: 80px;
+
 .sidepanel {
   position: fixed;
   z-index: 1000;
-  top: 50px;
+  top: $header_height;
   right: 0;
-  height: calc(100vh - 50px);
+  height: calc(100vh - #{$header_height});
   width: 550px;
   margin-bottom: 24px;
   background: #fff;
@@ -44,7 +48,7 @@
 }
 
 .content {
-  height: calc(100vh - 107px - 78px - 80px);
+  height: calc(100vh - 107px - #{$overlay_height} - #{$header_height} + #{$nav_height});
   width: 100%;
   padding: 20px;
   overflow: auto;
@@ -63,7 +67,7 @@
   z-index: 100;
   bottom: 0;
   left: 0;
-  height: 80px;
+  height: $overlay_height;
   width: 100%;
   padding: 20px;
   background: #f8f8f8;
@@ -80,7 +84,7 @@
 
 .delete-btn {
   @extend %overlay-btn;
-  color: #1591b6;
+  color: $text-color-primary;
   background: transparent;
   border: none;
 }
@@ -90,7 +94,7 @@
   margin-left: 10px;
   padding: 0 40px;
   color: #fff;
-  background: #1591b6;
+  background: $text-color-primary;
   border-radius: 20px;
 }
 
@@ -101,21 +105,21 @@
   margin-top: 20px;
   padding: unset;
   list-style: none;
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid $light-gray;
 }
 
 .tab {
   height: 28px;
-  margin-right: 40px;
-  padding: 0;
-  color: #666;
+  margin-right: 20px;
+  padding: 0 10px;
+  color: $dark-gray;
   font-size: 18px;
   line-height: 100%;
   text-align: center;
   cursor: pointer;
 
   &--selected {
-    color: #1591b6;
-    border-bottom: 2px solid #1591b6;
+    color: $text-color-primary;
+    border-bottom: 2px solid $text-color-primary;
   }
 }

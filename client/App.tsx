@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from 'store';
 import HeaderBar from 'pages/Header/Header';
@@ -9,10 +10,14 @@ import './globals.scss';
 
 const App: FC = () => (
   <Provider store={store}>
-    <div className={styles.app}>
-      <HeaderBar />
-      <Portfolio />
-    </div>
+    <Router>
+      <div className={styles.app}>
+        <HeaderBar />
+        <Switch>
+          <Route path="/portfolio"><Portfolio /></Route>
+        </Switch>
+      </div>
+    </Router>
   </Provider>
 );
 

@@ -15,7 +15,7 @@ const RollingNumber: FC<RollingNumberProps> = ({ nextValue, formatter }) => {
     // set an interval of 50ms to transition from current to next
     const subscription = interval(1)
       .pipe(take(50))
-      .subscribe(_i => setCurrentValue(interpolatedValues((_i + 1) * 5 / 250)));
+      .subscribe(_i => setCurrentValue(interpolatedValues((_i + 1) * 5 / 250) || 0));
 
     return () => subscription.unsubscribe();
   }, [nextValue]);

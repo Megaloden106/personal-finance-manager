@@ -14,6 +14,13 @@ export const updateSelectedPortfolioAction = (portfolio: IPortfolio) => createAc
   portfolio,
 );
 
+export const UPDATE_PORTFOLIO_FILTER = '[Portfolio] Update Portfolio Filter';
+
+export const updatePortfiolFilterAction = (filter: PortfolioParam) => createAction(
+  UPDATE_PORTFOLIO_FILTER,
+  filter,
+);
+
 export const REQUEST_SELECTED_PORTFOLIO = '[Portfolio] Request Selected Portfolio';
 export const REQUEST_SELECTED_PORTFOLIO_SUCCESS = '[Portfolio] Request Selected Portfolio Success';
 export const REQUEST_SELECTED_PORTFOLIO_ERROR = '[Portfolio] Request Selected Portfolio Error';

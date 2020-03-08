@@ -1,8 +1,10 @@
+@import '../../globals.scss';
+
 .dropdown {
   position: absolute;
   width: 100%;
   max-height: 0;
-  background: white;
+  background: #fff;
   overflow: hidden;
   transition: max-height 0.3s ease;
   box-shadow: 0 0 4px 1px rgba(252, 120, 120, 0.01), 0 3px 24px rgba(0, 0, 0, 0.2);
@@ -54,6 +56,6 @@
   }
 
   &:hover {
-    background: #10c3f11f;
+    background: $color-primary-10;
   }
 }
