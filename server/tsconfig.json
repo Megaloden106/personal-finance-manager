@@ -5,7 +5,12 @@
     "target": "esnext",
     "lib": ["esnext", "dom"],
     "esModuleInterop": true,
+    "strict": true,
+    "strictNullChecks": false,
+    "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
+    "baseUrl": ".",
+    "skipLibCheck": true,
     "types": ["node"]
   },
   "exclude": ["node_modules"]
