@@ -3,7 +3,6 @@ import React, {
   useState,
   useEffect,
   useRef,
-  useCallback,
 } from 'react';
 import { Subscription, fromEvent, timer } from 'rxjs';
 import { getClassName } from 'utils/react-util';
@@ -123,12 +122,12 @@ const Select: FC<DatePickerProps> = ({ label, control }) => {
     return () => subscription.unsubscribe();
   }, [isMenuOpen]);
 
-  const onInputClick = useCallback(() => {
+  const onInputClick = () => {
     markAsTouched();
     setMenuOpen(!isMenuOpen);
-  }, []);
+  };
 
-  const onCellClick = useCallback((cell: Cell) => {
+  const onCellClick = (cell: Cell) => {
     if (view === 'day') {
       setMonthIndex(0);
       setYearIndex(0);
@@ -140,23 +139,23 @@ const Select: FC<DatePickerProps> = ({ label, control }) => {
       setView('day');
       setMonthIndex(monthIndex + cell.date.getMonth() - selectedDate.getMonth());
     }
-  }, [view, monthIndex]);
+  };
 
-  const onDisplayClick = useCallback(() => {
+  const onDisplayClick = () => {
     if (view === 'day') {
       setCells([]);
       setView('month');
     }
-  }, [view]);
+  };
 
-  const onNextOrPrevClick = useCallback((direction: 'next' | 'prev') => {
+  const onNextOrPrevClick = (direction: 'next' | 'prev') => {
     const change = direction === 'next' ? 1 : -1;
     if (view === 'day') {
       setMonthIndex(monthIndex + change);
     } else {
       setYearIndex(yearIndex + change);
     }
-  }, [view, monthIndex, yearIndex]);
+  };
 
   return (
     <>

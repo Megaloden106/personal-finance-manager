@@ -2,7 +2,14 @@ import React, { FC } from 'react';
 import RollingNumber from 'components/RollingNumber/RollingNumber';
 import { convertToMoney, convertToPercent } from 'utils/util';
 import styles from './Overview.scss';
-import { OverviewProps } from './Overview.models';
+
+interface OverviewProps {
+  name: string;
+  balance: number;
+  returns: number;
+  percentage: number;
+  date: string;
+}
 
 const Overview: FC<OverviewProps> = ({
   name,

@@ -1,7 +1,6 @@
 import React, {
   FC,
   useState,
-  useCallback,
   useRef,
 } from 'react';
 import { useSelector } from 'react-redux';
@@ -20,11 +19,12 @@ const menuItems = [
 
 const Sidebar: FC = () => {
   const portfoliosByType = useSelector(portfolioByTypeSelector);
+  // TODO: Move to global state
   const [selected, setSelected] = useState('Returns');
   const [isMenuOpen, setMenu] = useState(false);
   const dropdownAnchor = useRef(null);
 
-  const onRowClick = useCallback(({ label }: DropdownMenuItem) => setSelected(label), []);
+  const onRowClick = ({ label }: DropdownMenuItem) => setSelected(label);
 
   return (
     <div className={styles.sidebar}>

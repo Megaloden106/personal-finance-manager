@@ -4,21 +4,13 @@ import { FluxAction } from 'store/models/action';
 import * as AnalyticsAction from 'store/actions/analytics';
 
 export const initialAnalyticsState: AnalyticsState = {
-  total: {
-    balance: 0,
-    cashFlow: 0,
-    returns: 0,
-  },
-  annualize: {
-    returns: 0,
-    rateOfReturn: 0,
-    cashFlow: 0,
-  },
-  pastYear: {
-    returns: 0,
-    rateOfReturn: 0,
-    cashFlow: 0,
-  },
+  deposits: 0,
+  withdrawals: 0,
+  gains: 0,
+  returns: 0,
+  marketGains: 0,
+  dividendReturns: 0,
+  annualizeReturns: 0,
 };
 
 export const analyticsReducer: Reducer<AnalyticsState, FluxAction<any>> = (
@@ -26,20 +18,10 @@ export const analyticsReducer: Reducer<AnalyticsState, FluxAction<any>> = (
   action,
 ) => {
   switch (action.type) {
-    case AnalyticsAction.REQUEST_ANALYTICS_TOTAL_SUCCESS:
+    case AnalyticsAction.REQUEST_ANALYTICS_SUCCESS:
       return {
         ...state,
-        total: action.payload,
-      };
-    case AnalyticsAction.REQUEST_ANALYTICS_ANNUALIZE_SUCCESS:
-      return {
-        ...state,
-        annualize: action.payload,
-      };
-    case AnalyticsAction.REQUEST_ANALYTICS_PAST_YEAR_SUCCESS:
-      return {
-        ...state,
-        pastYear: action.payload,
+        ...action.payload,
       };
     default:
       return state;

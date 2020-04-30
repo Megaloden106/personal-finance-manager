@@ -4,8 +4,8 @@ import { AnalyticsState } from './analytics';
 import { SidepanelState } from './sidepanel';
 
 export interface AppState {
-  user: UserState;
-  portfolio: PortfolioState;
-  analytics: AnalyticsState;
-  sidepanel: SidepanelState;
+  readonly user: UserState;
+  readonly portfolio: PortfolioState;
+  readonly analytics: AnalyticsState;
+  readonly sidepanel: SidepanelState;
 }

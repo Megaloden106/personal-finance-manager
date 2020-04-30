@@ -1,4 +1,4 @@
-import React, { FC, ChangeEvent, useCallback } from 'react';
+import React, { FC, ChangeEvent } from 'react';
 import { FormControl } from 'store/models/form';
 import styles from './Checkbox.scss';
 
@@ -15,9 +15,9 @@ const Checkbox: FC<CheckboxProps> = ({ label, control }) => {
     markAsTouched,
   } = control;
 
-  const onChange = useCallback((event: ChangeEvent) => {
+  const onChange = (event: ChangeEvent) => {
     patchValue((event.target as HTMLInputElement).checked);
-  }, []);
+  };
 
   return (
     <>

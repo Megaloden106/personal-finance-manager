@@ -1,7 +1,6 @@
 import React, {
   FC,
   ChangeEvent,
-  useCallback,
   ReactNode,
 } from 'react';
 import { getClassName } from 'utils/react-util';
@@ -22,9 +21,9 @@ const TextInput: FC<TextInputProps> = ({ label, control, children }) => {
     markAsTouched,
   } = control;
 
-  const onChange = useCallback((event: ChangeEvent) => {
+  const onChange = (event: ChangeEvent) => {
     patchValue((event.target as HTMLInputElement).value);
-  }, []);
+  };
 
   return (
     <>

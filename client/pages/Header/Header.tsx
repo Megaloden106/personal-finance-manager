@@ -1,4 +1,9 @@
-import React, { FC, useState, useRef } from 'react';
+import React, {
+  FC,
+  useState,
+  useRef,
+  useEffect,
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import Dropdown from 'components/Dropdown/Dropdown';
@@ -6,6 +11,7 @@ import { DropdownMenuItem } from 'components/Dropdown/Dropdown.models';
 import { AppState } from 'store/models/store';
 import { updateSidepanelStatusAction, updateSidepanelTabAction } from 'store/actions/sidepanel';
 import { SidepanelTab } from 'store/models/sidepanel';
+import { getUserDataAction } from 'store/actions/user';
 import styles from './Header.scss';
 
 const routes = ['Portfolio', 'History', 'Holdings'];
@@ -21,6 +27,10 @@ const HeaderBar: FC = () => {
 
   const [isMenuOpen, setMenu] = useState(false);
   const dropdownAnchor = useRef(null);
+
+  useEffect(() => {
+    dispatch(getUserDataAction());
+  }, []);
 
   const onRowClick = ({ label }: DropdownMenuItem) => {
     dispatch(updateSidepanelStatusAction(true));

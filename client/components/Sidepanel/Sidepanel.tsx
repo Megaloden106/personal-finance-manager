@@ -2,7 +2,6 @@ import React, {
   FC,
   useEffect,
   useRef,
-  useCallback,
   MouseEvent,
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
@@ -89,17 +88,17 @@ const Sidepanel: FC = () => {
     return () => subscription.unsubscribe();
   }, [isPanelOpen]);
 
-  const onDelete = useCallback(() => {
+  const onDelete = () => {
     const form = selectedTab === SidepanelTab.DataPoint ? dataPointForm : portfolioForm;
     reset(form);
     dispatch(updateSidepanelStatusAction(false));
-  }, [selectedTab]);
+  };
 
-  const onAdd = useCallback((event: MouseEvent) => {
+  const onAdd = (event: MouseEvent) => {
     const form = selectedTab === SidepanelTab.DataPoint ? dataPointForm : portfolioForm;
     validate(form);
     event.preventDefault();
-  }, [selectedTab]);
+  };
 
   return (
     <Portal>

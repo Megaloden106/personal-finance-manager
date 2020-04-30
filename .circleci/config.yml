@@ -44,7 +44,7 @@ jobs:
       # - run: "if [[ ! -e database/node_modules ]]; then npm run install-db"
 
       # builds only if the dis dir is not restored
-      - run: "if [[ ! -e public/main.bundle.js ]]; then npm run build; fi"
+      - run: "if [[ ! -e public/main.bundle.js ]]; then npm run build:prod; fi"
 
       - save_cache:
           paths:

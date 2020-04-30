@@ -4,7 +4,6 @@ import React, {
   useState,
   useEffect,
   useRef,
-  useCallback,
 } from 'react';
 import { Subscription, fromEvent, timer } from 'rxjs';
 import { getClassName } from 'utils/react-util';
@@ -41,19 +40,19 @@ const Select: FC<SelectProps> = ({ label, control, menuItems }) => {
     return () => subscription.unsubscribe();
   }, [isMenuOpen]);
 
-  const onInputClick = useCallback((event: MouseEvent) => {
+  const onInputClick = (event: MouseEvent) => {
     event.preventDefault();
     markAsTouched();
     setMenuOpen(!isMenuOpen);
-  }, []);
+  };
 
-  const onMenuItemClick = useCallback((event: MouseEvent) => {
+  const onMenuItemClick = (event: MouseEvent) => {
     event.preventDefault();
     patchValue((event.target as HTMLButtonElement).innerText);
 
     // prevent sidepanel from closing by putting command at end of event loop
     timer(0).subscribe(() => setMenuOpen(false));
-  }, []);
+  };
 
   return (
     <>
