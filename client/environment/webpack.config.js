@@ -3,8 +3,6 @@ const webpack = require('webpack');
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const CompressionPlugin = require('compression-webpack-plugin');
-// const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const Dotenv = require('dotenv-webpack');
 
 const clientDIR = path.resolve(__dirname, '..');
@@ -90,8 +88,6 @@ module.exports = {
     },
   },
   plugins: [
-    // new BundleAnalyzerPlugin(),
-    // new CompressionPlugin(),
     new UglifyJsPlugin(),
     new HtmlWebpackPlugin({
       template,

@@ -1,32 +1,9 @@
 export interface AnalyticsState {
-  readonly total: TotalAnalytic;
-  readonly annualize: AnnualizeAnalytic;
-  readonly pastYear: PastYearAnalytic;
-}
-
-export interface TotalAnalytic {
-  balance: number;
-  cashFlow: number;
-  returns: number;
-}
-
-export interface AnnualizeAnalytic {
-  returns: number;
-  rateOfReturn: number;
-  cashFlow: number;
-}
-
-export interface PastYearAnalytic {
-  returns: number;
-  rateOfReturn: number;
-  cashFlow: number;
-}
-
-export interface AnalyticsCardDetail {
-  title: string;
-  details: {
-    label: string;
-    value: number;
-    formatter?: (value: number) => string;
-  }[];
+  readonly deposits: number;
+  readonly withdrawals: number;
+  readonly gains: number;
+  readonly returns: number;
+  readonly marketGains: number;
+  readonly dividendReturns: number;
+  readonly annualizeReturns: number;
 }

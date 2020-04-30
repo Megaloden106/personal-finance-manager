@@ -2,9 +2,8 @@ import React, { FC, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from 'store/models/store';
 import { PortfolioData, PortfolioParam } from 'store/models/portfolio';
-import { userDataAction } from 'store/actions/user';
-import { portfolioListAction, selectedPortfolioAction, updatePortfiolFilterAction } from 'store/actions/portfolio';
-import { analyticsTotalAction, analyticsAnnualizeAction, analyticsPastYearAction } from 'store/actions/analytics';
+import { getPortfolioListAction, selectedPortfolioAction, updatePortfiolFilterAction } from 'store/actions/portfolio';
+import { getAnalyticsAction } from 'store/actions/analytics';
 import * as _ from 'utils/collection-util';
 import FilterBar from 'pages/Portfolio/FilterBar/FilterBar';
 import Graph from 'components/Graph/Graph';
@@ -39,21 +38,19 @@ const Portfolio: FC = () => {
   useEffect(() => {
     if (data.length) {
       setNext(data[data.length - 1]);
+    } else {
+      dispatch(getPortfolioListAction());
     }
-    dispatch(userDataAction());
-    dispatch(portfolioListAction());
   }, []);
 
   /* componentDidUpdate: id, filter.range */
   useEffect(() => {
-    if (id) {
+    if (id && !data.length) {
       const portfolio = _.find(portfolios, { id });
       dispatch(selectedPortfolioAction(portfolio, { range: filter.range }));
-      dispatch(analyticsTotalAction(id));
-      dispatch(analyticsAnnualizeAction(id));
-      dispatch(analyticsPastYearAction(id));
+      dispatch(getAnalyticsAction(id));
     }
-  }, [id, filter]);
+  }, [id, filter, data]);
 
   const onFilterClick = (newFilter: PortfolioParam) => {
     dispatch(updatePortfiolFilterAction(newFilter));

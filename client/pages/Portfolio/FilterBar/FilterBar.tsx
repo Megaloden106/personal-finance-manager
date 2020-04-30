@@ -1,6 +1,11 @@
 import React, { FC } from 'react';
-import { FilterBarProps } from './FilterBar.models';
+import { PortfolioParam } from 'store/models/portfolio';
 import styles from './FilterBar.scss';
+
+interface FilterBarProps {
+  filter: PortfolioParam;
+  filterClick(filter: PortfolioParam): void;
+}
 
 const FilterBar: FC<FilterBarProps> = ({ filter, filterClick }) => {
   const timeFilters = ['30D', '90D', '180D', '1Y', '5Y', '10Y', 'YTD', 'All'];

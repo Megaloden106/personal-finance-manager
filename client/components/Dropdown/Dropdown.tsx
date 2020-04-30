@@ -1,9 +1,4 @@
-import React, {
-  FC,
-  useEffect,
-  useState,
-  useCallback,
-} from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { fromEvent, Subscription, merge } from 'rxjs';
 import Portal from 'components/Portal/Portal';
 import { HTMLRect } from 'models/style';
@@ -24,17 +19,13 @@ const Dropdown: FC<DropdownProps> = ({
   const [rect, setRect] = useState<HTMLRect>({});
 
   useEffect(() => {
-    // Calculate position from body for dropdown
     const anchorRect = anchor.current.getBoundingClientRect();
     const body = document.body.getBoundingClientRect();
-
-    // Logic for repositioning
     const left = anchorRect.left - width / 2 + (offset.x || 0) - body.left;
     const top = anchorRect.top + (offset.y || 0) - body.top;
 
     setRect({ left, top, width });
 
-    // Close event on clicks and resize
     const subscription: Subscription = merge(
       fromEvent(document, 'click'),
       fromEvent(window, 'resize'),
@@ -47,11 +38,10 @@ const Dropdown: FC<DropdownProps> = ({
     return () => subscription.unsubscribe();
   }, []);
 
-  // Event handler for row clicks
-  const onRowClick = useCallback((menuItem: DropdownMenuItem) => {
+  const onRowClick = (menuItem: DropdownMenuItem) => {
     rowClick(menuItem);
     close();
-  }, []);
+  };
 
   return (
     <Portal>
