@@ -7,16 +7,16 @@
     "install:client": "cd client && npm ci",
     "install:server": "cd server && npm ci",
     "postinstall": "npm run install:client && npm run install:server",
+    "lint": "npm run lint:client && npm run lint:server",
     "lint:client": "cd client && eslint --ext .ts,.tsx .",
-    "lint:db": "cd database && eslint --ext .ts .",
     "lint:server": "cd server && eslint --ext .ts .",
-    "lint": "npm run lint:client && npm run lint:server && npm run lint:db",
     "start:dev": "cd server && npm run start:dev",
     "start:prod": "cd server && npm run start:prod",
     "build:prod": "npm run build:client && npm run build:server",
     "build:dev": "cd client && npm run build:dev",
     "build:client": "cd client && npm run build",
-    "build:server": "cd server && npm build",
+    "build:server": "cd server && npm run build",
+    "build:db": "cd server && npm run build:db",
     "prod": "npm run build:prod && npm run start:prod",
     "dev": "npm run build:dev & npm run start:dev",
     "commit": "npx ts-node .circleci/commit-validation.ts"
@@ -32,7 +32,9 @@
     "url": "https://github.com/Megaloden106/personal-finance-manager/issues"
   },
   "homepage": "https://github.com/Megaloden106/personal-finance-manager#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@types/pg": "^7.14.3"
+  },
   "devDependencies": {
     "@types/compression": "0.0.36",
     "@types/d3": "^5.7.2",

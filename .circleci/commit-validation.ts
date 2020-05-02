@@ -2,7 +2,7 @@ const { promisify } = require('util');
 const { exec } = require('child_process');
 const execAsync = promisify(exec);
 
-const regex = /^\b(feat|fix|tweak|refactor|style|docs|test|build|tool|deps|misc)\b(\(\b(ui|server|db)\b\))?: [A-Z][a-z]*/g;
+const regex = /^\b(feat|fix|tweak|refactor|style|docs|test|build|tool|deps|misc)\b(\(\b(ui|server)\b\))?: [A-Z][a-z]*/g;
 
 const checkTitle = (commit, hash) => {
   if (commit.slice(0, 5) === 'Merge') {
@@ -25,7 +25,7 @@ const checkGitCommits = async () => {
     // const upstreamRepoSSH = 'git@github.com/Megaloden106/personal-finance-manager.git';
     // const { stdout: remoteRef } = await execAsync(`git config --list | grep -e ${upstreamRepoHTTPS} -e ${upstreamRepoSSH}`);
     // const upstreamName = remoteRef.split('.')[1];
-    const { stdout: newCommits } = await execAsync(`git log origin/master.. --pretty=format:%h`);
+    const { stdout: newCommits } = await execAsync(`git log origin/develop.. --pretty=format:%h`);
 
     const newCommitsArray = newCommits.split('\n');
 
