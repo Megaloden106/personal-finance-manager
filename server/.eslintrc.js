@@ -17,6 +17,7 @@ module.exports = {
     "no-console": ["error", { "allow": ["warn", "error"] }],
     "no-underscore-dangle": ["error", { "allowAfterThis": true }],
     "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+    "class-methods-use-this": ["warn"],
 
     // TS RULES
     "@typescript-eslint/indent": ["error", 2],

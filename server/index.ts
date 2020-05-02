@@ -2,6 +2,7 @@ import express from 'express';
 import logger from 'morgan';
 import bodyParser from 'body-parser';
 import compression from 'compression';
+import './dotenv.config';
 import router from './api/routes';
 
 const app: express.Application = express();
