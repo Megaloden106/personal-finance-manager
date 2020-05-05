@@ -3,21 +3,9 @@ jobs:
   install:
     docker:
       - image: circleci/node:10.15.3
-    #   - image: postgres:11.2
-    #     command: -p 7071
-    #     environment:
-    #       POSTGRES_USER: postgres
-    #       POSTGRES_DB: pfms
     working_directory: ~/repo
     steps:
       - checkout
-      - run: sudo apt-get update
-
-      # install postgres client
-      # - run: sudo apt install -y postgresql-client || true
-
-      # load seed script for data base
-      # - run: psql -U postgres -h localhost -p 7071 -d pfms -f docker/postgres/schema.sql
 
       - restore_cache:
           key: v2-deps-app-{{ checksum "package-lock.json" }}
@@ -54,16 +42,26 @@ jobs:
     steps:
       - restore_cache:
           key: v2-repo-{{ .Environment.CIRCLE_SHA1 }}
-      # check latest hash to avoid re-building frontend
+
       - run: git log --pretty=format'%H' -n 1 -- client > client_checksum
+      - run: git log --pretty=format'%H' -n 1 -- server > server_checksum
+
       - restore_cache:
           key: v2-built-client-{{ checksum "client_checksum" }}
-      # builds only if the dis dir is not restored
-      - run: "if [[ ! -e public/main.bundle.js ]]; then npm run build:prod; fi"
+      - restore_cache:
+          key: v2-built-server-{{ checksum "server_checksum" }}
+
+      - run: "if [[ ! -e public/main.bundle.js ]]; then npm run build:client; fi"
+      - run: "if [[ ! -e server/build/index.js ]]; then npm run build:server; fi"
+
       - save_cache:
           key: v2-built-client-{{ checksum "client_checksum" }}
           paths:
             - public
+      - restore_cache:
+          key: v2-built-server-{{ checksum "server_checksum" }}
+          paths:
+            - server/build
 
   commit:
     docker:
@@ -84,6 +82,35 @@ jobs:
           key: v2-repo-{{ .Environment.CIRCLE_SHA1 }}
       - run: npm run lint
 
+
+  test:
+    docker:
+      - image: circleci/node:10.15.3
+      - image: postgres:10.5
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: test
+    working_directory: ~/repo
+    no_output_timeout: 5m
+    steps:
+      - run: sudo apt update
+      - run: sudo apt install -y postgresql-client
+
+      - restore_cache:
+          key: v2-repo-{{ .Environment.CIRCLE_SHA1 }}
+
+      - run:
+          name: Waiting for Postgres to be ready
+          command: |
+            for i in `seq 1 10`;
+            do
+              nc -z localhost 5432 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for Postgres && exit 1
+      - run: npm run test
+
 workflows:
   version: 2
   install-build-lint:
@@ -96,5 +123,8 @@ workflows:
           requires:
             - install
       - lint:
+          requires:
+            - install
+      - test:
           requires:
             - install
