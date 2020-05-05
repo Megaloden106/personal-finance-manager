@@ -11,7 +11,11 @@
     "sourceMap": true,
     "baseUrl": ".",
     "skipLibCheck": true,
-    "types": ["node"]
+    "resolveJsonModule": true,
+    "types": [
+      "node",
+      "jest"
+    ]
   },
   "exclude": ["node_modules"]
 }

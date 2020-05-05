@@ -44,9 +44,9 @@ CREATE TABLE portfolios (
 CREATE INDEX portfolio_ids ON portfolios USING HASH (id);
 -- CREATE INDEX portfolio_user_ids ON portfolios USING HASH (userId);
 
-CREATE TABLE portfolioData (
+CREATE TABLE portfolio_data (
   id SERIAL,
-  portfolioId INT NOT NULL,
+  portfolio_id INT NOT NULL,
   date DATE NOT NULL,
   balance MONEY,
   deposit MONEY NOT NULL,
@@ -54,10 +54,11 @@ CREATE TABLE portfolioData (
   -- returns MONEY NOT NULL,
   -- dividend MONEY NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (portfolioId) REFERENCES portfolios (id)
+  FOREIGN KEY (portfolio_id) REFERENCES portfolios (id),
+  UNIQUE (portfolio_id, date)
 );
 
-CREATE INDEX portfolio_data_ids ON portfolioData (portfolioId);
+CREATE INDEX portfolio_data_ids ON portfolio_data (portfolio_id);
 
 -- CREATE TABLE requests (
 --   id SERIAL,

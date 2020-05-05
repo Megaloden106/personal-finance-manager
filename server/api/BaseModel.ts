@@ -1,69 +1,68 @@
-import { QueryResult } from 'pg';
 import { pool } from '../database';
 
-export interface Table {
+export interface Table<E, D> {
   tableName: string;
-  columns: Column[];
+  columns: Column<E, D>[];
 }
 
-export interface Column {
-  key: string;
-  columnName: string;
+export interface Column<E, D> {
+  key: keyof D;
+  columnName: keyof E;
 }
 
-export interface DataTransferObject {
-  [key: string]: any;
-}
-
-export interface Entity {
-  [key: string]: any;
-}
-
-export class BaseModel {
+export class BaseModel<E, D> {
   protected tableName: string;
-  protected columns: Column[];
-  protected columnNames: string[];
+  protected columns: Column<E, D>[];
 
-  public constructor({ tableName, columns }: Table) {
+  public constructor({ tableName, columns }: Table<E, D>) {
     this.tableName = tableName;
     this.columns = columns;
-    this.columnNames = columns.map(({ columnName }): string => columnName);
   }
 
-  public async findAll(): Promise<DataTransferObject[]> {
+  public get columnNames(): (keyof E)[] {
+    return this.columns.map(({ columnName }): keyof E => columnName);
+  }
+
+  public async findAll(): Promise<D[]> {
     const query = this.getGETQuery();
     const { rows } = await pool.query(query);
     return this.convertEntitysToDTOs(rows);
   }
 
-  public async add(dto: DataTransferObject): Promise<QueryResult> {
-    const query = this.getPOSTQuery();
+  public async add(dto: D): Promise<D> {
+    const query = this.getPOSTQuery(dto);
     const values = this.getParametizedValues(dto);
-    return pool.query(query, values);
-  }
-
-  public async update(dto: DataTransferObject): Promise<DataTransferObject> {
-    const query = this.getPATCHQuery(dto);
-    const values = this
-      .getParametizedValues(dto)
-      .concat(dto.id);
     const { rows } = await pool.query(query, values);
     return this.convertEntitysToDTOs(rows)[0];
   }
 
-  public getParametizedValues(dto: DataTransferObject): any[] {
-    return this.columns.map(({ key }): any => (dto[key] !== undefined
-      ? dto[key]
-      : null));
+  public async update(id: number, dto: D): Promise<D> {
+    const query = this.getPATCHQuery(dto);
+    const values = this
+      .getParametizedValues(dto)
+      .concat(id);
+    const { rows } = await pool.query(query, values);
+    return this.convertEntitysToDTOs(rows)[0];
   }
 
-  public getMultipleParametizedValues(dtos: DataTransferObject[]): any[] {
-    return dtos
-      .map((dto): any[] => this.columns
-        .map(({ key }): any => (dto[key] !== undefined
-          ? dto[key]
-          : null)))
-      .flat(1);
+  public getParametizedValues(dto: D): any[] {
+    return this
+      .getDefinedColumns(dto)
+      .map(({ key }): any => (dto[key] !== undefined
+        ? dto[key]
+        : null));
+  }
+
+  public getMultipleParametizedValues(dtos: D[]): any[] {
+    const values: any[] = [];
+    dtos.forEach((dto): void => this
+      .getDefinedColumns(dto)
+      .forEach(({ key }): void => {
+        if (dto[key] !== undefined) {
+          values.push(dto[key]);
+        }
+      }));
+    return values;
   }
 
   public getGETQuery(): string {
@@ -72,28 +71,34 @@ export class BaseModel {
     return `SELECT ${columns} FROM ${table};`;
   }
 
-  public getPOSTQuery(): string {
+  public getPOSTQuery(dto: D): string {
     const table = this.tableName;
-    const columns = this.columnNames.join(',');
-    const values = this.columnNames
+    const columnNames = this
+      .getDefinedColumns(dto)
+      .map(({ columnName }): keyof E => columnName);
+    const columns = columnNames.join(',');
+    const values = columnNames
       .map((_, i): string => `$${i + 1}`)
       .join(',');
-    return `INSERT INTO ${table}(${columns}) VALUES (${values});`;
+    return `INSERT INTO ${table}(${columns}) VALUES (${values}) RETURNING *;`;
   }
 
-  public getMultiplePOSTQuery(count: number): string {
+  public getMultiplePOSTQuery(dtos: D[]): string {
     const table = this.tableName;
-    const columns = this.columnNames.join(',');
-    const values = new Array(count)
+    const columnNames = this
+      .getDefinedColumns(dtos[0])
+      .map(({ columnName }): keyof E => columnName);
+    const columns = columnNames.join(',');
+    const values = new Array(dtos.length)
       .fill(null)
-      .map((_, i): string => this.columnNames
-        .map((__, j): string => `$${(i * this.columnNames.length) + j + 1}`)
+      .map((_, i): string => columnNames
+        .map((__, j): string => `$${(i * columnNames.length) + j + 1}`)
         .join(','))
       .join('),(');
-    return `INSERT INTO ${table}(${columns}) VALUES (${values});`;
+    return `INSERT INTO ${table}(${columns}) VALUES (${values}) RETURNING *;`;
   }
 
-  // TODO: Write sinple PUT query
+  // TODO: Write single PUT query
   // public getPUTQuery(dto: any): string {
   //   const postQuery = this.getPOSTQuery().slice(0, -1);
   //   const patchQuery = this.getPATCHQuery(dto)
@@ -108,11 +113,11 @@ export class BaseModel {
   //   return `${postQuery} ON CONFLICT DO UPDATE;`;
   // }
 
-  public getPATCHQuery(dto: DataTransferObject): string {
+  public getPATCHQuery(dto: D): string {
     const table = this.tableName;
     const props: string[] = [];
     this.columns.forEach(({ columnName, key }): void => {
-      if (dto[key] !== undefined) {
+      if (key !== 'id' && dto[key] !== undefined) {
         props.push(`${columnName} = $${props.length + 1}`);
       }
     });
@@ -123,13 +128,18 @@ export class BaseModel {
   // public getMultiplePATCHQuery(dtos: DataTransferObject[], count: number): string {
   // }
 
-  private convertEntitysToDTOs(entitys: Entity[]): DataTransferObject[] {
-    return entitys.map((row: DataTransferObject): DataTransferObject => {
-      const result: DataTransferObject = {};
+  private convertEntitysToDTOs(entitys: E[]): D[] {
+    return entitys.map((row: E): D => {
+      const result: unknown = {};
       this.columns.forEach(({ columnName, key }): void => {
         result[key] = row[columnName];
       });
-      return result;
+      return result as D;
     });
+  }
+
+  private getDefinedColumns(dto: D): Column<E, D>[] {
+    return this.columns
+      .filter(({ key }): boolean => dto[key] !== undefined && key !== 'id');
   }
 }
