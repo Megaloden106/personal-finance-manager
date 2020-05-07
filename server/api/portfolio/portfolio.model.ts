@@ -6,6 +6,8 @@ export interface PortfolioEntity {
   brokerage: string;
   is_retirement: boolean;
   is_savings: boolean;
+  balance: number;
+  cashflow: number;
 }
 
 export interface PortfolioDTO {
@@ -14,6 +16,8 @@ export interface PortfolioDTO {
   brokerage: string;
   isRetirement: boolean;
   isSavings: boolean;
+  balance: number;
+  returns: number;
 }
 
 const portfolioTable: Table<PortfolioEntity, PortfolioDTO> = {
@@ -27,4 +31,4 @@ const portfolioTable: Table<PortfolioEntity, PortfolioDTO> = {
   ],
 };
 
-export default new BaseModel<PortfolioEntity, PortfolioDTO>(portfolioTable);
+export const PortfolioModel = new BaseModel<PortfolioEntity, PortfolioDTO>(portfolioTable);

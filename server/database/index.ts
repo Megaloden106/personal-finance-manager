@@ -14,4 +14,3 @@ const connection = {
 
 export const pool = new Pool(connection);
 export const client = new Client(connection);
-client.connect();
