@@ -19,25 +19,22 @@ CREATE DATABASE portfolio_manager;
 
 CREATE TABLE lookups (
   id SERIAL,
-  type VARCHAR(255) NOT NULL,
-  label VARCHAR(255) NOT NULL UNIQUE,
+  data_type VARCHAR(80) NOT NULL,
+  label VARCHAR(80) NOT NULL UNIQUE,
   PRIMARY KEY (id)
 );
 
 CREATE TABLE portfolios (
   id SERIAL,
   -- userId INT NOT NULL,
-  -- exchangeId INT,
-  name VARCHAR(30) NOT NULL,
-  brokerage VARCHAR(30) NOT NULL,
-  -- balance MONEY NOT NULL,
-  -- returns MONEY NOT NULL,
+  brokerage_id INT,
+  name VARCHAR(80) NOT NULL,
   -- isGroup BOOLEAN,
   is_retirement BOOLEAN,
   is_savings BOOLEAN,
   PRIMARY KEY (id),
   -- FOREIGN KEY (userId) REFERENCES users (id),
-  -- FOREIGN KEY (exchangeId) REFERENCES lookups (id),
+  FOREIGN KEY (brokerage_id) REFERENCES lookups (id),
   UNIQUE (name)
 );
 
@@ -47,37 +44,17 @@ CREATE INDEX portfolio_ids ON portfolios USING HASH (id);
 CREATE TABLE portfolio_data (
   id SERIAL,
   portfolio_id INT NOT NULL,
-  date DATE NOT NULL,
+  date BIGINT NOT NULL,
   balance MONEY,
-  deposit MONEY NOT NULL,
-  withdrawal MONEY NOT NULL,
+  deposit MONEY,
+  withdrawal MONEY,
   -- returns MONEY NOT NULL,
   -- dividend MONEY NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (portfolio_id) REFERENCES portfolios (id),
-  UNIQUE (portfolio_id, date)
+  UNIQUE (portfolio_id, date),
+  CONSTRAINT money_one_is_not_null CHECK (COALESCE(balance, deposit, withdrawal) IS NOT NULL)
 );
 
 CREATE INDEX portfolio_data_ids ON portfolio_data (portfolio_id);
-
--- CREATE TABLE requests (
---   id SERIAL,
---   type VARCHAR(30) NOT NULL,
---   details TEXT NOT NULL,
---   PRIMARY KEY (id)
--- );
-
--- INSERT INTO exchanges (company) VALUES ('Vanguard');
--- INSERT INTO exchanges (company) VALUES ('Robinhood');
--- INSERT INTO exchanges (company) VALUES ('E*Trade');
--- INSERT INTO exchanges (company) VALUES ('Charles Schwab');
--- INSERT INTO exchanges (company) VALUES ('TD Ameritrade');
--- INSERT INTO exchanges (company) VALUES ('T. Rowe Price');
--- INSERT INTO exchanges (company) VALUES ('Interatice Broker');
--- INSERT INTO exchanges (company) VALUES ('Trade Station');
--- INSERT INTO exchanges (company) VALUES ('eOption');
--- INSERT INTO exchanges (company) VALUES ('Chase');
--- INSERT INTO exchanges (company) VALUES ('Wells Fargo');
--- INSERT INTO exchanges (company) VALUES ('Ally Bank');
--- INSERT INTO exchanges (company) VALUES ('Health Equity');
--- INSERT INTO exchanges (company) VALUES ('Cryptocurrency');
+CREATE INDEX portfolio_data_date ON portfolio_data (date);

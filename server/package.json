@@ -9,7 +9,8 @@
     "start:dev": "nodemon --config nodemon.json",
     "start:prod": "NODE_ENV=production node ./build/index.js",
     "pretest": "psql -U postgres -h localhost -p 5432 -f __test__/pretest.sql",
-    "test": "NODE_ENV=test jest --detectOpenHandles",
+    "test": "NODE_ENV=test jest",
+    "test:debug": "npm run pretest && NODE_ENV=test jest --runInBand --detectOpenHandles --verbose && npm run posttest",
     "posttest": "psql -U postgres -h localhost -p 5432 -f  __test__/posttest.sql"
   },
   "repository": {
