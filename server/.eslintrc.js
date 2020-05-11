@@ -17,7 +17,7 @@ module.exports = {
     "no-console": ["error", { "allow": ["warn", "error"] }],
     "no-underscore-dangle": ["error", { "allowAfterThis": true }],
     "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
-    "class-methods-use-this": ["warn"],
+    "class-methods-use-this": 0,
     "no-param-reassign": ["error", { "props": false }],
 
     // TS RULES

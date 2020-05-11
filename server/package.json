@@ -9,7 +9,7 @@
     "start:dev": "nodemon --config nodemon.json",
     "start:prod": "NODE_ENV=production node ./build/index.js",
     "pretest": "psql -U postgres -h localhost -p 5432 -f __test__/pretest.sql",
-    "test": "NODE_ENV=test jest",
+    "test": "NODE_ENV=test jest --coverage",
     "test:debug": "npm run pretest && NODE_ENV=test jest --runInBand --detectOpenHandles --verbose && npm run posttest",
     "posttest": "psql -U postgres -h localhost -p 5432 -f  __test__/posttest.sql"
   },
@@ -50,10 +50,27 @@
   "jest": {
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
-      "/node_modules/"
+      "/node_modules/",
+      "app.ts",
+      "dotenv.config.ts",
+      "database/index.ts"
     ],
     "transform": {
       "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "coverageThreshold": {
+      "global": {
+        "branches": 60,
+        "functions": 60,
+        "lines": 60,
+        "statements": 60
+      },
+      "api/**/*.ts": {
+        "branches": 75,
+        "functions": 75,
+        "lines": 75,
+        "statements": 75
+      }
     }
   }
 }

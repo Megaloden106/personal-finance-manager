@@ -25,10 +25,29 @@ const portfolioTable: Table<PortfolioEntity, PortfolioDTO> = {
   columns: [
     { key: 'id', columnName: 'id' },
     { key: 'name', columnName: 'name' },
-    { key: 'brokerage', columnName: 'brokerage' },
-    { key: 'isRetirement', columnName: 'is_retirement' },
-    { key: 'isSavings', columnName: 'is_savings' },
+    { key: 'brokerage', columnName: 'brokerage', nullable: true },
+    { key: 'isRetirement', columnName: 'is_retirement', nullable: true },
+    { key: 'isSavings', columnName: 'is_savings', nullable: true },
   ],
 };
 
-export const PortfolioModel = new BaseModel<PortfolioEntity, PortfolioDTO>(portfolioTable);
+export const getSumMoney = (
+  num1: number,
+  num2: number,
+): number => Math.trunc(num1 * 100 + num2 * 100) / 100;
+
+class CPortfolioModel<E, D> extends BaseModel<E, D> {
+  public convertEntitiesToDTOsCustom(entities: PortfolioEntity[]): PortfolioDTO[] {
+    return entities.map((datum): PortfolioDTO => ({
+      id: datum.id,
+      name: datum.name,
+      brokerage: datum.brokerage,
+      isRetirement: datum.is_retirement,
+      isSavings: datum.is_savings,
+      balance: datum.balance,
+      returns: getSumMoney(datum.balance, -datum.cashflow),
+    }));
+  }
+}
+
+export const PortfolioModel = new CPortfolioModel<PortfolioEntity, PortfolioDTO>(portfolioTable);

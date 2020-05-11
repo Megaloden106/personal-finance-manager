@@ -11,22 +11,23 @@ export interface PortfolioDatumEntity {
 
 export interface PortfolioDatumDTO {
   id?: number;
-  portfolioId: number;
+  portfolioId?: number;
+  // portfolioName?: string;
   date: number; // date in epoch
-  balance: number;
-  deposit: number;
-  withdrawal: number;
+  balance?: number;
+  deposit?: number;
+  withdrawal?: number;
 }
 
 const portfolioDatumTable: Table<PortfolioDatumEntity, PortfolioDatumDTO> = {
   tableName: 'portfolio_data',
   columns: [
     { key: 'id', columnName: 'id' },
-    { key: 'date', columnName: 'date' },
     { key: 'portfolioId', columnName: 'portfolio_id' },
-    { key: 'balance', columnName: 'balance' },
-    { key: 'deposit', columnName: 'deposit' },
-    { key: 'withdrawal', columnName: 'withdrawal' },
+    { key: 'date', columnName: 'date' },
+    { key: 'balance', columnName: 'balance', nullable: true },
+    { key: 'deposit', columnName: 'deposit', nullable: true },
+    { key: 'withdrawal', columnName: 'withdrawal', nullable: true },
   ],
 };
 
