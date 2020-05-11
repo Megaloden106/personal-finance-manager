@@ -24,6 +24,9 @@ CREATE TABLE lookups (
   PRIMARY KEY (id)
 );
 
+CREATE INDEX lookips_data_types ON lookups (data_type);
+CREATE INDEX lookips_labels ON lookups (label);
+
 CREATE TABLE portfolios (
   id SERIAL,
   -- userId INT NOT NULL,
@@ -39,6 +42,7 @@ CREATE TABLE portfolios (
 );
 
 CREATE INDEX portfolio_ids ON portfolios USING HASH (id);
+CREATE INDEX portfolio_brokerage_ids ON portfolios (brokerage_id);
 -- CREATE INDEX portfolio_user_ids ON portfolios USING HASH (userId);
 
 CREATE TABLE portfolio_data (
@@ -56,5 +60,5 @@ CREATE TABLE portfolio_data (
   CONSTRAINT money_one_is_not_null CHECK (COALESCE(balance, deposit, withdrawal) IS NOT NULL)
 );
 
-CREATE INDEX portfolio_data_ids ON portfolio_data (portfolio_id);
+CREATE INDEX portfolio_data_portfolio_ids ON portfolio_data (portfolio_id);
 CREATE INDEX portfolio_data_date ON portfolio_data (date);

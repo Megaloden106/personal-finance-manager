@@ -11,6 +11,7 @@
     "lint:client": "cd client && eslint --ext .ts,.tsx .",
     "lint:server": "cd server && eslint --ext .ts .",
     "test": "cd server && npm run test",
+    "test:debug": "cd server && npm run test:debug",
     "start:dev": "cd server && npm run start:dev",
     "start:prod": "cd server && npm run start:prod",
     "build:dev": "cd client && npm run build:dev",
